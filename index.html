@@ -3284,6 +3284,123 @@ footer.foot {
   font-weight: 600;
 }
 .skill-tag.community { color: var(--design); border-color: color-mix(in srgb, var(--design) 45%, var(--line)); background: color-mix(in srgb, var(--design) 8%, var(--paper-warm)); }
+
+/* Copy-to-clipboard button on skill cards */
+.skill-copy {
+  position: absolute;
+  top: var(--s-3);
+  right: var(--s-3);
+  width: 1.85rem;
+  height: 1.85rem;
+  display: inline-grid;
+  place-items: center;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  color: var(--cream-dim);
+  cursor: pointer;
+  transition: all var(--t-fast) var(--ease-out);
+  padding: 0;
+}
+.skill-copy:hover, .skill-copy:focus-visible {
+  color: var(--ember);
+  border-color: var(--ember);
+  outline: none;
+}
+.skill-copy .icon { width: 0.95rem; height: 0.95rem; }
+.skill-copy.is-copied {
+  color: var(--cowork);
+  border-color: color-mix(in srgb, var(--cowork) 50%, var(--line));
+  background: color-mix(in srgb, var(--cowork) 10%, transparent);
+}
+.skill-card { padding-right: var(--s-12); } /* leave room for the button */
+
+/* Reference links block (designer-only) */
+.path-references {
+  margin-top: var(--s-12);
+  padding-top: var(--s-8);
+  border-top: 1px solid var(--line);
+}
+.path-references-head {
+  display: grid;
+  gap: var(--s-2);
+  margin-bottom: var(--s-5);
+}
+.path-references-head h3 {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cream-dim);
+}
+.path-references-head p {
+  font-size: var(--fs-sm);
+  color: var(--cream-mid);
+  line-height: 1.55;
+  max-width: 48rem;
+}
+.path-references-head strong { color: var(--cream); font-weight: 600; }
+.path-references-head .pin { color: var(--ember); font-weight: 500; }
+
+.ref-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-3);
+}
+@media (min-width: 720px) { .ref-grid { grid-template-columns: 1fr 1fr; } }
+
+.ref-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: var(--s-4);
+  align-items: center;
+  padding: var(--s-4) var(--s-5);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--paper);
+  color: var(--cream);
+  text-decoration: none;
+  transition: all var(--t-fast) var(--ease-out);
+}
+.ref-card:hover {
+  border-color: var(--ember);
+  transform: translateY(-1px);
+}
+.ref-card-icon {
+  width: 2.2rem; height: 2.2rem;
+  display: inline-grid; place-items: center;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--ember) 8%, var(--paper-warm));
+  color: var(--ember);
+  flex-shrink: 0;
+}
+.ref-card-icon .icon { width: 1.2rem; height: 1.2rem; }
+.ref-card-label {
+  font-family: var(--display);
+  font-size: var(--fs-md);
+  font-weight: 500;
+  color: var(--cream);
+  display: block;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+.ref-card-sub {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  color: var(--cream-dim);
+  display: block;
+  margin-top: 0.15rem;
+  letter-spacing: 0.04em;
+}
+.ref-card-arrow {
+  color: var(--cream-faint);
+  transition: color var(--t-fast) var(--ease-out), transform var(--t-fast) var(--ease-out);
+}
+.ref-card:hover .ref-card-arrow {
+  color: var(--ember);
+  transform: translateX(2px);
+}
+.ref-card-arrow .icon { width: 1rem; height: 1rem; }
 .skill-tag.anthropic   { color: var(--chat);    border-color: color-mix(in srgb, var(--chat) 40%, var(--line));    background: color-mix(in srgb, var(--chat) 8%, var(--paper-warm)); }
 .skill-tag.custom      { color: var(--design);  border-color: color-mix(in srgb, var(--design) 45%, var(--line));  background: color-mix(in srgb, var(--design) 8%, var(--paper-warm)); }
 .skill-tag.third-party { color: var(--cream-dim); }
@@ -3365,32 +3482,10 @@ footer.foot {
   text-transform: uppercase;
 }
 
-/* Folded sections (de-emphasized but not hidden) */
-.product.is-folded > :not(.section-head):not(.tldr) {
-  opacity: 0.5;
-  filter: saturate(0.7);
-}
-.product.is-folded .section-head::after {
-  content: 'Skipped for your role. Click to expand.';
-  display: block;
-  margin-top: 0.8rem;
-  padding: 0.6rem 0.85rem;
-  border: 1px dashed var(--line-strong);
-  border-radius: var(--r-sm);
-  background: var(--paper);
-  font-family: var(--mono);
-  font-size: var(--fs-xs);
-  letter-spacing: 0.06em;
-  color: var(--cream-dim);
-  text-transform: uppercase;
-  cursor: pointer;
-}
-.product.is-folded .section-head:hover::after { color: var(--cream); border-color: var(--cream-dim); }
-.product.is-folded.was-unfolded > :not(.section-head):not(.tldr) {
-  opacity: 1;
-  filter: none;
-}
-.product.is-folded.was-unfolded .section-head::after { display: none; }
+/* Folded sections: HIDDEN entirely so the guide feels tighter for the chosen role.
+   Their corresponding nav links also hide via .nav-link.is-folded (set by JS). */
+.product.is-folded { display: none; }
+.nav-link.is-folded { display: none; }
 
 /* Personalize / Edit-profile button in nav */
 .nav-edit {
@@ -3488,6 +3583,12 @@ section[id], .hero { scroll-margin-top: 5rem; }
     <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></symbol>
     <symbol id="i-replay" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 9"/><path d="M3 3v6h6"/></symbol>
     <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.66 0l3-3a4 4 0 1 0-5.66-5.66L11 7"/><path d="M14 10a4 4 0 0 0-5.66 0l-3 3a4 4 0 1 0 5.66 5.66L13 17"/></symbol>
+    <symbol id="i-figma" viewBox="0 0 24 24"><circle cx="9" cy="5" r="3"/><circle cx="15" cy="5" r="3" /><circle cx="9" cy="12" r="3"/><circle cx="9" cy="19" r="3"/><circle cx="15" cy="12" r="3"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 4h12a4 4 0 0 1 4 4v12H8a4 4 0 0 1-4-4z"/><path d="M4 16a4 4 0 0 1 4-4h12"/></symbol>
+    <symbol id="i-canvas-frame" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M9 4v14"/></symbol>
+    <symbol id="i-repo" viewBox="0 0 24 24"><path d="M5 4a2 2 0 0 1 2-2h11v17H7a2 2 0 0 1-2-2z"/><path d="M5 18a2 2 0 0 1 2-2h11M11 2v8l2-2 2 2V2"/></symbol>
   </defs>
 </svg>
 
@@ -3597,14 +3698,14 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
 <header class="nav">
   <div class="nav-inner">
-    <a href="#top" class="brand">The Claude Stack <span class="ampersand">&amp;</span></a>
+    <a href="#top" class="brand">The Claude Stack</a>
 
     <nav class="nav-links" aria-label="Primary">
-      <a href="#chat">Chat</a>
-      <a href="#cowork">Cowork</a>
-      <a href="#code">Code</a>
-      <a href="#design">Design</a>
-      <a href="#playbooks">Playbooks</a>
+      <a href="#chat"      class="nav-link" data-prod="chat">Chat</a>
+      <a href="#cowork"    class="nav-link" data-prod="cowork">Cowork</a>
+      <a href="#code"      class="nav-link" data-prod="code">Code</a>
+      <a href="#design"    class="nav-link" data-prod="design">Design</a>
+      <a href="#playbooks" class="nav-link" data-prod="playbooks">Playbooks</a>
     </nav>
 
     <div class="nav-controls">
@@ -3780,6 +3881,48 @@ section[id], .hero { scroll-margin-top: 5rem; }
       </div>
       <ol class="skills-grid" id="pathSkillRow" aria-label="Recommended skills"></ol>
     </div>
+
+    <!-- Apollo v2 reference links — shown only when the role is Designer -->
+    <section class="path-references" id="pathReferences" hidden aria-label="Apollo v2 reference links">
+      <header class="path-references-head">
+        <h3>Reference links for designers</h3>
+        <p>If you work with the <strong>Software Advice Design System (Apollo v2)</strong>, ping <span class="pin">@Inma</span> or <span class="pin">@Joanna</span> for context.</p>
+      </header>
+      <div class="ref-grid">
+        <a class="ref-card" href="https://www.figma.com/design/3401ZFUHoboOwA6GGjAEsq/Apollo-v2--SA----Design-System?node-id=580-9181&p=f&t=oQVCz6R4pKPjd5ll-0" target="_blank" rel="noopener">
+          <span class="ref-card-icon" aria-hidden="true"><svg class="icon"><use href="#i-figma"/></svg></span>
+          <span>
+            <span class="ref-card-label">Figma</span>
+            <span class="ref-card-sub">Apollo v2 · SA Design System</span>
+          </span>
+          <span class="ref-card-arrow" aria-hidden="true"><svg class="icon"><use href="#i-arrow-right"/></svg></span>
+        </a>
+        <a class="ref-card" href="https://claude.ai/design/p/7a1a7127-8142-4cd1-9eeb-c5a4a68abd67" target="_blank" rel="noopener">
+          <span class="ref-card-icon" aria-hidden="true"><svg class="icon"><use href="#i-palette"/></svg></span>
+          <span>
+            <span class="ref-card-label">Claude Design</span>
+            <span class="ref-card-sub">Apollo v2 project</span>
+          </span>
+          <span class="ref-card-arrow" aria-hidden="true"><svg class="icon"><use href="#i-arrow-right"/></svg></span>
+        </a>
+        <a class="ref-card" href="https://bx-apollov2-poc.vercel.app/" target="_blank" rel="noopener">
+          <span class="ref-card-icon" aria-hidden="true"><svg class="icon"><use href="#i-book"/></svg></span>
+          <span>
+            <span class="ref-card-label">Storybook</span>
+            <span class="ref-card-sub">bx-apollov2-poc.vercel.app</span>
+          </span>
+          <span class="ref-card-arrow" aria-hidden="true"><svg class="icon"><use href="#i-arrow-right"/></svg></span>
+        </a>
+        <a class="ref-card" href="https://github.com/lsanchez-g2/apollo-v2-ds" target="_blank" rel="noopener">
+          <span class="ref-card-icon" aria-hidden="true"><svg class="icon"><use href="#i-repo"/></svg></span>
+          <span>
+            <span class="ref-card-label">Repo</span>
+            <span class="ref-card-sub">lsanchez-g2/apollo-v2-ds</span>
+          </span>
+          <span class="ref-card-arrow" aria-hidden="true"><svg class="icon"><use href="#i-arrow-right"/></svg></span>
+        </a>
+      </div>
+    </section>
 
     <div class="path-foot">
       <button type="button" class="path-edit" id="pathEdit">
@@ -4880,7 +5023,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
 <footer class="foot">
   <div class="foot-grid">
     <div>
-      <p class="foot-brand">The Claude Stack <span class="amp">&amp;</span></p>
+      <p class="foot-brand">The Claude Stack</p>
       <p class="foot-tagline">A field guide to Anthropic's four products. Chat, Cowork, Code, and Design. Written for the people who use them daily, not the people who write the press releases.</p>
     </div>
     <div class="foot-col">
@@ -5740,23 +5883,47 @@ section[id], .hero { scroll-margin-top: 5rem; }
       url:  'https://github.com/travisvn/awesome-claude-skills',
       desc: 'Generate Excalidraw diagrams from natural language. Renders, reviews its own output, and corrects layout.'
     },
-    'figma-bridge': {
-      name: 'figma-bridge',
+    'awesome-design-md': {
+      name: 'awesome-design-md',
       source: 'community',
-      sourceLabel: 'community',
-      desc: 'Pull Figma frames, components, and tokens into Claude. Stops the manual export-import cycle.'
+      sourceLabel: 'VoltAgent',
+      url:  'https://github.com/VoltAgent/awesome-design-md',
+      desc: 'Curated design-focused skill collection. Reference patterns and ready-to-install design markdown skills.'
     },
-    'design-tokens': {
-      name: 'design-tokens',
+    'ui-ux-pro-max-skill': {
+      name: 'ui-ux-pro-max-skill',
       source: 'community',
-      sourceLabel: 'community',
-      desc: 'Audit and unify design tokens across codebases. Surfaces drift between Figma and code.'
+      sourceLabel: 'nextlevelbuilder',
+      url:  'https://github.com/nextlevelbuilder/ui-ux-pro-max-skill',
+      desc: 'Pro-tier UI/UX toolkit. Opinionated patterns, sensible defaults, polish baked in.'
     },
-    'design-critic': {
-      name: 'design-critic',
+    'taste-skill': {
+      name: 'taste-skill',
       source: 'community',
-      sourceLabel: 'community',
-      desc: 'Honest UI critique against design principles. Less polite than your team, faster than a review.'
+      sourceLabel: 'Leonxlnx',
+      url:  'https://github.com/Leonxlnx/taste-skill',
+      desc: 'Trains Claude on visual taste and aesthetic judgment. Less polite reviewer, faster review.'
+    },
+    'impeccable': {
+      name: 'impeccable',
+      source: 'community',
+      sourceLabel: 'pbakaus',
+      url:  'https://github.com/pbakaus/impeccable',
+      desc: 'Polish and refinement-focused skill for premium UI work. Catches the rough edges before they ship.'
+    },
+    'huashu-design': {
+      name: 'huashu-design',
+      source: 'community',
+      sourceLabel: 'alchaincyf',
+      url:  'https://github.com/alchaincyf/huashu-design',
+      desc: 'Design-language skill with strong information architecture sensibilities. Cross-cultural references.'
+    },
+    'gsap-skills': {
+      name: 'gsap-skills',
+      source: 'community',
+      sourceLabel: 'GreenSock',
+      url:  'https://github.com/greensock/gsap-skills',
+      desc: 'GreenSock animation skill set. Pro-grade motion patterns for the web, the way GSAP intends them.'
     },
     'prd-writer': {
       name: 'prd-writer',
@@ -5865,16 +6032,16 @@ section[id], .hero { scroll-margin-top: 5rem; }
   /* Per-role: ordered list of 10 skill IDs, with optional mandatory flag. */
   const SKILLS_BY_ROLE = {
     designer: [
-      { id: 'ds-architect', recommended: true },
+      { id: 'ds-architect',         recommended: true },
       { id: 'frontend-design' },
-      { id: 'figma-bridge' },
-      { id: 'design-tokens' },
-      { id: 'design-critic' },
+      { id: 'awesome-design-md' },
+      { id: 'ui-ux-pro-max-skill' },
+      { id: 'taste-skill' },
+      { id: 'impeccable' },
+      { id: 'huashu-design' },
+      { id: 'gsap-skills' },
       { id: 'canvas-design' },
-      { id: 'brand-guidelines' },
-      { id: 'pptx' },
-      { id: 'web-artifacts-builder' },
-      { id: 'theme-factory' }
+      { id: 'brand-guidelines' }
     ],
     pm: [
       { id: 'prd-writer' },
@@ -6491,9 +6658,12 @@ section[id], .hero { scroll-margin-top: 5rem; }
     // Reset any previous personalization marks
     document.querySelectorAll('.cap.is-for-you').forEach(el => el.classList.remove('is-for-you'));
     document.querySelectorAll('.product.is-folded').forEach(el => el.classList.remove('is-folded', 'was-unfolded'));
+    document.querySelectorAll('.nav-link.is-folded').forEach(el => el.classList.remove('is-folded'));
 
     if (!profile) {
       yp.hidden = true;
+      const refs = document.getElementById('pathReferences');
+      if (refs) refs.hidden = true;
       // Reset nav button to "Personalize" (sparkle icon)
       const iconEl = document.getElementById('navEditIcon');
       const label = document.getElementById('navEditLabel');
@@ -6591,7 +6761,14 @@ section[id], .hero { scroll-margin-top: 5rem; }
         ? '<span class="skill-card-name"><a href="' + meta.url + '" target="_blank" rel="noopener">' + meta.name + ' ↗</a></span>'
         : '<span class="skill-card-name">' + meta.name + '</span>';
 
+      const copyBtn = meta.url
+        ? '<button type="button" class="skill-copy" data-skill-name="' + meta.name + '" data-skill-url="' + meta.url + '" aria-label="Copy install command">' +
+            '<svg class="icon" aria-hidden="true"><use href="#i-copy"/></svg>' +
+          '</button>'
+        : '';
+
       li.innerHTML =
+        copyBtn +
         '<div class="skill-card-body">' +
           '<div class="skill-card-head">' + nameHtml + tags.join('') + '</div>' +
           '<p class="skill-card-desc">' + meta.desc + '</p>' +
@@ -6600,8 +6777,46 @@ section[id], .hero { scroll-margin-top: 5rem; }
       pathSkillRow.appendChild(li);
     });
 
+    // Wire copy buttons (clipboard write + brief check feedback)
+    pathSkillRow.querySelectorAll('.skill-copy').forEach(btn => {
+      btn.addEventListener('click', async function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const skillName = btn.dataset.skillName;
+        const skillUrl  = btn.dataset.skillUrl;
+        const payload = 'Install this skill: ' + skillName + '\n' + skillUrl;
+        try {
+          await navigator.clipboard.writeText(payload);
+        } catch (err) {
+          // Fallback: select an offscreen textarea
+          const ta = document.createElement('textarea');
+          ta.value = payload;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          try { document.execCommand('copy'); } catch (e2) {}
+          document.body.removeChild(ta);
+        }
+        // Visual feedback: swap icon to check, then back
+        const use = btn.querySelector('use');
+        if (use) use.setAttribute('href', '#i-check');
+        btn.classList.add('is-copied');
+        btn.setAttribute('aria-label', 'Copied');
+        setTimeout(() => {
+          if (use) use.setAttribute('href', '#i-copy');
+          btn.classList.remove('is-copied');
+          btn.setAttribute('aria-label', 'Copy install command');
+        }, 1600);
+      });
+    });
+
     // Reveal the card
     yp.hidden = false;
+
+    // Designer-only Apollo v2 reference block
+    const refs = document.getElementById('pathReferences');
+    if (refs) refs.hidden = (profile.role !== 'designer');
 
     // Highlight capabilities
     Object.keys(REC.highlights).forEach(prod => {
@@ -6619,19 +6834,12 @@ section[id], .hero { scroll-margin-top: 5rem; }
       });
     });
 
-    // Fold de-prioritized sections
+    // Fold de-prioritized sections (hidden entirely + matching nav link hidden too)
     REC.fold.forEach(prod => {
       const section = document.getElementById(prod);
-      if (section) {
-        section.classList.add('is-folded');
-        const head = section.querySelector('.section-head');
-        if (head) {
-          head.addEventListener('click', function onceUnfold() {
-            section.classList.add('was-unfolded');
-            head.removeEventListener('click', onceUnfold);
-          });
-        }
-      }
+      if (section) section.classList.add('is-folded');
+      const navLink = document.querySelector('.nav-link[data-prod="' + prod + '"]');
+      if (navLink) navLink.classList.add('is-folded');
     });
 
     // Hide the "At a glance" hero aside since the Your Path card replaces it
