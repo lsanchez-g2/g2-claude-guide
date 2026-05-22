@@ -1,45 +1,51 @@
 <!DOCTYPE html>
-<html lang="en" data-motion="auto" data-persona="everyone">
+<html lang="en" data-motion="auto" data-persona="everyone" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="color-scheme" content="dark">
+<meta name="color-scheme" content="light dark">
 <title>The Claude Stack — A field guide to Chat, Cowork, Code & Design</title>
 <meta name="description" content="An interactive field guide to Anthropic's four products: Claude Chat, Cowork, Code, and Design. Built for leaders, PMs, designers, and engineers.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Poppins:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
 /* ------------------------------------------------------------------
    THE CLAUDE STACK — design tokens
    ------------------------------------------------------------------ */
 :root {
-  /* Palette — warm ink, bone, ember */
-  --ink:           #0B0A07;
-  --ink-deep:      #050402;
-  --paper:         #14120E;
-  --paper-raised:  #1C1A14;
-  --paper-warm:    #221F18;
-  --cream:         #F2EBDA;
-  --cream-mid:     #C9C1AE;
-  --cream-dim:     #968D7B;
-  --cream-faint:   #635B4D;
-  --line:          rgba(242, 235, 218, 0.09);
-  --line-strong:   rgba(242, 235, 218, 0.18);
-  --ember:         #D97757;
-  --ember-deep:    #A85A40;
-  --ember-glow:    rgba(217, 119, 87, 0.18);
+  color-scheme: light;
+  /* ───── LIGHT THEME (default) — warm paper, dark ink ───── */
+  --ink:           #FBF8F1;   /* page background — warm cream paper */
+  --ink-deep:      #F2EBDA;   /* slightly deeper bg */
+  --paper:         #FFFFFF;   /* cards, surfaces */
+  --paper-raised:  #FBF7EC;
+  --paper-warm:    #F5EFDF;
+  --cream:         #18150F;   /* body text — warm dark */
+  --cream-mid:     #4A4339;
+  --cream-dim:     #7A7062;
+  --cream-faint:   #ACA28F;
+  --line:          rgba(24, 21, 15, 0.10);
+  --line-strong:   rgba(24, 21, 15, 0.22);
+  --ember:         #B85A3D;   /* darker ember for contrast on light */
+  --ember-deep:    #8E4326;
+  --ember-glow:    rgba(184, 90, 61, 0.14);
 
-  /* Per-product accents */
-  --chat:    #E9B25E;
-  --cowork:  #7FAE7F;
-  --code:    #5BE3A4;
-  --design:  #C893F6;
+  /* Per-product accents — darkened for legibility on light bg */
+  --chat:    #A36F1F;
+  --cowork:  #3E6A40;
+  --code:    #0F7146;
+  --design:  #6B3FA8;
+
+  /* Text color that always stays dark — for use on bright accent backgrounds
+     regardless of theme (e.g. buttons, badges with ember/chat/design fills). */
+  --on-accent: #18150F;
 
   /* Typography */
-  --serif:   'Instrument Serif', 'Georgia', serif;
+  --display: 'Oswald', 'Helvetica Neue Condensed', 'Helvetica Neue', sans-serif;
+  --serif:   var(--display); /* legacy alias for var(--serif) usages */
   --sans:    'Poppins', system-ui, sans-serif;
   --mono:    'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
 
@@ -74,6 +80,92 @@
   --t-slow:   480ms;
   --t-glacial: 1200ms;
 }
+
+/* ───── DARK THEME — override tokens ───── */
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --ink:           #0B0A07;
+  --ink-deep:      #050402;
+  --paper:         #14120E;
+  --paper-raised:  #1C1A14;
+  --paper-warm:    #221F18;
+  --cream:         #F2EBDA;
+  --cream-mid:     #C9C1AE;
+  --cream-dim:     #968D7B;
+  --cream-faint:   #635B4D;
+  --line:          rgba(242, 235, 218, 0.09);
+  --line-strong:   rgba(242, 235, 218, 0.18);
+  --ember:         #D97757;
+  --ember-deep:    #A85A40;
+  --ember-glow:    rgba(217, 119, 87, 0.18);
+
+  --chat:    #E9B25E;
+  --cowork:  #7FAE7F;
+  --code:    #5BE3A4;
+  --design:  #C893F6;
+}
+
+/* ───── Smooth theme transition ───── */
+body, .nav, .product, .your-path, .wiz-card, .demo, .terminal, .cap, .flow,
+.tldr, .when-card, .deep, .src-col, .footer, .matrix-stage, .prod-card,
+.skill-card, .path-block, .file-row, .folder-row, .pane, .canvas-surface,
+.export-panel, .bundle-tile {
+  transition: background-color 240ms var(--ease-out),
+              color           240ms var(--ease-out),
+              border-color    240ms var(--ease-out);
+}
+
+/* ───── Light-theme visual tweaks ───── */
+html:not([data-theme="dark"]) body::before { opacity: 0.18; mix-blend-mode: multiply; }
+html:not([data-theme="dark"]) body::after  {
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(184, 90, 61, 0.08), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(107, 63, 168, 0.04), transparent 70%);
+}
+html:not([data-theme="dark"]) header.nav {
+  background: linear-gradient(to bottom, rgba(251, 248, 241, 0.88), rgba(251, 248, 241, 0.58));
+}
+html:not([data-theme="dark"]) .hero-ambient {
+  opacity: 0.65;
+  background:
+    radial-gradient(circle at 25% 40%, rgba(163, 111, 31, 0.14), transparent 50%),
+    radial-gradient(circle at 75% 30%, rgba(107, 63, 168, 0.10), transparent 55%),
+    radial-gradient(circle at 50% 80%, rgba(15, 113, 70, 0.08), transparent 50%);
+}
+html:not([data-theme="dark"]) .canvas-surface {
+  background:
+    radial-gradient(circle at 50% 50%, var(--paper-warm), var(--ink-deep)),
+    radial-gradient(circle, color-mix(in srgb, var(--design) 18%, transparent) 1px, transparent 1.5px);
+  background-size: 100% 100%, 18px 18px;
+}
+html:not([data-theme="dark"]) .canvas-surface::after {
+  opacity: 0.10;
+}
+html:not([data-theme="dark"]) .playbooks {
+  background: radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--ember) 6%, transparent), transparent 60%);
+}
+html:not([data-theme="dark"]) footer.foot {
+  background: radial-gradient(circle at 50% 100%, color-mix(in srgb, var(--ember) 5%, transparent), transparent 60%);
+}
+
+/* ───── Elements that should ALWAYS render dark (terminal, code blocks) ───── */
+.terminal, .term-body { background: #060604 !important; color: #F2EBDA !important; }
+.term-chrome { background: #0E0E0A !important; border-bottom-color: rgba(255,255,255,0.08) !important; }
+.term-title { color: #968D7B !important; }
+.bundle-tile { background: #060604 !important; color: #C9C1AE !important; }
+.bundle-tile .bundle-head { border-bottom-color: rgba(255,255,255,0.08) !important; }
+.bundle-tile .bundle-empty { color: #635B4D !important; }
+.bundle-file { background: rgba(91, 227, 164, 0.05) !important; color: #F2EBDA !important; }
+.term-card { color: #C9C1AE !important; }
+.term-card .pr-meta { color: #635B4D !important; }
+.prompt code, .deep-body code, .flow li code {
+  background: #050402 !important;
+  color: #F2EBDA !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+[data-theme="light"] .prompt code,
+[data-theme="light"] .flow li code { color: #E9B25E !important; }
+[data-theme="light"] .deep-body code { color: #D97757 !important; }
 
 /* ------------------------------------------------------------------
    Reset + base
@@ -132,14 +224,30 @@ main, header.nav, footer { position: relative; z-index: 2; }
    Typography
    ------------------------------------------------------------------ */
 h1, h2, h3, h4, h5 {
-  font-family: var(--serif);
-  font-weight: 400;
-  line-height: 1.02;
-  letter-spacing: -0.018em;
+  font-family: var(--display);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: 0;
   color: var(--cream);
   margin: 0;
 }
-.serif-italic { font-family: var(--serif); font-style: italic; font-weight: 400; }
+/* Oswald has no native italic — use Poppins italic for emphasis bits originally
+   styled as italic-serif. Creates intentional font contrast in headings. */
+.serif-italic,
+.hero-title .num,
+.section-title .em,
+.what-is h3 .em,
+.wiz-title .em,
+.path-title .em,
+.path-eyebrow .path-name,
+.path-playbook-name,
+.foot-brand .amp,
+.brand .ampersand {
+  font-family: var(--sans);
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
 
 p { margin: 0; }
 a { color: inherit; text-decoration: none; }
@@ -149,7 +257,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   border-radius: var(--r-sm);
 }
 
-::selection { background: var(--ember); color: var(--ink); }
+::selection { background: var(--ember); color: var(--on-accent); }
 
 /* ------------------------------------------------------------------
    Skip link
@@ -159,7 +267,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   left: -9999px;
   top: 0;
   background: var(--ember);
-  color: var(--ink);
+  color: var(--on-accent);
   font-family: var(--sans);
   font-weight: 600;
   padding: 0.6rem 1rem;
@@ -249,6 +357,27 @@ header.nav {
 .motion-toggle { width: 2.25rem; padding: 0.5rem 0; justify-content: center; }
 .motion-toggle[aria-pressed="true"] { color: var(--ember); border-color: var(--ember); }
 
+/* Theme toggle */
+.theme-toggle {
+  width: 2.25rem; height: 2.25rem;
+  display: inline-grid;
+  place-items: center;
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  color: var(--cream-mid);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: all var(--t-fast) var(--ease-out);
+  font-size: 1rem;
+  line-height: 1;
+}
+.theme-toggle:hover {
+  color: var(--ember);
+  border-color: var(--ember);
+}
+.theme-icon { transition: transform 320ms var(--ease-out); display: inline-block; }
+.theme-toggle:hover .theme-icon { transform: rotate(20deg); }
+
 /* Persona menu */
 .persona-menu {
   position: absolute;
@@ -302,6 +431,83 @@ header.nav {
 @media (max-width: 880px) {
   .nav-links { display: none; }
   .persona-toggle .persona-label { display: none; }
+}
+
+/* ------------------------------------------------------------------
+   MOBILE RESPONSIVE TWEAKS — touch targets, spacing, overflow safety
+   ------------------------------------------------------------------ */
+@media (max-width: 720px) {
+  /* Bump touch targets on nav buttons to 40px minimum */
+  .theme-toggle, .motion-toggle {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+  }
+  .nav-edit {
+    min-height: 40px;
+    padding: 0.5rem 0.7rem;
+  }
+  .persona-toggle {
+    min-height: 40px;
+  }
+  .nav-inner {
+    gap: 0.5rem;
+    padding: 0.65rem var(--pad-inner);
+  }
+
+  /* Hero: tighter spacing on small screens */
+  .hero { padding-top: clamp(3rem, 8vw, 5rem); padding-bottom: clamp(2.5rem, 6vw, 4rem); }
+  .hero-title { letter-spacing: -0.02em; }
+
+  /* Wizard mobile: ensure full bleed + safer padding */
+  .wiz-card { padding: 1.25rem; border-radius: var(--r-lg); }
+  .wiz-foot { flex-wrap: wrap; }
+  .wiz-foot .wiz-btn { flex: 1; min-height: 44px; justify-content: center; }
+  .wiz-skip { font-size: 0.7rem; }
+
+  /* Buttons everywhere — minimum 40px tap target */
+  .demo-btn, .grant-toggle, .path-edit, .path-clear { min-height: 40px; }
+
+  /* TLDR card stacks naturally — make sure pin doesn't overlap on small screens */
+  .tldr::before { top: 0.8rem; right: 1rem; }
+  .tldr-pitch { padding-right: 0; }
+
+  /* Hero "At a glance" — slightly smaller padding on phones */
+  .hero-aside { padding: 1.25rem 1rem; }
+
+  /* Capability cards — comfy padding */
+  .cap { padding: 1.1rem 1.1rem 1.2rem; }
+
+  /* Section heads — reduce huge titles on small screens */
+  .section-title { line-height: 1.05; }
+  .what-is h3 { font-size: var(--fs-2xl); }
+
+  /* Prevent code lines / prompts from overflowing horizontally */
+  .prompt, .flow li, .deep-body, .when-col li, .skill-card-desc {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .prompt code, .flow li code, .deep-body code, .skill-card-name {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  /* Footer columns: tighter gap on phones */
+  .foot-grid { gap: 1.25rem; }
+  .colophon { font-size: 0.65rem; }
+}
+
+/* Very small phones (≤375px wide, iPhone SE territory) */
+@media (max-width: 375px) {
+  :root {
+    --pad-inner: 1rem;
+    --pad-section: clamp(3rem, 7vw, 5rem);
+  }
+  .nav-inner { gap: 0.35rem; }
+  .brand { font-size: 1.25rem; }
+  .nav-edit .label-short { display: inline; }
+  .nav-edit .label-long  { display: none; }
 }
 
 /* ------------------------------------------------------------------
@@ -1077,10 +1283,10 @@ section.product, section.matrix, section.playbooks {
   letter-spacing: 0.04em;
   flex-shrink: 0;
 }
-.msg.user .msg-avatar { background: var(--cream-faint); color: var(--ink); }
+.msg.user .msg-avatar { background: var(--cream-faint); color: var(--on-accent); }
 .msg.claude .msg-avatar {
   background: linear-gradient(135deg, var(--pa), color-mix(in srgb, var(--pa) 60%, var(--ember-deep)));
-  color: var(--ink);
+  color: var(--on-accent);
 }
 .msg-body {
   padding: 0.6rem 0.9rem;
@@ -1091,7 +1297,7 @@ section.product, section.matrix, section.playbooks {
   line-height: 1.55;
   color: var(--cream);
 }
-.msg.user .msg-body { background: rgba(242, 235, 218, 0.04); }
+.msg.user .msg-body { background: color-mix(in srgb, var(--cream) 6%, var(--paper)); }
 .msg-caret {
   display: inline-block;
   width: 6px;
@@ -1525,7 +1731,7 @@ section.product, section.matrix, section.playbooks {
   font-size: var(--fs-xs);
   color: var(--cream-mid);
   position: relative;
-  background: rgba(255, 255, 255, 0.015);
+  background: color-mix(in srgb, var(--cream) 3%, transparent);
   transition:
     transform var(--t-med) var(--ease-out),
     opacity var(--t-med) var(--ease-out),
@@ -1759,7 +1965,7 @@ section.product, section.matrix, section.playbooks {
 }
 
 .canvas-comp {
-  background: rgba(255, 255, 255, 0.025);
+  background: color-mix(in srgb, var(--cream) 4%, transparent);
   border: 1px dashed var(--line-strong);
   border-radius: 6px;
   padding: 0.85rem 0.9rem;
@@ -1788,7 +1994,7 @@ section.product, section.matrix, section.playbooks {
   font-family: var(--sans);
   font-size: var(--fs-sm);
   font-weight: 500;
-  color: var(--ink);
+  color: var(--on-accent);
   background: var(--design);
   border: 1px solid color-mix(in srgb, var(--design) 70%, black);
   animation: btnPulse 4.8s ease-in-out infinite;
@@ -2355,16 +2561,16 @@ footer.foot {
 .wiz-card {
   position: relative;
   z-index: 1;
-  width: min(720px, 100%);
+  width: min(960px, 100%);
   max-height: 92vh;
   overflow-y: auto;
   background:
-    radial-gradient(circle at 80% -10%, color-mix(in srgb, var(--ember) 18%, transparent), transparent 60%),
+    radial-gradient(circle at 80% -10%, color-mix(in srgb, var(--ember) 16%, transparent), transparent 60%),
     linear-gradient(180deg, var(--paper-raised), var(--paper));
   border: 1px solid var(--line-strong);
   border-radius: var(--r-xl);
-  padding: clamp(1.5rem, 3.5vw, 2.4rem);
-  box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.7);
+  padding: clamp(1.4rem, 3vw, 2.2rem);
+  box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.45);
   transform: translateY(16px) scale(0.98);
   transition: transform var(--t-slow) var(--ease-out);
 }
@@ -2396,7 +2602,7 @@ footer.foot {
   transition: all var(--t-fast) var(--ease-out);
 }
 .wiz-pip[data-state="active"] {
-  color: var(--ink);
+  color: var(--on-accent);
   background: var(--ember);
   border-color: var(--ember);
 }
@@ -2622,7 +2828,7 @@ footer.foot {
 .wiz-btn-primary {
   background: var(--ember);
   border: 1px solid var(--ember);
-  color: var(--ink);
+  color: var(--on-accent);
   font-weight: 500;
 }
 .wiz-btn-primary:hover {
@@ -2896,7 +3102,7 @@ footer.foot {
   white-space: nowrap;
 }
 .skill-tag.mandatory {
-  color: var(--ink);
+  color: var(--on-accent);
   border-color: var(--ember);
   background: var(--ember);
   font-weight: 600;
@@ -3025,7 +3231,7 @@ footer.foot {
 }
 .nav-edit:hover {
   background: var(--ember);
-  color: var(--ink);
+  color: var(--on-accent);
 }
 @media (max-width: 720px) {
   .nav-edit .label-long { display: none; }
@@ -3196,6 +3402,9 @@ section[id], .hero { scroll-margin-top: 5rem; }
         <span class="persona-label">Reading as</span>
         <span class="persona-current" id="personaCurrent">Everyone</span>
         <span class="persona-chev" aria-hidden="true">▾</span>
+      </button>
+      <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme">
+        <span class="theme-icon" id="themeIcon" aria-hidden="true">☾</span>
       </button>
       <button class="motion-toggle" id="motionToggle" aria-pressed="false" aria-label="Pause animations" title="Pause animations">
         <span aria-hidden="true">❚❚</span>
@@ -4481,7 +4690,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
   <div class="foot-grid">
     <div class="colophon">
       <span class="set">Lex Sánchez · G2 · Product Builder — 2026</span>
-      <span class="set">Set in Instrument Serif, Poppins &amp; Geist Mono</span>
+      <span class="set">Set in Oswald, Poppins &amp; Geist Mono</span>
       <span class="set">Last verified <time datetime="2026-05-22">22 May 2026</time></span>
     </div>
   </div>
@@ -4518,6 +4727,35 @@ section[id], .hero { scroll-margin-top: 5rem; }
   motionToggle.addEventListener('click', () => {
     applyMotion(root.getAttribute('data-motion') === 'paused' ? 'auto' : 'paused');
   });
+
+  /* ---------- Theme toggle (light default + dark) ----------------- */
+  const LS_THEME = 'tcs.theme';
+  const themeToggle = document.getElementById('themeToggle');
+  const themeIcon = document.getElementById('themeIcon');
+
+  function applyTheme(theme) {
+    if (theme !== 'dark') theme = 'light';
+    root.setAttribute('data-theme', theme);
+    if (themeIcon) themeIcon.textContent = (theme === 'dark') ? '☀' : '☾';
+    if (themeToggle) {
+      themeToggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+      themeToggle.title = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+    }
+    try { localStorage.setItem(LS_THEME, theme); } catch (e) {}
+  }
+
+  // Initial: saved choice > system preference > light default
+  const savedTheme = (function () {
+    try { return localStorage.getItem(LS_THEME); } catch (e) { return null; }
+  })();
+  const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(savedTheme || (systemDark ? 'dark' : 'light'));
+
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+  }
 
   /* ---------- Persona toggle ------------------------------------- */
   const personaToggle  = document.getElementById('personaToggle');
