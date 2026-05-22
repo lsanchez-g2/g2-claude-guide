@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light dark">
-<title>The Claude Stack — A field guide to Chat, Cowork, Code & Design</title>
+<title>The Claude Stack. A field guide to Chat, Cowork, Code & Design</title>
 <meta name="description" content="An interactive field guide to Anthropic's four products: Claude Chat, Cowork, Code, and Design. Built for leaders, PMs, designers, and engineers.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,22 +16,22 @@
 
 <style>
 /* ------------------------------------------------------------------
-   THE CLAUDE STACK — design tokens
+   THE CLAUDE STACK.design tokens
    ------------------------------------------------------------------ */
 :root {
   color-scheme: light;
-  /* ───── LIGHT THEME (default) — warm paper, dark ink, G2 red ───── */
-  --ink:           #FBF8F1;   /* page background — warm cream paper */
+  /* ───── LIGHT THEME (default).warm paper, dark ink, G2 red ───── */
+  --ink:           #FBF8F1;   /* page background.warm cream paper */
   --ink-deep:      #F2EBDA;   /* slightly deeper bg */
   --paper:         #FFFFFF;   /* cards, surfaces */
   --paper-raised:  #FBF7EC;
   --paper-warm:    #F5EFDF;
 
-  /* Typography — bumped contrast for AA legibility on cream bg */
-  --cream:         #18150F;   /* body text — warm dark */
-  --cream-mid:     #3D3830;   /* was #4A4339 — darker for prose */
-  --cream-dim:     #5C5448;   /* was #7A7062 — darker for secondary text */
-  --cream-faint:   #897F6E;   /* was #ACA28F — darker for tertiary labels */
+  /* Typography.bumped contrast for AA legibility on cream bg */
+  --cream:         #18150F;   /* body text.warm dark */
+  --cream-mid:     #3D3830;   /* was #4A4339.darker for prose */
+  --cream-dim:     #5C5448;   /* was #7A7062.darker for secondary text */
+  --cream-faint:   #897F6E;   /* was #ACA28F.darker for tertiary labels */
 
   --line:          rgba(24, 21, 15, 0.12);
   --line-strong:   rgba(24, 21, 15, 0.24);
@@ -41,14 +41,14 @@
   --ember-deep:    #A22B17;
   --ember-glow:    rgba(204, 58, 35, 0.14);
 
-  /* Per-product accents — darkened for AA legibility on light bg */
+  /* Per-product accents.darkened for AA legibility on light bg */
   --chat:    #8E5910;   /* deeper amber */
   --cowork:  #335A37;   /* deeper moss */
   --code:    #0A5A38;   /* deeper green */
   --design:  #5C36A1;   /* deeper orchid */
 
   /* Always-dark text for use on bright accent backgrounds */
-  --on-accent: #FFFFFF;   /* text on G2 red — white reads cleanly at AA */
+  --on-accent: #FFFFFF;   /* text on G2 red.white reads cleanly at AA */
 
   /* Typography */
   --display: 'Oswald', 'Helvetica Neue Condensed', 'Helvetica Neue', sans-serif;
@@ -56,10 +56,10 @@
   --sans:    'Poppins', system-ui, sans-serif;
   --mono:    'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
 
-  /* Scale — body floor is 16px (1rem). Smaller values exist only for mono UI chrome. */
-  --fs-xs:   0.75rem;       /* 12px — mono labels / eyebrows / pills */
-  --fs-sm:   1rem;          /* 16px — minimum body text */
-  --fs-md:   1rem;          /* 16px — body baseline */
+  /* Scale.body floor is 16px (1rem). Smaller values exist only for mono UI chrome. */
+  --fs-xs:   0.75rem;       /* 12px.mono labels / eyebrows / pills */
+  --fs-sm:   1rem;          /* 16px.minimum body text */
+  --fs-md:   1rem;          /* 16px.body baseline */
   --fs-lg:   1.125rem;      /* 18px */
   --fs-xl:   1.375rem;      /* 22px */
   --fs-2xl:  1.75rem;       /* 28px */
@@ -67,7 +67,7 @@
   --fs-4xl:  clamp(2.75rem, 5vw + 1rem, 4.25rem);
   --fs-5xl:  clamp(3.5rem, 8vw + 1rem, 6.75rem);
 
-  /* ───── 8pt SPACING SCALE — senior-designer rhythm ─────
+  /* ───── 8pt SPACING SCALE.senior-designer rhythm ─────
      Every margin and gap on the page draws from this scale. */
   --s-1:   0.25rem;   /*  4 */
   --s-2:   0.5rem;    /*  8 */
@@ -84,7 +84,7 @@
   --s-24:  6rem;      /* 96 */
   --s-32:  8rem;      /* 128 */
 
-  /* Semantic tokens — used everywhere. Change ONLY here. */
+  /* Semantic tokens.used everywhere. Change ONLY here. */
   --section-y:   clamp(var(--s-16), 9vw, var(--s-24));   /* between major sections */
   --block-gap:   var(--s-12);                            /* between blocks inside a section */
   --stack-gap:   var(--s-6);                             /* between stacked elements inside a block */
@@ -111,7 +111,7 @@
   --t-glacial: 1200ms;
 }
 
-/* ───── DARK THEME — override tokens ───── */
+/* ───── DARK THEME.override tokens ───── */
 html[data-theme="dark"] {
   color-scheme: dark;
   --ink:           #0B0A07;
@@ -126,7 +126,7 @@ html[data-theme="dark"] {
   --line:          rgba(242, 235, 218, 0.10);
   --line-strong:   rgba(242, 235, 218, 0.22);
 
-  /* G2 red — slightly lifted for dark-bg legibility */
+  /* G2 red.slightly lifted for dark-bg legibility */
   --ember:         #E25A45;
   --ember-deep:    #B83D27;
   --ember-glow:    rgba(226, 90, 69, 0.18);
@@ -217,7 +217,7 @@ body {
   background: var(--ink);
   color: var(--cream);
   font-family: var(--sans);
-  font-size: 1rem; /* explicit 16px body floor — no shrinking */
+  font-size: 1rem; /* explicit 16px body floor.no shrinking */
   font-weight: 400;
   line-height: 1.6;
   letter-spacing: 0;
@@ -229,7 +229,7 @@ body {
   position: relative;
 }
 
-/* Grain overlay — paper texture, very subtle */
+/* Grain overlay.paper texture, very subtle */
 body::before {
   content: '';
   position: fixed;
@@ -267,7 +267,7 @@ h1, h2, h3, h4, h5 {
   color: var(--cream);
   margin: 0;
 }
-/* Heading emphasis — keep accent color, drop italic. Per request: state-of-the-art
+/* Heading emphasis.keep accent color, drop italic. Per request: state-of-the-art
    restraint, no slanted titles. The color carries the emphasis. */
 .serif-italic,
 .hero-title .num,
@@ -286,7 +286,7 @@ h1, h2, h3, h4, h5 {
   font-weight: 600;
   letter-spacing: 0;
 }
-/* Body italics also go upright — keep cream-dim color cue */
+/* Body italics also go upright.keep cream-dim color cue */
 .prompt em { font-style: normal; color: var(--cream-dim); }
 
 p { margin: 0; }
@@ -298,6 +298,9 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 }
 
 ::selection { background: var(--ember); color: var(--on-accent); }
+
+/* No italics anywhere on the guide. Emphasis comes from color and weight. */
+em, i, cite, dfn, address { font-style: normal; }
 
 /* ───── ICONS (stroke-rounded SVG sprite) ───── */
 .icon {
@@ -367,7 +370,7 @@ header.nav {
   gap: 0.4rem;
   transition: color var(--t-fast) var(--ease-out);
 }
-.brand .ampersand { color: var(--ember); font-style: italic; }
+.brand .ampersand { color: var(--ember); font-style: normal; }
 .brand:hover { color: var(--ember); }
 
 .nav-links {
@@ -498,7 +501,7 @@ html[data-theme="dark"] .theme-icon-moon { display: none; }
 }
 
 /* ------------------------------------------------------------------
-   MOBILE RESPONSIVE TWEAKS — touch targets, spacing, overflow safety
+   MOBILE RESPONSIVE TWEAKS.touch targets, spacing, overflow safety
    ------------------------------------------------------------------ */
 @media (max-width: 720px) {
   /* Bump touch targets on nav buttons to 40px minimum */
@@ -530,20 +533,20 @@ html[data-theme="dark"] .theme-icon-moon { display: none; }
   .wiz-foot .wiz-btn { flex: 1; min-height: 44px; justify-content: center; }
   .wiz-skip { font-size: 0.7rem; }
 
-  /* Buttons everywhere — minimum 40px tap target */
+  /* Buttons everywhere.minimum 40px tap target */
   .demo-btn, .grant-toggle, .path-edit, .path-clear { min-height: 40px; }
 
-  /* TLDR card stacks naturally — make sure pin doesn't overlap on small screens */
+  /* TLDR card stacks naturally.make sure pin doesn't overlap on small screens */
   .tldr::before { top: 0.8rem; right: 1rem; }
   .tldr-pitch { padding-right: 0; }
 
-  /* Hero "At a glance" — slightly smaller padding on phones */
+  /* Hero "At a glance".slightly smaller padding on phones */
   .hero-aside { padding: 1.25rem 1rem; }
 
-  /* Capability cards — comfy padding */
+  /* Capability cards.comfy padding */
   .cap { padding: 1.1rem 1.1rem 1.2rem; }
 
-  /* Section heads — reduce huge titles on small screens */
+  /* Section heads.reduce huge titles on small screens */
   .section-title { line-height: 1.05; }
   .what-is h3 { font-size: var(--fs-2xl); }
 
@@ -639,7 +642,7 @@ html[data-theme="dark"] .theme-icon-moon { display: none; }
 }
 .hero-title .num {
   font-family: var(--serif);
-  font-style: italic;
+  font-style: normal;
   color: var(--ember);
   font-weight: 400;
 }
@@ -687,7 +690,7 @@ html[data-theme="dark"] .theme-icon-moon { display: none; }
 }
 .meta-pill.warn::before { background: var(--chat); }
 
-/* Hero side card — quick-glance product list */
+/* Hero side card.quick-glance product list */
 .hero-aside {
   border: 1px solid var(--line);
   background: linear-gradient(180deg, var(--paper-raised), var(--paper));
@@ -894,7 +897,7 @@ section.product, section.matrix, section.playbooks {
   max-width: 50rem;
 }
 
-/* In-section subheads — consistent rhythm above content blocks */
+/* In-section subheads.consistent rhythm above content blocks */
 .subhead {
   font-family: var(--display);
   font-size: var(--fs-2xl);
@@ -923,7 +926,7 @@ section.product, section.matrix, section.playbooks {
 .section-eyebrow .pin {
   color: var(--ember);
   font-family: var(--serif);
-  font-style: italic;
+  font-style: normal;
   text-transform: none;
   letter-spacing: 0;
   font-size: var(--fs-md);
@@ -933,7 +936,7 @@ section.product, section.matrix, section.playbooks {
   line-height: 1;
   letter-spacing: -0.022em;
 }
-.section-title .em { font-style: italic; color: var(--ember); font-family: var(--serif); }
+.section-title .em { font-style: normal; color: var(--ember); font-family: var(--serif); }
 .section-lede {
   font-size: var(--fs-lg);
   color: var(--cream-mid);
@@ -941,7 +944,7 @@ section.product, section.matrix, section.playbooks {
   max-width: 36rem;
 }
 
-/* Recommendation callout — recurring pattern */
+/* Recommendation callout.recurring pattern */
 .recco {
   border-left: 3px solid var(--ember);
   background: linear-gradient(90deg, var(--ember-glow), transparent 70%);
@@ -1174,7 +1177,7 @@ section.product, section.matrix, section.playbooks {
 }
 
 /* ------------------------------------------------------------------
-   PRODUCT SECTIONS — shared skeleton
+   PRODUCT SECTIONS.shared skeleton
    ------------------------------------------------------------------ */
 .product { --pa: var(--ember); }
 .product[data-product="chat"]   { --pa: var(--chat); }
@@ -1209,7 +1212,7 @@ section.product, section.matrix, section.playbooks {
   margin-left: 5rem;
 }
 
-/* TL;DR — leadership card */
+/* TL;DR.leadership card */
 .tldr {
   display: grid;
   grid-template-columns: 1fr;
@@ -1244,7 +1247,7 @@ section.product, section.matrix, section.playbooks {
   color: var(--cream);
   padding-right: 4rem;
 }
-.tldr-pitch em { color: var(--pa); font-style: italic; }
+.tldr-pitch em { color: var(--pa); font-style: normal; }
 .tldr-stat .label {
   display: block;
   font-family: var(--mono);
@@ -1271,7 +1274,7 @@ section.product, section.matrix, section.playbooks {
   font-weight: 400;
 }
 
-/* "What it is" — refined prose block */
+/* "What it is".refined prose block */
 .what-is {
   display: grid;
   grid-template-columns: 1fr;
@@ -1286,7 +1289,7 @@ section.product, section.matrix, section.playbooks {
   letter-spacing: -0.018em;
   line-height: 1.05;
 }
-.what-is h3 .em { color: var(--pa); font-style: italic; font-family: var(--serif); }
+.what-is h3 .em { color: var(--pa); font-style: normal; font-family: var(--serif); }
 .what-is .copy p {
   font-size: var(--fs-md);
   line-height: 1.6;
@@ -1566,26 +1569,49 @@ section.product, section.matrix, section.playbooks {
   counter-reset: prompt;
 }
 .prompt {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 1rem;
-  padding: 1rem 1.2rem;
-  border-left: 2px solid var(--pa);
-  background: linear-gradient(90deg, color-mix(in srgb, var(--pa) 6%, transparent), transparent 60%);
+  display: block;
+  padding: var(--s-5) var(--s-6) var(--s-5) var(--s-8);
+  border-left: 3px solid var(--pa);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--pa) 7%, transparent), transparent 70%),
+    var(--paper);
   border-radius: 0 var(--r-md) var(--r-md) 0;
   font-size: var(--fs-md);
+  line-height: 1.55;
   color: var(--cream);
+  position: relative;
+  counter-increment: prompt;
 }
 .prompt::before {
-  counter-increment: prompt;
   content: counter(prompt, decimal-leading-zero);
+  position: absolute;
+  top: var(--s-4);
+  left: var(--s-3);
   font-family: var(--mono);
   font-size: var(--fs-xs);
   color: var(--pa);
-  letter-spacing: 0.1em;
-  padding-top: 0.2rem;
+  letter-spacing: 0.08em;
+  font-weight: 500;
 }
-.prompt em { color: var(--cream-dim); font-style: italic; display: block; margin-top: 0.45rem; font-size: var(--fs-sm); }
+.prompt em {
+  display: block;
+  margin-top: var(--s-4);
+  padding-top: var(--s-3);
+  border-top: 1px dashed color-mix(in srgb, var(--pa) 30%, var(--line));
+  font-size: var(--fs-sm);
+  color: var(--cream-mid);
+  line-height: 1.5;
+}
+.prompt em::before {
+  content: 'Why this works · ';
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.08em;
+  color: var(--pa);
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-right: var(--s-1);
+}
 
 /* Workflows */
 .flows {
@@ -1681,7 +1707,7 @@ section.product, section.matrix, section.playbooks {
 .when-col li { font-size: var(--fs-sm); color: var(--cream-mid); line-height: 1.55; margin: 0.3rem 0; }
 .when-col li strong { color: var(--cream); font-weight: 500; }
 
-/* Deep dives — disclosures */
+/* Deep dives.disclosures */
 .deep-set {
   display: grid;
   gap: var(--s-2);
@@ -1749,7 +1775,7 @@ section.product, section.matrix, section.playbooks {
 }
 
 /* ------------------------------------------------------------------
-   COWORK demo — folder access toggle + file reorganize
+   COWORK demo.folder access toggle + file reorganize
    ------------------------------------------------------------------ */
 .grant {
   display: flex;
@@ -1954,7 +1980,7 @@ section.product, section.matrix, section.playbooks {
 .cowork-status.idle .dot { animation: none; background: var(--cream-faint); }
 
 /* ------------------------------------------------------------------
-   CODE — terminal demo
+   CODE.terminal demo
    ------------------------------------------------------------------ */
 .terminal {
   background: #060604;
@@ -2054,7 +2080,7 @@ section.product, section.matrix, section.playbooks {
 }
 
 /* ------------------------------------------------------------------
-   DESIGN — canvas + handoff demo
+   DESIGN.canvas + handoff demo
    ------------------------------------------------------------------ */
 .canvas-shell {
   display: grid;
@@ -2318,11 +2344,11 @@ section.product, section.matrix, section.playbooks {
 .bundle-empty {
   color: var(--cream-faint);
   font-size: 0.7rem;
-  font-style: italic;
+  font-style: normal;
 }
 
 /* ------------------------------------------------------------------
-   PLAYBOOKS — cross-product workflows
+   PLAYBOOKS.cross-product workflows
    ------------------------------------------------------------------ */
 .playbooks {
   background:
@@ -2367,7 +2393,7 @@ section.product, section.matrix, section.playbooks {
 .playbook-num .name {
   color: var(--ember);
   font-family: var(--serif);
-  font-style: italic;
+  font-style: normal;
   text-transform: none;
   font-size: var(--fs-md);
   letter-spacing: 0;
@@ -2618,7 +2644,7 @@ footer.foot {
   color: var(--cream);
   letter-spacing: -0.012em;
 }
-.foot-brand .amp { color: var(--ember); font-style: italic; }
+.foot-brand .amp { color: var(--ember); font-style: normal; }
 .foot-tagline {
   font-size: var(--fs-sm);
   color: var(--cream-dim);
@@ -2667,7 +2693,7 @@ footer.foot {
 }
 
 /* ------------------------------------------------------------------
-   WIZARD — first-visit personalization
+   WIZARD.first-visit personalization
    ------------------------------------------------------------------ */
 .wiz-backdrop {
   position: fixed;
@@ -2803,7 +2829,7 @@ footer.foot {
   color: var(--cream);
   margin-bottom: 0.5rem;
 }
-.wiz-title .em { color: var(--ember); font-style: italic; }
+.wiz-title .em { color: var(--ember); font-style: normal; }
 .wiz-lede {
   font-size: var(--fs-md);
   color: var(--cream-mid);
@@ -2854,7 +2880,7 @@ footer.foot {
   background: color-mix(in srgb, var(--ember) 12%, var(--paper-warm));
   border: 1px solid color-mix(in srgb, var(--ember) 30%, var(--line));
   font-family: var(--serif);
-  font-style: italic;
+  font-style: normal;
   font-size: 1.2rem;
   color: var(--ember);
 }
@@ -2979,11 +3005,13 @@ footer.foot {
 }
 
 /* ------------------------------------------------------------------
-   YOUR PATH — personalized hero card
+   YOUR PATH.personalized hero card
    ------------------------------------------------------------------ */
 .your-path {
-  margin: 2rem auto 0;
-  padding: 1.8rem clamp(1.3rem, 3vw, 2rem) 2rem;
+  /* Match the CONTENT width of .product sections so the card lines up with everything below. */
+  max-width: calc(var(--max-w) - (var(--pad-inner) * 2));
+  margin: var(--s-8) auto 0;
+  padding: var(--s-8);
   border-radius: var(--r-xl);
   background:
     radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--ember) 14%, transparent), transparent 60%),
@@ -2991,6 +3019,13 @@ footer.foot {
   border: 1px solid color-mix(in srgb, var(--ember) 30%, var(--line));
   position: relative;
   overflow: hidden;
+}
+@media (max-width: 800px) {
+  .your-path {
+    margin-left: var(--pad-inner);
+    margin-right: var(--pad-inner);
+    padding: var(--s-6);
+  }
 }
 .your-path::before {
   content: 'YOUR PATH';
@@ -3013,7 +3048,7 @@ footer.foot {
   text-transform: uppercase;
   color: var(--cream-dim);
 }
-.path-eyebrow .path-name { color: var(--ember); font-style: italic; font-family: var(--serif); text-transform: none; letter-spacing: 0; font-size: var(--fs-md); margin-left: 0.3rem; }
+.path-eyebrow .path-name { color: var(--ember); font-style: normal; font-family: var(--serif); text-transform: none; letter-spacing: 0; font-size: var(--fs-md); margin-left: 0.3rem; }
 .path-title {
   font-family: var(--serif);
   font-size: clamp(2rem, 4.5vw, 2.85rem);
@@ -3021,7 +3056,7 @@ footer.foot {
   line-height: 1.05;
   color: var(--cream);
 }
-.path-title .em { color: var(--ember); font-style: italic; }
+.path-title .em { color: var(--ember); font-style: normal; }
 .path-sub {
   font-size: var(--fs-md);
   color: var(--cream-mid);
@@ -3117,7 +3152,7 @@ footer.foot {
 /* Playbook */
 .path-playbook-name {
   font-family: var(--serif);
-  font-style: italic;
+  font-style: normal;
   font-size: var(--fs-xl);
   color: var(--ember);
   display: block;
@@ -3190,7 +3225,8 @@ footer.foot {
   font-family: var(--sans);
   counter-increment: skill;
 }
-.skill-card.is-mandatory {
+.skill-card.is-mandatory,
+.skill-card.is-recommended {
   border-color: color-mix(in srgb, var(--ember) 55%, var(--line));
   background:
     linear-gradient(135deg, var(--ember-glow), transparent 65%),
@@ -3204,7 +3240,8 @@ footer.foot {
   color: var(--cream-faint);
   padding-top: 0.2rem;
 }
-.skill-card.is-mandatory::before {
+.skill-card.is-mandatory::before,
+.skill-card.is-recommended::before {
   color: var(--ember);
   font-weight: 500;
 }
@@ -3239,12 +3276,14 @@ footer.foot {
   background: var(--paper-warm);
   white-space: nowrap;
 }
-.skill-tag.mandatory {
+.skill-tag.mandatory,
+.skill-tag.recommended {
   color: var(--on-accent);
   border-color: var(--ember);
   background: var(--ember);
   font-weight: 600;
 }
+.skill-tag.community { color: var(--design); border-color: color-mix(in srgb, var(--design) 45%, var(--line)); background: color-mix(in srgb, var(--design) 8%, var(--paper-warm)); }
 .skill-tag.anthropic   { color: var(--chat);    border-color: color-mix(in srgb, var(--chat) 40%, var(--line));    background: color-mix(in srgb, var(--chat) 8%, var(--paper-warm)); }
 .skill-tag.custom      { color: var(--design);  border-color: color-mix(in srgb, var(--design) 45%, var(--line));  background: color-mix(in srgb, var(--design) 8%, var(--paper-warm)); }
 .skill-tag.third-party { color: var(--cream-dim); }
@@ -3332,7 +3371,7 @@ footer.foot {
   filter: saturate(0.7);
 }
 .product.is-folded .section-head::after {
-  content: 'Skipped for your role — click to expand';
+  content: 'Skipped for your role. Click to expand.';
   display: block;
   margin-top: 0.8rem;
   padding: 0.6rem 0.85rem;
@@ -3382,7 +3421,7 @@ footer.foot {
 }
 
 /* ------------------------------------------------------------------
-   Print styles — collapse demos to text summaries
+   Print styles.collapse demos to text summaries
    ------------------------------------------------------------------ */
 @media print {
   body { background: white; color: #111; }
@@ -3393,7 +3432,7 @@ footer.foot {
 }
 
 
-/* Construction note — visible during build phase only */
+/* Construction note.visible during build phase only */
 .scaffold-note {
   margin: var(--pad-section) auto 0;
   max-width: 38rem;
@@ -3410,7 +3449,7 @@ footer.foot {
 .scaffold-note li { margin: 0.2rem 0; }
 
 /* ------------------------------------------------------------------
-   Anchor smoothing — adjust for sticky header
+   Anchor smoothing.adjust for sticky header
    ------------------------------------------------------------------ */
 section[id], .hero { scroll-margin-top: 5rem; }
 </style>
@@ -3418,7 +3457,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
 <body>
 
-<!-- ===== Icon sprite — stroke-rounded outline (Hugeicons-inspired) =====
+<!-- ===== Icon sprite.stroke-rounded outline (Hugeicons-inspired) =====
      Inline SVG defs. Icons are used via <svg class="icon"><use href="#i-name"/></svg>.
      Style: 24×24 viewBox · stroke 1.5 · round caps · currentColor stroke · no fill. -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -3470,11 +3509,11 @@ section[id], .hero { scroll-margin-top: 5rem; }
       <button type="button" class="wiz-skip" id="wizSkip">Skip · show everything</button>
     </div>
 
-    <!-- Step 1 — Role -->
+    <!-- Step 1.Role -->
     <section class="wiz-step active" data-step="1">
       <p class="wiz-eyebrow">Step one · who you are</p>
       <h2 class="wiz-title" id="wiz-title-1">Who are <span class="em">you</span> in the room?</h2>
-      <p class="wiz-lede">Pick the role closest to how you spend your week. We'll tailor the guide — different skills, different prompts, different deep dives — to your job.</p>
+      <p class="wiz-lede">Pick the role closest to how you spend your week. We'll tailor the guide to your job: different skills, different prompts, different deep dives.</p>
 
       <div class="role-grid" role="radiogroup" aria-label="Choose your role">
         <button type="button" class="role-card" data-role="designer" aria-pressed="false" role="radio">
@@ -3529,7 +3568,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       </div>
     </section>
 
-    <!-- Step 2 — Role-specific blocker -->
+    <!-- Step 2.Role-specific blocker -->
     <section class="wiz-step" data-step="2">
       <p class="wiz-eyebrow">Step two · your work</p>
       <h2 class="wiz-title" id="wizStep2Title">What slows you down most?</h2>
@@ -3541,11 +3580,11 @@ section[id], .hero { scroll-margin-top: 5rem; }
       </div>
     </section>
 
-    <!-- Step 3 — Context -->
+    <!-- Step 3.Context -->
     <section class="wiz-step" data-step="3">
       <p class="wiz-eyebrow">Step three · context</p>
       <h2 class="wiz-title" id="wizStep3Title">Where does your work live?</h2>
-      <p class="wiz-lede" id="wizStep3Lede">One more question — this decides which Claude becomes your daily driver.</p>
+      <p class="wiz-lede" id="wizStep3Lede">One more question. This decides which Claude becomes your daily driver.</p>
       <div class="opt-list" role="radiogroup" id="wizStep3Options" aria-labelledby="wizStep3Title"></div>
       <div class="wiz-foot">
         <button type="button" class="wiz-btn wiz-btn-ghost" data-wiz-back>← Back</button>
@@ -3653,7 +3692,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
         </h1>
 
         <p class="hero-lede reveal">
-          Anthropic now ships four distinct products — a chat interface, a desktop file agent,
+          Anthropic now ships four distinct products: a chat interface, a desktop file agent,
           a terminal coding agent, and a visual design canvas. They overlap, but each has a job
           the others can't do. This guide tells you which to reach for, and why.
         </p>
@@ -3698,7 +3737,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
   </section>
 
   <!-- =====================================================
-       Your Path — appears after wizard completion
+       Your Path.appears after wizard completion
        ===================================================== -->
   <section class="your-path" id="yourPath" aria-labelledby="path-title" hidden>
     <header class="path-head">
@@ -3728,7 +3767,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
       <div class="path-block path-playbook">
         <h3>Your playbook</h3>
-        <span class="path-playbook-name" id="pathPlaybookName">—</span>
+        <span class="path-playbook-name" id="pathPlaybookName"></span>
         <p id="pathPlaybookDesc"></p>
         <a href="#playbooks" id="pathPlaybookLink">See the route →</a>
       </div>
@@ -3752,13 +3791,13 @@ section[id], .hero { scroll-margin-top: 5rem; }
   </section>
 
   <!-- =====================================================
-       02 — Triage matrix
+       02.Triage matrix
        ===================================================== -->
   <section class="matrix" id="triage" aria-labelledby="triage-title">
     <header class="section-head reveal">
-      <p class="section-eyebrow">02 <span class="pin">— Triage</span></p>
+      <p class="section-eyebrow">02 <span class="pin">·Triage</span></p>
       <h2 class="section-title" id="triage-title">Which <span class="em">Claude</span> do I reach for?</h2>
-      <p class="section-lede">Hover a job on the left. The right surface lights up — and a thread runs between them.</p>
+      <p class="section-lede">Hover a job on the left. The right surface lights up, and a thread runs between them.</p>
     </header>
 
     <div class="matrix-stage reveal" id="matrixStage">
@@ -3837,23 +3876,23 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
     <aside class="recco reveal" role="note" aria-label="Recommendation">
       <span class="recco-label">Author's pick · how to use this matrix</span>
-      <p class="recco-body"><strong>Frame the choice by job, not feature.</strong> Feature comparison tables collapse real decisions into ticks and crosses. The four Claudes actually differ in <em>where the work happens</em> — your conversation, your files, your terminal, your canvas — so the cleanest decision rule is to ask which surface owns the work, then pick the Claude that lives there. Use this matrix when you can name the job in one sentence; if you can't, read the relevant product section below first.</p>
+      <p class="recco-body"><strong>Frame the choice by job, not feature.</strong> Feature comparison tables collapse real decisions into ticks and crosses. The four Claudes actually differ in <em>where the work happens</em>, your conversation, your files, your terminal, your canvas, so the cleanest decision rule is to ask which surface owns the work, then pick the Claude that lives there. Use this matrix when you can name the job in one sentence; if you can't, read the relevant product section below first.</p>
     </aside>
   </section>
 
   <!-- =====================================================
-       03 — Claude Chat
+       03.Claude Chat
        ===================================================== -->
   <section class="product" id="chat" data-product="chat" aria-labelledby="chat-title">
 
     <header class="section-head reveal">
-      <p class="section-eyebrow">03 <span class="pin">— Claude Chat</span></p>
+      <p class="section-eyebrow">03 <span class="pin">·Claude Chat</span></p>
       <h2 class="section-title" id="chat-title">The front door, with <span class="em">live workspaces</span> attached.</h2>
-      <p class="section-lede">Conversation is the surface. Artifacts make it more than chat — and Live Artifacts make it re-openable.</p>
+      <p class="section-lede">Conversation is the surface. Artifacts make it more than chat, and Live Artifacts make it re-openable.</p>
     </header>
 
     <div class="tldr reveal" data-show-for="everyone leader">
-      <p class="tldr-pitch">Talk to Claude. Spawn artifacts that <em>persist, refresh, and connect to your tools</em> — without leaving the conversation.</p>
+      <p class="tldr-pitch">Talk to Claude. Spawn artifacts that <em>persist, refresh, and connect to your tools</em>, without leaving the conversation.</p>
       <div class="tldr-stat">
         <span class="label">Outcome</span>
         <span class="value">Drafts, dashboards &amp; answers <small>from one conversation</small></span>
@@ -3872,7 +3911,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       <h3>The Claude you've already <span class="em">met</span>, plus everything that's been bolted on this year.</h3>
       <div class="copy">
         <p>Claude Chat at <strong>claude.ai</strong> is the conversational interface most people start with. In 2026 it stopped being just a chat box: Artifacts evolved from one-off HTML previews into <strong>persistent, connector-backed workspaces</strong>, Skills give Claude reusable instructions for your workflows, and Projects keep long-running work organized.</p>
-        <p>The instinct to think of it as "the chat one" understates what it does. The biggest unlock since spring is <strong>Live Artifacts</strong> — interactive pages that fetch fresh data from your connected tools every time you reopen them. A question becomes a dashboard, a dashboard becomes a habit.</p>
+        <p>The instinct to think of it as "the chat one" understates what it does. The biggest unlock since spring is <strong>Live Artifacts</strong>. interactive pages that fetch fresh data from your connected tools every time you reopen them. A question becomes a dashboard, a dashboard becomes a habit.</p>
       </div>
     </div>
 
@@ -3880,7 +3919,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       <div class="cap">
         <span class="cap-mark">Capability</span>
         <span class="cap-title">Artifacts (incl. Live)</span>
-        <p class="cap-body">Interactive HTML, React, SVG, or Mermaid built inline. Live Artifacts re-fetch from your connectors on every reopen — useful for KPI pages and trackers.</p>
+        <p class="cap-body">Interactive HTML, React, SVG, or Mermaid built inline. Live Artifacts re-fetch from your connectors on every reopen. Useful for KPI pages and trackers.</p>
       </div>
       <div class="cap">
         <span class="cap-mark">Capability</span>
@@ -3890,7 +3929,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       <div class="cap">
         <span class="cap-mark">Capability</span>
         <span class="cap-title">Skills</span>
-        <p class="cap-body">Bundled instructions that teach Claude how you work — your tone, your formats, your house rules. Skills can be standalone or packaged inside plugins.</p>
+        <p class="cap-body">Bundled instructions that teach Claude how you work: your tone, your formats, your house rules. Skills can be standalone or packaged inside plugins.</p>
       </div>
       <div class="cap">
         <span class="cap-mark">Capability</span>
@@ -3968,9 +4007,9 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
     <h3 class="subhead reveal">Example prompts</h3>
     <div class="prompts reveal">
-      <div class="prompt">Read this earnings call PDF and surface the three biggest assumptions buried in the guidance section.<em>Combines file upload + reasoning. Claude links each assumption back to the page it came from.</em></div>
-      <div class="prompt">Build me a live dashboard of my Asana tasks due this week, grouped by project. Make it re-openable.<em>Produces a Live Artifact with the Asana MCP connector; refreshes on reopen, no manual updates.</em></div>
-      <div class="prompt">Search the web for what Anthropic shipped last month and draft a one-pager I can email to my CEO.<em>Web search + Project memory. Drops the result in an Artifact you can iterate on across sessions.</em></div>
+      <div class="prompt">Read this earnings call PDF and surface the three biggest assumptions buried in the guidance section.<em>Drops the PDF straight into the conversation. Each assumption comes back with the page it came from.</em></div>
+      <div class="prompt">Build me a live dashboard of my Asana tasks due this week, grouped by project. Make it re-openable.<em>Uses your Asana connector. The page refreshes every time you reopen it, no copy-paste.</em></div>
+      <div class="prompt">Search the web for what Anthropic shipped last month and draft a one-pager I can email to my CEO.<em>Web search plus your Project's saved context. You can keep refining the draft across sessions.</em></div>
     </div>
 
     <h3 class="subhead reveal">Workflows</h3>
@@ -3981,7 +4020,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
           <li><span class="step-text">Connect the relevant MCP (e.g. Asana, GitHub) in Settings → Connectors.</span></li>
           <li><span class="step-text">Ask: <code>"Build a live page that…"</code> describing the view you want.</span></li>
           <li><span class="step-text">Claude produces a Live Artifact. Pin it to a Project.</span></li>
-          <li><span class="step-text">Re-open later — it refetches automatically. No copy-paste.</span></li>
+          <li><span class="step-text">Re-open later. It refetches automatically. No copy-paste.</span></li>
         </ol>
       </article>
       <article class="flow">
@@ -3995,7 +4034,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       </article>
     </div>
 
-    <h3 class="subhead reveal">When to reach for Chat — and when not</h3>
+    <h3 class="subhead reveal">When to reach for Chat, and when not</h3>
     <div class="when-card reveal">
       <div class="when-col use">
         <h4>Use Chat when</h4>
@@ -4008,16 +4047,16 @@ section[id], .hero { scroll-margin-top: 5rem; }
       <div class="when-col avoid">
         <h4>Reach elsewhere when</h4>
         <ul>
-          <li><strong>The work touches local files.</strong> Use <strong>Cowork</strong> — Chat can't reorganize your Downloads folder.</li>
+          <li><strong>The work touches local files.</strong> Use <strong>Cowork</strong>. Chat can't reorganize your Downloads folder.</li>
           <li><strong>You need a real export.</strong> Use <strong>Design</strong> for PPTX / Canva / PDF with proper typography.</li>
-          <li><strong>You're running multi-agent code work.</strong> Use <strong>Code</strong> — it owns the terminal, the diff, and the PR.</li>
+          <li><strong>You're running multi-agent code work.</strong> Use <strong>Code</strong>. it owns the terminal, the diff, and the PR.</li>
         </ul>
       </div>
     </div>
 
     <aside class="recco reveal" role="note" aria-label="Recommendation">
       <span class="recco-label">Author's pick · don't conflate Artifacts with Design</span>
-      <p class="recco-body"><strong>Artifacts are conversation-scoped live HTML; Claude Design is a persistent visual canvas.</strong> Use Artifacts when you'd reach for a code sandbox: quick dashboards, mini-tools, working prototypes. Use Design when you'd reach for Figma or Canva: real exports, multiplayer review, a build-handoff bundle. They overlap on "show me something visual" — but the export paths differ, and that's usually the deciding factor.</p>
+      <p class="recco-body"><strong>Artifacts are conversation-scoped live HTML; Claude Design is a persistent visual canvas.</strong> Use Artifacts when you'd reach for a code sandbox: quick dashboards, mini-tools, working prototypes. Use Design when you'd reach for Figma or Canva: real exports, multiplayer review, a build-handoff bundle. They overlap on "show me something visual", but the export paths differ, and that's usually the deciding factor.</p>
     </aside>
 
     <h3 class="subhead reveal">Deep dives</h3>
@@ -4025,14 +4064,14 @@ section[id], .hero { scroll-margin-top: 5rem; }
       <details class="deep" data-show-for="everyone pm">
         <summary><span><span class="deep-tag">PM</span>Choosing between an Artifact and a Project</span></summary>
         <div class="deep-body">
-          <p>An Artifact is a single rendered surface — one page, one chart, one tool. A Project is the workspace <em>around</em> the artifacts: file context, instructions, memory. If the work is "one view that updates," it's an Artifact. If it's "a long-running effort with multiple artifacts and reference files," it's a Project that contains Artifacts.</p>
+          <p>An Artifact is a single rendered surface: one page, one chart, one tool. A Project is the workspace <em>around</em> the artifacts: file context, instructions, memory. If the work is "one view that updates," it's an Artifact. If it's "a long-running effort with multiple artifacts and reference files," it's a Project that contains Artifacts.</p>
           <p>Practical decision: <strong>start in a Project the moment a second conversation about the same thing happens.</strong> The cost is zero, the benefit is recovered context.</p>
         </div>
       </details>
       <details class="deep" data-show-for="everyone designer">
         <summary><span><span class="deep-tag">Designer</span>What an Artifact can render, and where it breaks down</span></summary>
         <div class="deep-body">
-          <p>Artifacts ship raw HTML, React, SVG, and Mermaid. They're great for working prototypes — a date picker, a mini dashboard, a pricing calculator — but they're <strong>not a typography surface</strong>. Web fonts work, but you don't have a layout panel, you can't drop frames on a canvas, and you can't export to PPTX or Canva. For anything that needs to leave the browser as a polished deliverable, hop to Design.</p>
+          <p>Artifacts ship raw HTML, React, SVG, and Mermaid. They're great for working prototypes like a date picker, a mini dashboard, or a pricing calculator. They're not a typography surface, though. Web fonts work, but you don't have a layout panel, you can't drop frames on a canvas, and you can't export to PPTX or Canva. For anything that needs to leave the browser as a polished deliverable, hop to Design.</p>
           <p>The honest mental model: Artifacts are a code sandbox glued to the conversation; Design is the surface that owns "I want to make a thing that looks made."</p>
         </div>
       </details>
@@ -4048,18 +4087,18 @@ section[id], .hero { scroll-margin-top: 5rem; }
   </section>
 
   <!-- =====================================================
-       04 — Claude Cowork
+       04.Claude Cowork
        ===================================================== -->
   <section class="product" id="cowork" data-product="cowork" aria-labelledby="cowork-title">
 
     <header class="section-head reveal">
-      <p class="section-eyebrow">04 <span class="pin">— Claude Cowork</span></p>
+      <p class="section-eyebrow">04 <span class="pin">·Claude Cowork</span></p>
       <h2 class="section-title" id="cowork-title">A teammate that <span class="em">opens your folders</span>.</h2>
-      <p class="section-lede">Desktop agent for non-developers. Reads, edits, and creates files in folders you explicitly authorize — and runs multi-step work in the background.</p>
+      <p class="section-lede">Desktop agent for non-developers. Reads, edits, and creates files in folders you explicitly authorize, and runs multi-step work in the background.</p>
     </header>
 
     <div class="tldr reveal" data-show-for="everyone leader">
-      <p class="tldr-pitch">Hand Cowork a messy folder and a goal. It opens, reads, classifies, renames, and files — <em>with explicit per-folder permission</em>.</p>
+      <p class="tldr-pitch">Hand Cowork a messy folder and a goal. It opens, reads, classifies, renames, and files <em>with explicit per-folder permission</em>.</p>
       <div class="tldr-stat">
         <span class="label">Outcome</span>
         <span class="value">Multi-step file work <small>done on your computer, not yours to do</small></span>
@@ -4077,7 +4116,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
     <div class="what-is reveal">
       <h3>The Claude that <span class="em">lives where your files do</span>.</h3>
       <div class="copy">
-        <p>Cowork launched in research preview on January 12, 2026 and reached general availability on April 9 — cross-platform on macOS and Windows for every paid plan. The promise is small but consequential: <strong>Claude can finally do the boring desktop work</strong> — receipt sorting, note digesting, screenshot OCR, weekly digest generation — without you driving every step.</p>
+        <p>Cowork launched in research preview on January 12, 2026, and reached general availability on April 9. It's cross-platform on macOS and Windows for every paid plan. The promise is small but consequential: Claude can finally do the boring desktop work. Receipt sorting, note digesting, screenshot OCR, weekly digest generation, all without you driving every step.</p>
         <p>The mental model is "<strong>teammate with read/write access to one folder</strong>." Access is granular, explicit, and revocable. Cowork combines Skills and connectors with local filesystem operations, so it can blend your Asana tasks, your Gmail, and the PDFs in <code>~/Downloads</code> in a single run.</p>
       </div>
     </div>
@@ -4106,12 +4145,12 @@ section[id], .hero { scroll-margin-top: 5rem; }
       <div class="cap">
         <span class="cap-mark">Capability</span>
         <span class="cap-title">Connector + local blend</span>
-        <p class="cap-body">A run can read Gmail, hit Asana, and write to <code>~/Documents</code> — connectors and the filesystem in one workflow.</p>
+        <p class="cap-body">A run can read Gmail, hit Asana, and write to <code>~/Documents</code>, connectors and the filesystem in one workflow.</p>
       </div>
       <div class="cap">
         <span class="cap-mark">Capability</span>
         <span class="cap-title">Persistent Artifacts</span>
-        <p class="cap-body">Cowork Artifacts persist across sessions, can call MCP tools, and remember user choices in <code>localStorage</code> — useful for personal trackers.</p>
+        <p class="cap-body">Cowork Artifacts persist across sessions, can call MCP tools, and remember user choices in <code>localStorage</code>, useful for personal trackers.</p>
       </div>
     </div>
 
@@ -4187,9 +4226,9 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
     <h3 class="subhead reveal">Example prompts</h3>
     <div class="prompts reveal">
-      <div class="prompt">Look in my Downloads folder. Make a <code>Receipts/2026/</code> tree by month and move every PDF receipt into it. Rename to <code>YYYY-MM-DD_vendor.pdf</code>.<em>One-shot reorg with rename. Cowork will ask before destructive moves on the first run.</em></div>
-      <div class="prompt">Read my Q1 meeting notes folder and generate a quarterly summary doc. Save it next to the source folder as <code>Q1-2026-summary.docx</code>.<em>Reads, summarizes, writes a Word doc using the docx skill — without leaving the desktop.</em></div>
-      <div class="prompt">Each morning at 8:00, pull yesterday's screenshots, OCR them, and append any text containing <code>TODO</code> into <code>todos.md</code>.<em>Scheduled task. Combines OCR + local file write; surfaces a notification when new TODOs land.</em></div>
+      <div class="prompt">Look in my Downloads folder. Make a <code>Receipts/2026/</code> tree by month and move every PDF receipt into it. Rename to <code>YYYY-MM-DD_vendor.pdf</code>.<em>One pass to classify, rename, and file. Cowork asks before destructive moves the first time.</em></div>
+      <div class="prompt">Read my Q1 meeting notes folder and generate a quarterly summary doc. Save it next to the source folder as <code>Q1-2026-summary.docx</code>.<em>Reads, summarizes, then writes a Word doc straight to disk.</em></div>
+      <div class="prompt">Each morning at 8:00, pull yesterday's screenshots, OCR them, and append any text containing <code>TODO</code> into <code>todos.md</code>.<em>Runs on a schedule. Notifies you when fresh TODOs land in the file.</em></div>
     </div>
 
     <h3 class="subhead reveal">Workflows</h3>
@@ -4200,7 +4239,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
           <li><span class="step-text">Grant Cowork access to <code>~/Downloads</code>.</span></li>
           <li><span class="step-text">Ask it to classify each PDF: receipt, invoice, or other.</span></li>
           <li><span class="step-text">Rename + file: <code>YYYY-MM-DD_vendor.pdf</code> into <code>Receipts/&lt;year&gt;/</code>.</span></li>
-          <li><span class="step-text">Generate a CSV summary for your accountant — sums, vendor counts, dates.</span></li>
+          <li><span class="step-text">Generate a CSV summary for your accountant: sums, vendor counts, and dates.</span></li>
         </ol>
       </article>
       <article class="flow">
@@ -4214,7 +4253,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       </article>
     </div>
 
-    <h3 class="subhead reveal">When to reach for Cowork — and when not</h3>
+    <h3 class="subhead reveal">When to reach for Cowork, and when not</h3>
     <div class="when-card reveal">
       <div class="when-col use">
         <h4>Use Cowork when</h4>
@@ -4227,8 +4266,8 @@ section[id], .hero { scroll-margin-top: 5rem; }
       <div class="when-col avoid">
         <h4>Reach elsewhere when</h4>
         <ul>
-          <li><strong>The data lives only in connectors.</strong> Use <strong>Chat</strong> with MCP Artifacts — no local files involved.</li>
-          <li><strong>You're working on a real codebase.</strong> Use <strong>Code</strong> — diff hygiene, PRs, test runners, subagents.</li>
+          <li><strong>The data lives only in connectors.</strong> Use <strong>Chat</strong> with MCP Artifacts, no local files involved.</li>
+          <li><strong>You're working on a real codebase.</strong> Use <strong>Code</strong>. diff hygiene, PRs, test runners, subagents.</li>
           <li><strong>You need a polished visual export.</strong> Use <strong>Design</strong> for Canva/PPTX/PDF with intent.</li>
         </ul>
       </div>
@@ -4236,29 +4275,29 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
     <aside class="recco reveal" role="note" aria-label="Recommendation">
       <span class="recco-label">Author's pick · grant the smallest folder that works</span>
-      <p class="recco-body"><strong>Don't give Cowork your home directory.</strong> The permission UX is per-folder for a reason. Start with the narrowest folder that contains the work — <code>~/Downloads/receipts/</code> beats <code>~/Downloads</code>; <code>~/Documents/clients/acme/</code> beats <code>~/Documents</code>. You'll get fewer surprising actions, faster reasoning over the file set, and a safer audit trail. Expand access only when the task forces you to.</p>
+      <p class="recco-body"><strong>Don't give Cowork your home directory.</strong> The permission UX is per-folder for a reason. Start with the narrowest folder that contains the work. <code>~/Downloads/receipts/</code> beats <code>~/Downloads</code>; <code>~/Documents/clients/acme/</code> beats <code>~/Documents</code>. You'll get fewer surprising actions, faster reasoning over the file set, and a safer audit trail. Expand access only when the task forces you to.</p>
     </aside>
 
     <h3 class="subhead reveal">Deep dives</h3>
     <div class="deep-set reveal">
       <details class="deep" data-show-for="everyone pm">
-        <summary><span><span class="deep-tag">PM</span>Cowork vs. Chat — same Skills, different surface</span></summary>
+        <summary><span><span class="deep-tag">PM</span>Cowork vs. Chat.same Skills, different surface</span></summary>
         <div class="deep-body">
-          <p>Both surfaces share Skills and connectors. The difference is <em>filesystem access</em>. If your team's workflows live in Google Drive, Notion, Asana — Chat with MCP is enough. If they live in Dropbox-synced folders, Finder, or "the share drive," Cowork wins because it can act on the bytes, not just read them.</p>
+          <p>Both surfaces share Skills and connectors. The difference is <em>filesystem access</em>. If your team's workflows live in Google Drive, Notion, Asana. Chat with MCP is enough. If they live in Dropbox-synced folders, Finder, or "the share drive," Cowork wins because it can act on the bytes, not just read them.</p>
           <p><strong>Decision shortcut:</strong> if the work mentions a filename or a path, use Cowork.</p>
         </div>
       </details>
       <details class="deep" data-show-for="everyone designer">
         <summary><span><span class="deep-tag">Designer</span>Persistent Artifacts that remember filter state</span></summary>
         <div class="deep-body">
-          <p>Cowork's Artifacts persist across app restarts and can use <code>localStorage</code> to remember the user's filter and sort choices — useful for personal trackers (interview pipeline, content calendar, design-review queue). Combine with <code>window.cowork.askClaude(prompt, data[])</code> for inline Haiku inference over the data you just fetched.</p>
-          <p>The header gets a Reload button for free — don't build your own.</p>
+          <p>Cowork's Artifacts persist across app restarts and can use <code>localStorage</code> to remember the user's filter and sort choices. Useful for personal trackers (interview pipeline, content calendar, design-review queue). Combine with <code>window.cowork.askClaude(prompt, data[])</code> for inline Haiku inference over the data you just fetched.</p>
+          <p>The header gets a Reload button for free, so don't build your own.</p>
         </div>
       </details>
       <details class="deep" data-show-for="everyone engineer">
         <summary><span><span class="deep-tag">Engineer</span>Built largely with Claude Code, in roughly 10 days</span></summary>
         <div class="deep-body">
-          <p>Anthropic engineers built Cowork in about a week and a half, mostly by driving Claude Code itself. The motivating signal was watching non-engineers use Claude Code for non-programming tasks — taxes, receipts, organizing notes — and concluding the abstraction should be a folder, not a repo.</p>
+          <p>Anthropic engineers built Cowork in about a week and a half, mostly by driving Claude Code itself. The motivating signal was watching non-engineers use Claude Code for non-programming tasks like taxes, receipts, and organizing notes. The conclusion: the right abstraction is a folder, not a repo.</p>
           <p>For integrators: Cowork exposes <code>callMcpTool</code>, <code>askClaude</code>, and <code>runScheduledTask</code> on <code>window.cowork</code> inside Artifacts. Treat connectors as read-mostly; gate writes behind explicit user clicks.</p>
         </div>
       </details>
@@ -4267,18 +4306,18 @@ section[id], .hero { scroll-margin-top: 5rem; }
   </section>
 
   <!-- =====================================================
-       05 — Claude Code
+       05.Claude Code
        ===================================================== -->
   <section class="product" id="code" data-product="code" aria-labelledby="code-title">
 
     <header class="section-head reveal">
-      <p class="section-eyebrow">05 <span class="pin">— Claude Code</span></p>
+      <p class="section-eyebrow">05 <span class="pin">·Claude Code</span></p>
       <h2 class="section-title" id="code-title">Agentic coding that <span class="em">lives in your terminal</span>.</h2>
       <p class="section-lede">MCP-native, subagent-capable, hook-driven. The CLI is the substrate; the desktop app is a second seat.</p>
     </header>
 
     <div class="tldr reveal" data-show-for="everyone leader">
-      <p class="tldr-pitch">A coding agent that <em>reads your repo, runs your tools, and ships PRs</em> — from natural-language goals on the command line.</p>
+      <p class="tldr-pitch">A coding agent that <em>reads your repo, runs your tools, and ships PRs</em>, from natural-language goals on the command line.</p>
       <div class="tldr-stat">
         <span class="label">Outcome</span>
         <span class="value">PRs from a goal <small>tests, lint, and review pre-flighted</small></span>
@@ -4325,12 +4364,12 @@ section[id], .hero { scroll-margin-top: 5rem; }
       <div class="cap">
         <span class="cap-mark">Capability</span>
         <span class="cap-title"><code>CLAUDE.md</code> config</span>
-        <p class="cap-body">Markdown at the repo root. Coding standards, architecture decisions, libraries, review checklists — read at every session start.</p>
+        <p class="cap-body">Markdown at the repo root. Coding standards, architecture decisions, libraries, review checklists. Read at every session start.</p>
       </div>
       <div class="cap">
         <span class="cap-mark">Capability</span>
         <span class="cap-title">Desktop app</span>
-        <p class="cap-body">Cross-platform (macOS, Windows) since April 2026. Built for parallel agentic work — not a terminal wrapper.</p>
+        <p class="cap-body">Cross-platform (macOS, Windows) since April 2026. Built for parallel agentic work, not a terminal wrapper.</p>
       </div>
     </div>
 
@@ -4356,9 +4395,9 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
     <h3 class="subhead reveal">Example prompts</h3>
     <div class="prompts reveal">
-      <div class="prompt"><code>claude "Map this repo and tell me which modules I shouldn't touch in a refactor."</code><em>Agentic codebase search + reasoning. Returns a risk-tier map of your modules.</em></div>
-      <div class="prompt"><code>claude --mcp jira "Pick the next ticket in my queue, open a branch, draft the PR."</code><em>MCP-driven workflow. Reads Jira, opens the branch, scaffolds the PR with linked commits.</em></div>
-      <div class="prompt"><code>claude "Run the test suite, identify flakes, propose a fix for each."</code><em>Subagents fan out across spec files. A lead agent consolidates findings into a single report.</em></div>
+      <div class="prompt"><code>claude "Map this repo and tell me which modules I shouldn't touch in a refactor."</code><em>Returns a risk map of every module so you know where the dragons are.</em></div>
+      <div class="prompt"><code>claude --mcp jira "Pick the next ticket in my queue, open a branch, draft the PR."</code><em>Reads Jira, opens the branch, scaffolds the PR with linked commits.</em></div>
+      <div class="prompt"><code>claude "Run the test suite, identify flakes, propose a fix for each."</code><em>Spawns parallel agents across the spec files. A lead agent merges the findings into one report.</em></div>
     </div>
 
     <h3 class="subhead reveal">Workflows</h3>
@@ -4376,14 +4415,14 @@ section[id], .hero { scroll-margin-top: 5rem; }
         <h4 class="flow-title">Subagent fan-out refactor</h4>
         <ol>
           <li><span class="step-text">Lead agent receives goal: <code>"Migrate axios → fetch across the app."</code></span></li>
-          <li><span class="step-text">Lead plans, spawns 3 workers — one per module. Each works on a branch.</span></li>
+          <li><span class="step-text">Lead plans, spawns 3 workers.one per module. Each works on a branch.</span></li>
           <li><span class="step-text">Workers run module tests in isolation. Lead merges, resolves conflicts.</span></li>
           <li><span class="step-text">Single PR lands with combined diff + per-module test summary.</span></li>
         </ol>
       </article>
     </div>
 
-    <h3 class="subhead reveal">When to reach for Code — and when not</h3>
+    <h3 class="subhead reveal">When to reach for Code, and when not</h3>
     <div class="when-card reveal">
       <div class="when-col use">
         <h4>Use Code when</h4>
@@ -4397,7 +4436,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
         <h4>Reach elsewhere when</h4>
         <ul>
           <li><strong>The work isn't code.</strong> Use <strong>Cowork</strong> for desktop files; <strong>Chat</strong> for prose &amp; reports.</li>
-          <li><strong>You need a visual mockup.</strong> Use <strong>Design</strong> — and let it hand you back a build bundle.</li>
+          <li><strong>You need a visual mockup.</strong> Use <strong>Design</strong>, and let it hand you back a build bundle.</li>
           <li><strong>You're scared of the terminal.</strong> Use the Code desktop app, or pair Cowork with the dev folder.</li>
         </ul>
       </div>
@@ -4405,7 +4444,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
     <aside class="recco reveal" role="note" aria-label="Recommendation">
       <span class="recco-label">Author's pick · write a CLAUDE.md on day one</span>
-      <p class="recco-body"><strong>The single highest-leverage move is writing a CLAUDE.md before your first real task.</strong> Even a 20-line file — preferred libraries, the test command, the review checklist, the "don't touch" modules — multiplies output. Treat it like onboarding documentation for a new hire who reads it every morning. The 2-4× velocity numbers people report come almost entirely from teams that invested in this config, not from raw model capability.</p>
+      <p class="recco-body"><strong>The single highest-leverage move is writing a CLAUDE.md before your first real task.</strong> Even a 20-line file.preferred libraries, the test command, the review checklist, the "don't touch" modules.multiplies output. Treat it like onboarding documentation for a new hire who reads it every morning. The 2-4× velocity numbers people report come almost entirely from teams that invested in this config, not from raw model capability.</p>
     </aside>
 
     <h3 class="subhead reveal">Deep dives</h3>
@@ -4425,11 +4464,11 @@ section[id], .hero { scroll-margin-top: 5rem; }
         </div>
       </details>
       <details class="deep" data-show-for="everyone engineer">
-        <summary><span><span class="deep-tag">Engineer</span>Subagents, hooks, MCP — the pattern that scales</span></summary>
+        <summary><span><span class="deep-tag">Engineer</span>Subagents, hooks, MCP.the pattern that scales</span></summary>
         <div class="deep-body">
-          <p><strong>Subagents</strong> work best when the task fans out (per-module refactors, per-test fixes, per-file documentation). The lead agent owns planning &amp; merging; workers own execution. Don't fan out for sequential work — the merge cost dominates.</p>
+          <p><strong>Subagents</strong> work best when the task fans out (per-module refactors, per-test fixes, per-file documentation). The lead agent owns planning &amp; merging; workers own execution. Don't fan out for sequential work.the merge cost dominates.</p>
           <p><strong>Hooks</strong> are where you encode safety: a <code>pre-tool</code> hook that blocks writes to <code>infra/</code>; a <code>post-tool</code> hook that runs linters after every file write; an <code>on-error</code> hook that posts to Slack via MCP.</p>
-          <p><strong>MCP servers</strong> are the right place for any tool you'll reuse — pull tickets, push releases, fetch logs. Write the schema thin, gate side-effects behind explicit approvals, version the server like any other dependency.</p>
+          <p><strong>MCP servers</strong> are the right place for any tool you'll reuse.pull tickets, push releases, fetch logs. Write the schema thin, gate side-effects behind explicit approvals, version the server like any other dependency.</p>
         </div>
       </details>
     </div>
@@ -4437,18 +4476,18 @@ section[id], .hero { scroll-margin-top: 5rem; }
   </section>
 
   <!-- =====================================================
-       06 — Claude Design
+       06.Claude Design
        ===================================================== -->
   <section class="product" id="design" data-product="design" aria-labelledby="design-title">
 
     <header class="section-head reveal">
-      <p class="section-eyebrow">06 <span class="pin">— Claude Design</span></p>
+      <p class="section-eyebrow">06 <span class="pin">·Claude Design</span></p>
       <h2 class="section-title" id="design-title">A canvas with <span class="em">real exports</span>.</h2>
       <p class="section-lede">Anthropic Labs · launched 17 April 2026 at claude.ai/design · powered by Opus 4.7 · research preview.</p>
     </header>
 
     <div class="tldr reveal" data-show-for="everyone leader">
-      <p class="tldr-pitch">Turn a sentence into a slide deck, a deck into a prototype, a prototype into a <em>build bundle</em> — without leaving Claude.</p>
+      <p class="tldr-pitch">Turn a sentence into a slide deck, a deck into a prototype, a prototype into a <em>build bundle</em>, without leaving Claude.</p>
       <div class="tldr-stat">
         <span class="label">Outcome</span>
         <span class="value">Designs, prototypes &amp; presentations <small>with PPTX / Canva / PDF / Code exports</small></span>
@@ -4467,7 +4506,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       <h3>The first AI design tool with a <span class="em">developer handshake</span>.</h3>
       <div class="copy">
         <p>Claude Design is what Anthropic Labs shipped on 17 April 2026: a visual canvas where Claude (Opus 4.7, with a 3.3× pixel-processing improvement over 4.6) reads your codebase and design files during onboarding, builds a team design system from them, and uses your colors, typography, and components for every subsequent project.</p>
-        <p>The differentiator isn't the canvas. It's the <strong>Claude Code handoff bundle</strong> — a one-click export that packages component structure, design tokens, layout hierarchy, and assets in a machine-readable shape that Claude Code can pick up directly. The Design → Code loop closes for the first time.</p>
+        <p>The differentiator isn't the canvas. It's the <strong>Claude Code handoff bundle</strong>. a one-click export that packages component structure, design tokens, layout hierarchy, and assets in a machine-readable shape that Claude Code can pick up directly. The Design → Code loop closes for the first time.</p>
       </div>
     </div>
 
@@ -4573,9 +4612,9 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
     <h3 class="subhead reveal">Example prompts</h3>
     <div class="prompts reveal">
-      <div class="prompt">Build me a 5-slide pitch deck for our Q3 roadmap. Use the company design system. Export to PPTX.<em>Pulls components from your team design system; produces an editable deck you can hand to leadership.</em></div>
-      <div class="prompt">Take the attached Figma file and turn it into a clickable prototype I can share for user testing.<em>Static mockup → interactive prototype with a comment-enabled share URL.</em></div>
-      <div class="prompt">Generate a Claude Code handoff bundle for the dashboard prototype, ready for the front-end repo.<em>Outputs spec.json, tokens.css, layout.tsx, /assets/. Engineering picks it up in <code>claude</code> with no extra translation.</em></div>
+      <div class="prompt">Build me a 5-slide pitch deck for our Q3 roadmap. Use the company design system. Export to PPTX.<em>Pulls components from your team's design system. Hands you back an editable deck.</em></div>
+      <div class="prompt">Take the attached Figma file and turn it into a clickable prototype I can share for user testing.<em>Static mockup becomes an interactive prototype. The share URL supports comments.</em></div>
+      <div class="prompt">Generate a Claude Code handoff bundle for the dashboard prototype, ready for the front-end repo.<em>You get spec.json, tokens.css, layout.tsx, and an assets folder. Engineering picks it up with no translation step.</em></div>
     </div>
 
     <h3 class="subhead reveal">Workflows</h3>
@@ -4600,12 +4639,12 @@ section[id], .hero { scroll-margin-top: 5rem; }
       </article>
     </div>
 
-    <h3 class="subhead reveal">When to reach for Design — and when not</h3>
+    <h3 class="subhead reveal">When to reach for Design, and when not</h3>
     <div class="when-card reveal">
       <div class="when-col use">
         <h4>Use Design when</h4>
         <ul>
-          <li><strong>You need a real visual export.</strong> Canva, PPTX, PDF, HTML — formats that survive a forward to leadership.</li>
+          <li><strong>You need a real visual export.</strong> Canva, PPTX, PDF, HTML.formats that survive a forward to leadership.</li>
           <li><strong>You're handing work to engineering.</strong> Use the Claude Code handoff bundle. Skip the translation step.</li>
           <li><strong>You're prototyping for user testing.</strong> Static → interactive without writing code.</li>
         </ul>
@@ -4614,7 +4653,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
         <h4>Reach elsewhere when</h4>
         <ul>
           <li><strong>You want a quick working tool.</strong> A Chat Artifact ships faster for one-off code utilities.</li>
-          <li><strong>You're refactoring components in code.</strong> Use Code — Design hands tokens off; it doesn't run the codebase.</li>
+          <li><strong>You're refactoring components in code.</strong> Use Code. Design hands tokens off; it doesn't run the codebase.</li>
           <li><strong>You need to organize local files.</strong> That's Cowork's job.</li>
         </ul>
       </div>
@@ -4622,15 +4661,15 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
     <aside class="recco reveal" role="note" aria-label="Recommendation">
       <span class="recco-label">Author's pick · decide the export <em>before</em> you design</span>
-      <p class="recco-body"><strong>Decide where this is going before you put anything on the canvas.</strong> Meeting review → PPTX or PDF. Client sharing → PDF or Canva. Build handoff → Claude Code bundle or HTML. The export format dictates how Claude composes the layout — chasing a deck and then trying to convert to a handoff bundle wastes the round. The Claude Design team itself ships this advice as a "rule"; follow it.</p>
+      <p class="recco-body"><strong>Decide where this is going before you put anything on the canvas.</strong> Meeting review → PPTX or PDF. Client sharing → PDF or Canva. Build handoff → Claude Code bundle or HTML. The export format dictates how Claude composes the layout.chasing a deck and then trying to convert to a handoff bundle wastes the round. The Claude Design team itself ships this advice as a "rule"; follow it.</p>
     </aside>
 
     <h3 class="subhead reveal">Deep dives</h3>
     <div class="deep-set reveal">
       <details class="deep" data-show-for="everyone pm">
-        <summary><span><span class="deep-tag">PM</span>Buying decisions — Design vs Canva vs Figma</span></summary>
+        <summary><span><span class="deep-tag">PM</span>Buying decisions. Design vs Canva vs Figma</span></summary>
         <div class="deep-body">
-          <p>Design isn't a Figma replacement. It's a way to <strong>generate, iterate, and export</strong> visual deliverables without a designer in the loop for the first pass. Teams that have Figma keep Figma; Design accelerates the first 60% — the part that usually never gets done because no one had the bandwidth to start.</p>
+          <p>Design isn't a Figma replacement. It's a way to <strong>generate, iterate, and export</strong> visual deliverables without a designer in the loop for the first pass. Teams that have Figma keep Figma; Design accelerates the first 60%.the part that usually never gets done because no one had the bandwidth to start.</p>
           <p>The Canva partnership is a hint about the intended buyer: people who already think in slides and one-pagers, not in components.</p>
         </div>
       </details>
@@ -4645,10 +4684,10 @@ section[id], .hero { scroll-margin-top: 5rem; }
         <summary><span><span class="deep-tag">Engineer</span>The handoff bundle, file by file</span></summary>
         <div class="deep-body">
           <p>The Code handoff bundle is four artifacts:</p>
-          <p><strong><code>spec.json</code></strong> — component structure as a machine-readable spec (component name, variant, props, slot tree).</p>
-          <p><strong><code>tokens.css</code></strong> — the design tokens used on the canvas, exported as CSS custom properties. Drop directly into a stylesheet or import via your token pipeline.</p>
-          <p><strong><code>layout.tsx</code></strong> — layout hierarchy expressed as React (other frameworks coming). Replace with your own primitives; the bundle gives you the tree shape.</p>
-          <p><strong><code>/assets/</code></strong> — referenced images, icons, fonts. Hash-named, deduped.</p>
+          <p><strong><code>spec.json</code></strong>. component structure as a machine-readable spec (component name, variant, props, slot tree).</p>
+          <p><strong><code>tokens.css</code></strong>. the design tokens used on the canvas, exported as CSS custom properties. Drop directly into a stylesheet or import via your token pipeline.</p>
+          <p><strong><code>layout.tsx</code></strong>. layout hierarchy expressed as React (other frameworks coming). Replace with your own primitives; the bundle gives you the tree shape.</p>
+          <p><strong><code>/assets/</code></strong>. referenced images, icons, fonts. Hash-named, deduped.</p>
           <p>Read the bundle in <code>claude</code> with: <code>claude "wire ./bundle into apps/web/src/routes/dashboard"</code>. Claude Code uses the spec to scaffold the route, the tokens to extend the theme, the layout to seed JSX, and the assets to wire imports.</p>
         </div>
       </details>
@@ -4657,14 +4696,14 @@ section[id], .hero { scroll-margin-top: 5rem; }
   </section>
 
   <!-- =====================================================
-       07 — Playbooks (cross-product workflows)
+       07.Playbooks (cross-product workflows)
        ===================================================== -->
   <section class="playbooks" id="playbooks" aria-labelledby="playbooks-title">
     <div class="playbooks-inner">
       <header class="section-head reveal">
-        <p class="section-eyebrow">07 <span class="pin">— Playbooks</span></p>
+        <p class="section-eyebrow">07 <span class="pin">·Playbooks</span></p>
         <h2 class="section-title" id="playbooks-title">Three workflows that <span class="em">stitch the stack</span>.</h2>
-        <p class="section-lede">The four Claudes are designed to compose. These are the routes worth memorising — each one passes work between products you'd otherwise mash together by hand.</p>
+        <p class="section-lede">The four Claudes are designed to compose. These are the routes worth memorising. Each one passes work between products you'd otherwise mash together by hand.</p>
       </header>
 
       <article class="playbook" data-playbook="spec-to-ship">
@@ -4672,7 +4711,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
           <p class="playbook-num">01 <span class="name">Spec → Ship</span></p>
           <div>
             <h3 class="playbook-title">A PM's one-pager becomes a shipped PR.</h3>
-            <p class="playbook-lede">Draft, visualize, hand off, ship — without copy-paste between tools or hand-rolled translation between disciplines.</p>
+            <p class="playbook-lede">Draft, visualize, hand off, ship. No copy-paste between tools or hand-rolled translation between disciplines.</p>
           </div>
         </header>
         <ol class="stations">
@@ -4692,7 +4731,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
             <span class="station-dot" aria-hidden="true">03</span>
             <span class="station-label">Design</span>
             <span class="station-desc">Export handoff bundle</span>
-            <span class="station-sub">spec.json · tokens.css · layout.tsx · /assets/ — machine-readable.</span>
+            <span class="station-sub">spec.json · tokens.css · layout.tsx · /assets/.machine-readable.</span>
           </li>
           <li class="station" data-prod="code">
             <span class="station-dot" aria-hidden="true">04</span>
@@ -4734,7 +4773,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
             <span class="station-dot" aria-hidden="true">04</span>
             <span class="station-label">Chat</span>
             <span class="station-desc">Share with leadership</span>
-            <span class="station-sub">Pinned to a Project. Re-fetches on every open — no manual refresh.</span>
+            <span class="station-sub">Pinned to a Project. Re-fetches on every open.no manual refresh.</span>
           </li>
         </ol>
       </article>
@@ -4777,17 +4816,17 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
       <aside class="recco reveal" role="note" aria-label="Recommendation" style="margin-top: 3rem;">
         <span class="recco-label">Author's pick · the boring shortcut</span>
-        <p class="recco-body"><strong>Don't try to use all four at once on your first run.</strong> Pick a single playbook, run it twice end-to-end, and only then add the next product. The friction in cross-product work isn't capability — it's <em>habit</em>, and habits take a real reps to land. The Spec → Ship playbook is the cleanest first one for most teams; Inbox → Insight is the most underrated.</p>
+        <p class="recco-body"><strong>Don't try to use all four at once on your first run.</strong> Pick a single playbook, run it twice end-to-end, and only then add the next product. The friction in cross-product work isn't capability.it's <em>habit</em>, and habits take a real reps to land. The Spec → Ship playbook is the cleanest first one for most teams; Inbox → Insight is the most underrated.</p>
       </aside>
     </div>
   </section>
 
   <!-- =====================================================
-       08 — Sources & footnotes
+       08.Sources & footnotes
        ===================================================== -->
   <section class="sources" id="sources" aria-labelledby="sources-title">
     <header class="section-head reveal">
-      <p class="section-eyebrow">08 <span class="pin">— Sources</span></p>
+      <p class="section-eyebrow">08 <span class="pin">·Sources</span></p>
       <h2 class="section-title" id="sources-title">Every claim, <span class="serif-italic">linked</span>.</h2>
       <p class="section-lede">Anthropic documentation and product news first; named third-party reporting where it adds detail (e.g., handoff bundle anatomy).</p>
     </header>
@@ -4796,7 +4835,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       <div class="src-col" data-product="chat">
         <h3>Claude Chat</h3>
         <ul class="src-list">
-          <li><a href="https://support.claude.com/en/articles/9487310-what-are-artifacts-and-how-do-i-use-them" target="_blank" rel="noopener">Artifacts — Claude Help Center<span class="url">support.claude.com/en/articles/9487310</span></a></li>
+          <li><a href="https://support.claude.com/en/articles/9487310-what-are-artifacts-and-how-do-i-use-them" target="_blank" rel="noopener">Artifacts. Claude Help Center<span class="url">support.claude.com/en/articles/9487310</span></a></li>
           <li><a href="https://docs.claude.com/en/api/overview" target="_blank" rel="noopener">Claude API docs overview<span class="url">docs.claude.com/en/api/overview</span></a></li>
           <li><a href="https://www.anthropic.com/news" target="_blank" rel="noopener">Anthropic product news<span class="url">anthropic.com/news</span></a></li>
         </ul>
@@ -4805,7 +4844,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       <div class="src-col" data-product="cowork">
         <h3>Claude Cowork</h3>
         <ul class="src-list">
-          <li><a href="https://www.anthropic.com/product/claude-cowork" target="_blank" rel="noopener">Claude Cowork — product page<span class="url">anthropic.com/product/claude-cowork</span></a></li>
+          <li><a href="https://www.anthropic.com/product/claude-cowork" target="_blank" rel="noopener">Claude Cowork.product page<span class="url">anthropic.com/product/claude-cowork</span></a></li>
           <li><a href="https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork" target="_blank" rel="noopener">Get started with Claude Cowork<span class="url">support.claude.com/.../13345190</span></a></li>
           <li><a href="https://support.claude.com/en/articles/13455879-use-claude-cowork-on-team-and-enterprise-plans" target="_blank" rel="noopener">Cowork on Team &amp; Enterprise plans<span class="url">support.claude.com/.../13455879</span></a></li>
         </ul>
@@ -4814,7 +4853,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       <div class="src-col" data-product="code">
         <h3>Claude Code</h3>
         <ul class="src-list">
-          <li><a href="https://claude.com/product/claude-code" target="_blank" rel="noopener">Claude Code — product page<span class="url">claude.com/product/claude-code</span></a></li>
+          <li><a href="https://claude.com/product/claude-code" target="_blank" rel="noopener">Claude Code.product page<span class="url">claude.com/product/claude-code</span></a></li>
           <li><a href="https://code.claude.com/docs/en/overview" target="_blank" rel="noopener">Claude Code docs overview<span class="url">code.claude.com/docs/en/overview</span></a></li>
           <li><a href="https://github.com/anthropics/claude-code" target="_blank" rel="noopener">anthropics/claude-code on GitHub<span class="url">github.com/anthropics/claude-code</span></a></li>
         </ul>
@@ -4832,7 +4871,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
     <aside class="recco reveal" role="note" aria-label="Verification note" style="margin-top: 2.5rem;">
       <span class="recco-label">Verification note</span>
-      <p class="recco-body">Product surfaces ship quickly; specifics here reflect the May 2026 state. Before quoting figures externally (the 2-4× velocity number, the 3.3× Opus 4.7 vision improvement, the Cowork launch dates), <strong>re-verify against the linked Anthropic source</strong> — those numbers are right today but won't necessarily be right in six months.</p>
+      <p class="recco-body">Product surfaces ship quickly; specifics here reflect the May 2026 state. Before quoting figures externally (the 2-4× velocity number, the 3.3× Opus 4.7 vision improvement, the Cowork launch dates), <strong>re-verify against the linked Anthropic source</strong>. those numbers are right today but won't necessarily be right in six months.</p>
     </aside>
   </section>
 
@@ -4842,7 +4881,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
   <div class="foot-grid">
     <div>
       <p class="foot-brand">The Claude Stack <span class="amp">&amp;</span></p>
-      <p class="foot-tagline">A field guide to Anthropic's four products — Chat, Cowork, Code, and Design. Written for the people who use them daily, not the people who write the press releases.</p>
+      <p class="foot-tagline">A field guide to Anthropic's four products. Chat, Cowork, Code, and Design. Written for the people who use them daily, not the people who write the press releases.</p>
     </div>
     <div class="foot-col">
       <h4>Jump</h4>
@@ -4869,7 +4908,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
   <div class="foot-grid">
     <div class="colophon">
-      <span class="set">Lex Sánchez · G2 · Product Builder — 2026</span>
+      <span class="set">Lex Sánchez · G2 · Product Builder.2026</span>
       <span class="set">Set in Oswald, Poppins &amp; Geist Mono</span>
       <span class="set">Last verified <time datetime="2026-05-22">22 May 2026</time></span>
     </div>
@@ -4878,7 +4917,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
 <script>
 /* ------------------------------------------------------------------
-   THE CLAUDE STACK — interactivity (foundation)
+   THE CLAUDE STACK.interactivity (foundation)
    ------------------------------------------------------------------ */
 (function () {
   'use strict';
@@ -5011,8 +5050,8 @@ section[id], .hero { scroll-margin-top: 5rem; }
   }
 
   // Expose a helper for future checkpoints to register elements after DOM updates
-  window.TCS = window.TCS || {};
-  window.TCS.observeReveal = function (els) {
+  window. TCS = window. TCS || {};
+  window. TCS.observeReveal = function (els) {
     if (!motionAllowed() || !('IntersectionObserver' in window)) {
       els.forEach(el => el.classList.add('in-view'));
       return;
@@ -5029,7 +5068,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
   };
 
   /* ---------- Live region hook for future demos ------------------ */
-  window.TCS.announce = function (msg) {
+  window. TCS.announce = function (msg) {
     const live = document.getElementById('liveRegion');
     if (live) { live.textContent = msg; }
   };
@@ -5043,7 +5082,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
   }
 
   /* ---------------------------------------------------------------
-     EXTENDED MOTION — Lenis smooth scroll, cursor glow, more reveals
+     EXTENDED MOTION.Lenis smooth scroll, cursor glow, more reveals
      --------------------------------------------------------------- */
   // 1. Add .reveal to grid children + register with shared observer for stagger
   (function extendReveals() {
@@ -5053,17 +5092,17 @@ section[id], .hero { scroll-margin-top: 5rem; }
     candidates.forEach(el => {
       if (!el.classList.contains('reveal')) el.classList.add('reveal');
     });
-    if (window.TCS && window.TCS.observeReveal) {
-      window.TCS.observeReveal(candidates);
+    if (window. TCS && window. TCS.observeReveal) {
+      window. TCS.observeReveal(candidates);
     }
   })();
 
-  // 2. Lenis smooth scroll — opt-out for reduced motion / paused
+  // 2. Lenis smooth scroll.opt-out for reduced motion / paused
   (function initLenis() {
     if (isInstant()) return;
     function go() {
-      if (!window.Lenis) return setTimeout(go, 150);
-      const lenis = new window.Lenis({
+      if (!window. Lenis) return setTimeout(go, 150);
+      const lenis = new window. Lenis({
         duration: 1.35,
         easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
         smoothWheel: true,
@@ -5081,7 +5120,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
     go();
   })();
 
-  // 3. Anchor links — route through Lenis when available
+  // 3. Anchor links.route through Lenis when available
   document.addEventListener('click', function (e) {
     const link = e.target.closest('a[href^="#"]');
     if (!link) return;
@@ -5095,7 +5134,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
     }
   });
 
-  // 4. Cursor glow follower — only on hover-capable devices, only when motion allowed
+  // 4. Cursor glow follower.only on hover-capable devices, only when motion allowed
   (function initCursorGlow() {
     const glow = document.querySelector('.cursor-glow');
     if (!glow) return;
@@ -5129,7 +5168,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
   })();
 
   /* ---------------------------------------------------------------
-     CHAT DEMO — prompt → typing → stream → artifact
+     CHAT DEMO.prompt → typing → stream → artifact
      --------------------------------------------------------------- */
   (function initChatDemo() {
     const demo = document.getElementById('chatDemo');
@@ -5144,7 +5183,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
     const replayBtn   = demo.querySelector('[data-demo-replay="chat"]');
 
     const USER_TXT   = 'Build me a live dashboard of my tasks due this week, grouped by project. Make it re-openable.';
-    const CLAUDE_TXT = "Pulling from your Asana connector now. Here's a Live Artifact you can pin to your Project — it'll refetch each time you reopen it.";
+    const CLAUDE_TXT = "Pulling from your Asana connector now. Here's a Live Artifact you can pin to your Project.it'll refetch each time you reopen it.";
 
     let token = 0;
 
@@ -5222,7 +5261,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
   })();
 
   /* ---------------------------------------------------------------
-     COWORK DEMO — permission toggle + file reorganize
+     COWORK DEMO.permission toggle + file reorganize
      --------------------------------------------------------------- */
   (function initCoworkDemo() {
     const demo = document.getElementById('coworkDemo');
@@ -5375,7 +5414,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
   })();
 
   /* ---------------------------------------------------------------
-     CODE DEMO — fake terminal session
+     CODE DEMO.fake terminal session
      --------------------------------------------------------------- */
   (function initCodeDemo() {
     const demo = document.getElementById('codeDemo');
@@ -5383,7 +5422,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
     const body = document.getElementById('termBody');
     const replayBtn = demo.querySelector('[data-demo-replay="code"]');
 
-    // Script — each entry: {cls, text, type?, delay?, prompt?}
+    // Script.each entry: {cls, text, type?, delay?, prompt?}
     const SCRIPT = [
       { cls: 'prompt', cmd: true, text: 'claude "fix the failing test in auth.spec.ts"', type: true, delay: 200 },
       { cls: 'dim', text: '· Mapping codebase…', delay: 380 },
@@ -5391,7 +5430,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       { cls: 'dim', text: '→ Reading src/auth/jwt.ts (the SUT)', delay: 220 },
       { cls: 'warn', text: '→ Suspected: token expiry comparison uses ms not s', delay: 480 },
       { cls: 'heading', text: '', delay: 200 },
-      { cls: 'heading', text: 'Proposing patch — src/auth/jwt.ts', delay: 220 },
+      { cls: 'heading', text: 'Proposing patch.src/auth/jwt.ts', delay: 220 },
       { cls: 'diff-meta', text: '@@ -41,6 +41,6 @@', delay: 140 },
       { cls: 'diff-meta', text: '    function isExpired(token) {', delay: 80 },
       { cls: 'diff-meta', text: '      const decoded = decode(token);', delay: 80 },
@@ -5520,11 +5559,11 @@ section[id], .hero { scroll-margin-top: 5rem; }
   })();
 
   /* ---------------------------------------------------------------
-     WIZARD — first-visit personalization
+     WIZARD.first-visit personalization
      --------------------------------------------------------------- */
   const LS_PROFILE = 'tcs.profile.v1';
 
-  /* Skill catalog — what each skill is and where it lives.
+  /* Skill catalog.what each skill is and where it lives.
      Sources: anthropics/skills (official) + custom + third-party. */
   const SKILLS = {
     'ds-architect': {
@@ -5532,7 +5571,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       source: 'custom',
       sourceLabel: 'lsanchez-g2',
       url:  'https://github.com/lsanchez-g2/ds-architect',
-      desc: 'Build and audit team design systems with Claude. Lex Sánchez’s skill — required reading for designers at G2.'
+      desc: 'Required reading for designers who work with Design Systems. Builds and audits team design systems with Claude.'
     },
     'frontend-design': {
       name: 'frontend-design',
@@ -5546,42 +5585,42 @@ section[id], .hero { scroll-margin-top: 5rem; }
       source: 'anthropic',
       sourceLabel: 'Anthropic',
       url:  'https://github.com/anthropics/skills/tree/main/skills/canvas-design',
-      desc: 'Visual design workflows on Claude’s canvas — moodboards, mockups, system maps.'
+      desc: 'Visual design workflows on Claude’s canvas.moodboards, mockups, system maps.'
     },
     'theme-factory': {
       name: 'theme-factory',
       source: 'anthropic',
       sourceLabel: 'Anthropic',
       url:  'https://github.com/anthropics/skills/tree/main/skills/theme-factory',
-      desc: 'Generate UI themes — token sets, palette systems, dark/light variants ready to drop in.'
+      desc: 'Generate UI themes.token sets, palette systems, dark/light variants ready to drop in.'
     },
     'brand-guidelines': {
       name: 'brand-guidelines',
       source: 'anthropic',
       sourceLabel: 'Anthropic',
       url:  'https://github.com/anthropics/skills/tree/main/skills/brand-guidelines',
-      desc: 'Capture and apply brand systems — voice, color, type, tone, dos &amp; don’ts.'
+      desc: 'Capture and apply brand systems.voice, color, type, tone, dos &amp; don’ts.'
     },
     'web-artifacts-builder': {
       name: 'web-artifacts-builder',
       source: 'anthropic',
       sourceLabel: 'Anthropic',
       url:  'https://github.com/anthropics/skills/tree/main/skills/web-artifacts-builder',
-      desc: 'Build interactive HTML artifacts — dashboards, trackers, internal mini-tools.'
+      desc: 'Build interactive HTML artifacts.dashboards, trackers, internal mini-tools.'
     },
     'algorithmic-art': {
       name: 'algorithmic-art',
       source: 'anthropic',
       sourceLabel: 'Anthropic',
       url:  'https://github.com/anthropics/skills/tree/main/skills/algorithmic-art',
-      desc: 'Generative art and procedural visuals — SVG, canvas, shader experiments.'
+      desc: 'Generative art and procedural visuals. SVG, canvas, shader experiments.'
     },
     'docx': {
       name: 'docx',
       source: 'anthropic',
       sourceLabel: 'Anthropic',
       url:  'https://github.com/anthropics/skills/tree/main/skills/docx',
-      desc: 'Create, read, and edit Word documents — memos, briefs, reports with tables and images.'
+      desc: 'Create, read, and edit Word documents.memos, briefs, reports with tables and images.'
     },
     'pptx': {
       name: 'pptx',
@@ -5609,28 +5648,28 @@ section[id], .hero { scroll-margin-top: 5rem; }
       source: 'anthropic',
       sourceLabel: 'Anthropic',
       url:  'https://github.com/anthropics/skills/tree/main/skills/skill-creator',
-      desc: 'Create, edit, and benchmark your own skills. The meta-skill — start here when you want to codify a workflow.'
+      desc: 'Create, edit, and benchmark your own skills. The meta-skill.start here when you want to codify a workflow.'
     },
     'mcp-builder': {
       name: 'mcp-builder',
       source: 'anthropic',
       sourceLabel: 'Anthropic',
       url:  'https://github.com/anthropics/skills/tree/main/skills/mcp-builder',
-      desc: 'Build MCP servers for your team’s tools — connectors as code.'
+      desc: 'Build MCP servers for your team’s tools.connectors as code.'
     },
     'webapp-testing': {
       name: 'webapp-testing',
       source: 'anthropic',
       sourceLabel: 'Anthropic',
       url:  'https://github.com/anthropics/skills/tree/main/skills/webapp-testing',
-      desc: 'Test automation flows for web apps — flows, fixtures, expectations.'
+      desc: 'Test automation flows for web apps.flows, fixtures, expectations.'
     },
     'claude-api': {
       name: 'claude-api',
       source: 'anthropic',
       sourceLabel: 'Anthropic',
       url:  'https://github.com/anthropics/skills/tree/main/skills/claude-api',
-      desc: 'Anthropic API helpers — request shapes, examples, common patterns.'
+      desc: 'Anthropic API helpers.request shapes, examples, common patterns.'
     },
     'internal-comms': {
       name: 'internal-comms',
@@ -5644,7 +5683,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       source: 'anthropic',
       sourceLabel: 'Anthropic',
       url:  'https://github.com/anthropics/skills/tree/main/skills/slack-gif-creator',
-      desc: 'Generate small GIFs for Slack — lighten team comms.'
+      desc: 'Generate small GIFs for Slack.lighten team comms.'
     },
     'doc-coauthoring': {
       name: 'doc-coauthoring',
@@ -5658,113 +5697,256 @@ section[id], .hero { scroll-margin-top: 5rem; }
       source: 'third-party',
       sourceLabel: '3rd party · MIT',
       url:  'https://github.com/unicorn-plugins/claude-skills/tree/main/skills/product-self-knowledge',
-      desc: 'Differentiate Claude.ai, Claude Code, and Claude API. Always cite official URLs — guardrail against hallucinated specs.'
+      desc: 'Differentiate Claude.ai, Claude Code, and Claude API. Always cite official URLs.guardrail against hallucinated specs.'
     },
     'consolidate-memory': {
       name: 'consolidate-memory',
       source: 'anthropic',
       sourceLabel: 'Anthropic',
-      desc: 'Reflective pass over memory — merge duplicates, fix stale facts, prune the index.'
+      desc: 'Reflective pass over memory.merge duplicates, fix stale facts, prune the index.'
     },
     'schedule': {
       name: 'schedule',
       source: 'anthropic',
       sourceLabel: 'Anthropic',
-      desc: 'Create or update scheduled tasks — daily briefings, weekly digests, one-offs.'
+      desc: 'Create or update scheduled tasks.daily briefings, weekly digests, one-offs.'
     },
     'setup-cowork': {
       name: 'setup-cowork',
       source: 'anthropic',
       sourceLabel: 'Anthropic',
-      desc: 'Guided Cowork setup — install role-matched plugins and connect your tools.'
+      desc: 'Guided Cowork setup. Installs role-matched plugins and connects your tools.'
+    },
+
+    /* ──────────────── COMMUNITY & THIRD-PARTY SKILLS ──────────────── */
+    'playwright-skill': {
+      name: 'playwright-skill',
+      source: 'community',
+      sourceLabel: 'lackeyjb',
+      url:  'https://github.com/lackeyjb/playwright-skill',
+      desc: 'Browser automation via Playwright. Claude writes and runs test flows on the fly.'
+    },
+    'superpowers': {
+      name: 'superpowers',
+      source: 'community',
+      sourceLabel: 'obra',
+      url:  'https://github.com/obra/superpowers',
+      desc: 'The largest community skill pack. Drop-in upgrade for Claude Code with better patterns, prompts, and workflows.'
+    },
+    'excalidraw': {
+      name: 'excalidraw-skill',
+      source: 'community',
+      sourceLabel: 'community',
+      url:  'https://github.com/travisvn/awesome-claude-skills',
+      desc: 'Generate Excalidraw diagrams from natural language. Renders, reviews its own output, and corrects layout.'
+    },
+    'figma-bridge': {
+      name: 'figma-bridge',
+      source: 'community',
+      sourceLabel: 'community',
+      desc: 'Pull Figma frames, components, and tokens into Claude. Stops the manual export-import cycle.'
+    },
+    'design-tokens': {
+      name: 'design-tokens',
+      source: 'community',
+      sourceLabel: 'community',
+      desc: 'Audit and unify design tokens across codebases. Surfaces drift between Figma and code.'
+    },
+    'design-critic': {
+      name: 'design-critic',
+      source: 'community',
+      sourceLabel: 'community',
+      desc: 'Honest UI critique against design principles. Less polite than your team, faster than a review.'
+    },
+    'prd-writer': {
+      name: 'prd-writer',
+      source: 'community',
+      sourceLabel: 'community',
+      desc: 'PRD scaffolding with examples baked in. Skips the blank-page problem on new specs.'
+    },
+    'user-research-synth': {
+      name: 'user-research-synth',
+      source: 'community',
+      sourceLabel: 'community',
+      desc: 'Cluster interview transcripts into themes with quote-level citations.'
+    },
+    'roadmap-builder': {
+      name: 'roadmap-builder',
+      source: 'community',
+      sourceLabel: 'community',
+      desc: 'Live roadmap artifacts with status badges. Keeps a quarterly view alive without manual updates.'
+    },
+    'exec-brief': {
+      name: 'exec-brief',
+      source: 'community',
+      sourceLabel: 'community',
+      desc: 'Long documents become one-page executive briefs. Keeps the numbers and decisions, drops the warm-up.'
+    },
+    'board-deck': {
+      name: 'board-deck',
+      source: 'community',
+      sourceLabel: 'community',
+      desc: 'Strategic decks with narrative plus the numbers. Drafts you can finish in 20 minutes.'
+    },
+    'competitive-watch': {
+      name: 'competitive-watch',
+      source: 'community',
+      sourceLabel: 'community',
+      desc: 'Weekly competitor intel digest. Picks named competitors, watches public surfaces, summarises the moves.'
+    },
+    'okr-builder': {
+      name: 'okr-builder',
+      source: 'community',
+      sourceLabel: 'community',
+      desc: 'Quarterly OKRs with a measurement plan attached. Not just headlines, actual numbers.'
+    },
+    'dovetail-bridge': {
+      name: 'dovetail-bridge',
+      source: 'community',
+      sourceLabel: 'community',
+      desc: 'Bridge to Dovetail and Notion research systems. Reads your actual study notes.'
+    },
+    'interview-coach': {
+      name: 'interview-coach',
+      source: 'community',
+      sourceLabel: 'community',
+      desc: 'Coaches you through tough interview moments live. Probes, follow-ups, when to shut up.'
+    },
+    'survey-builder': {
+      name: 'survey-builder',
+      source: 'community',
+      sourceLabel: 'community',
+      desc: 'Methodologically sound survey designs. Watches for leading questions and bias.'
+    },
+    'invoice-tamer': {
+      name: 'invoice-tamer',
+      source: 'community',
+      sourceLabel: 'community',
+      desc: 'Classify, rename, and file invoices automatically. Tax season without the dread.'
+    },
+    'contract-redliner': {
+      name: 'contract-redliner',
+      source: 'community',
+      sourceLabel: 'community',
+      desc: 'Diff contract drafts against your standard template. Surfaces every deviation worth a redline.'
+    },
+    'crm-tidier': {
+      name: 'crm-tidier',
+      source: 'community',
+      sourceLabel: 'community',
+      desc: 'Sweep duplicate and stale records in your CRM. Keeps the pipeline honest.'
+    },
+    'inbox-zero': {
+      name: 'inbox-zero',
+      source: 'community',
+      sourceLabel: 'community',
+      desc: 'Triage and respond to email in your house tone. Bulk-confident, never out of voice.'
+    },
+    'db-migrations': {
+      name: 'db-migrations',
+      source: 'community',
+      sourceLabel: 'community',
+      desc: 'Generate safe Postgres migrations. Refuses to drop columns without an explicit override.'
+    },
+    'ci-debugger': {
+      name: 'ci-debugger',
+      source: 'community',
+      sourceLabel: 'community',
+      desc: 'Triage failing CI runs from log dumps. Points straight at the line that broke things.'
+    },
+    'docs-from-code': {
+      name: 'docs-from-code',
+      source: 'community',
+      sourceLabel: 'community',
+      desc: 'Generate developer docs from code. README, API tables, architectural overviews.'
     }
   };
 
   /* Per-role: ordered list of 10 skill IDs, with optional mandatory flag. */
   const SKILLS_BY_ROLE = {
     designer: [
-      { id: 'ds-architect', mandatory: true },
+      { id: 'ds-architect', recommended: true },
       { id: 'frontend-design' },
+      { id: 'figma-bridge' },
+      { id: 'design-tokens' },
+      { id: 'design-critic' },
       { id: 'canvas-design' },
-      { id: 'theme-factory' },
       { id: 'brand-guidelines' },
       { id: 'pptx' },
-      { id: 'pdf' },
-      { id: 'docx' },
       { id: 'web-artifacts-builder' },
-      { id: 'skill-creator' }
+      { id: 'theme-factory' }
     ],
     pm: [
+      { id: 'prd-writer' },
+      { id: 'roadmap-builder' },
+      { id: 'user-research-synth' },
+      { id: 'exec-brief' },
       { id: 'docx' },
       { id: 'pptx' },
       { id: 'xlsx' },
-      { id: 'pdf' },
       { id: 'schedule' },
       { id: 'setup-cowork' },
-      { id: 'web-artifacts-builder' },
-      { id: 'internal-comms' },
-      { id: 'consolidate-memory' },
-      { id: 'product-self-knowledge' }
+      { id: 'web-artifacts-builder' }
     ],
     engineer: [
-      { id: 'frontend-design' },
+      { id: 'playwright-skill' },
+      { id: 'superpowers' },
       { id: 'mcp-builder' },
       { id: 'skill-creator' },
-      { id: 'webapp-testing' },
+      { id: 'frontend-design' },
+      { id: 'docs-from-code' },
+      { id: 'ci-debugger' },
+      { id: 'db-migrations' },
       { id: 'claude-api' },
-      { id: 'web-artifacts-builder' },
-      { id: 'docx' },
-      { id: 'schedule' },
-      { id: 'setup-cowork' },
-      { id: 'consolidate-memory' }
+      { id: 'web-artifacts-builder' }
     ],
     leader: [
+      { id: 'exec-brief' },
+      { id: 'board-deck' },
+      { id: 'competitive-watch' },
+      { id: 'okr-builder' },
       { id: 'pptx' },
       { id: 'docx' },
       { id: 'xlsx' },
-      { id: 'pdf' },
       { id: 'schedule' },
       { id: 'internal-comms' },
+      { id: 'web-artifacts-builder' }
+    ],
+    researcher: [
+      { id: 'user-research-synth' },
+      { id: 'interview-coach' },
+      { id: 'dovetail-bridge' },
+      { id: 'survey-builder' },
+      { id: 'docx' },
+      { id: 'pptx' },
       { id: 'web-artifacts-builder' },
       { id: 'consolidate-memory' },
       { id: 'setup-cowork' },
-      { id: 'product-self-knowledge' }
+      { id: 'doc-coauthoring' }
     ],
-    researcher: [
-      { id: 'docx' },
-      { id: 'pptx' },
-      { id: 'pdf' },
+    operator: [
+      { id: 'invoice-tamer' },
+      { id: 'contract-redliner' },
+      { id: 'crm-tidier' },
+      { id: 'inbox-zero' },
       { id: 'xlsx' },
-      { id: 'web-artifacts-builder' },
-      { id: 'doc-coauthoring' },
+      { id: 'pdf' },
+      { id: 'docx' },
       { id: 'schedule' },
-      { id: 'consolidate-memory' },
       { id: 'setup-cowork' },
       { id: 'internal-comms' }
     ],
-    operator: [
-      { id: 'xlsx' },
-      { id: 'pdf' },
-      { id: 'docx' },
-      { id: 'pptx' },
-      { id: 'schedule' },
-      { id: 'setup-cowork' },
-      { id: 'internal-comms' },
-      { id: 'slack-gif-creator' },
-      { id: 'consolidate-memory' },
-      { id: 'web-artifacts-builder' }
-    ],
     other: [
+      { id: 'superpowers' },
       { id: 'setup-cowork' },
+      { id: 'skill-creator' },
+      { id: 'excalidraw' },
       { id: 'docx' },
       { id: 'pptx' },
       { id: 'xlsx' },
       { id: 'pdf' },
-      { id: 'schedule' },
-      { id: 'skill-creator' },
-      { id: 'frontend-design' },
       { id: 'web-artifacts-builder' },
-      { id: 'consolidate-memory' }
+      { id: 'schedule' }
     ]
   };
 
@@ -5775,7 +5957,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       persona: 'designer',
       step2: {
         title: 'What kind of design work fills your days?',
-        lede: 'Pick the one you do most — we will prioritise the right Claude surface.',
+        lede: 'Pick the one you do most.we will prioritise the right Claude surface.',
         options: [
           { id: 'ui',           name: 'UI / visual design',         desc: 'Screens, components, polish.' },
           { id: 'system',       name: 'Design systems',             desc: 'Tokens, components, library upkeep.' },
@@ -5810,9 +5992,9 @@ section[id], .hero { scroll-margin-top: 5rem; }
         title: 'Do you work directly with files on your computer?',
         lede: 'Decides whether Cowork or Chat becomes your primary surface.',
         options: [
-          { id: 'yes',     name: 'Yes — Drive, Desktop, Notes',     desc: 'Lots of local files.' },
+          { id: 'yes',     name: 'Yes. Drive, Desktop, Notes',     desc: 'Lots of local files.' },
           { id: 'sometimes', name: 'Sometimes',                       desc: 'Mostly cloud, occasionally local.' },
-          { id: 'no',      name: 'No — everything is in cloud tools', desc: 'Notion, Asana, Linear, Slack.' }
+          { id: 'no',      name: 'No.everything is in cloud tools', desc: 'Notion, Asana, Linear, Slack.' }
         ]
       }
     },
@@ -5833,7 +6015,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
         title: 'How comfortable are you in the terminal?',
         lede: 'Decides whether we lead with CLI or desktop app.',
         options: [
-          { id: 'native',   name: 'Native — terminal first',      desc: 'CLI, zsh aliases, tmux.' },
+          { id: 'native',   name: 'Native.terminal first',      desc: 'CLI, zsh aliases, tmux.' },
           { id: 'fluent',   name: 'Fluent but happy with both',   desc: 'I switch surfaces.' },
           { id: 'app',      name: 'I prefer apps over terminals', desc: 'Use the Code desktop app.' }
         ]
@@ -5867,7 +6049,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       persona: 'researcher',
       step2: {
         title: 'What kind of research dominates your week?',
-        lede: 'Pick the dominant mode — we will prioritise the right tools.',
+        lede: 'Pick the dominant mode.we will prioritise the right tools.',
         options: [
           { id: 'generative', name: 'Generative',           desc: 'Discovery interviews, ethnography, exploratory.' },
           { id: 'evaluative', name: 'Evaluative',           desc: 'Usability tests, surveys, comparative studies.' },
@@ -5921,8 +6103,8 @@ section[id], .hero { scroll-margin-top: 5rem; }
   function recommend(role, a2, a3) {
     // Products listed in priority. All 4 always included.
     // playbook ∈ {spec-to-ship | inbox-to-insight | repo-to-refactor}
-    // highlights = { chat: [...], cowork: [...], code: [...], design: [...] } — capabilities by title key
-    // fold = ['chat','cowork','code','design'] — sections to de-emphasize
+    // highlights = { chat: [...], cowork: [...], code: [...], design: [...] }.capabilities by title key
+    // fold = ['chat','cowork','code','design'].sections to de-emphasize
 
     const REC = {
       products: ['chat', 'cowork', 'code', 'design'],
@@ -5947,7 +6129,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       if (a2 === 'presentation') REC.highlights.design = ['Multi-format exports', 'Team design system, auto-built'];
       REC.prompts = [
         (a2 === 'system')
-          ? 'Generate a Claude Code handoff bundle from this prototype — spec.json + tokens.css + layout.tsx + assets — ready for the front-end repo.'
+          ? 'Generate a Claude Code handoff bundle from this prototype.spec.json + tokens.css + layout.tsx + assets.ready for the front-end repo.'
           : (a2 === 'presentation')
             ? 'Take my notes and build a 6-slide review deck using the team design system. Export as PPTX and a Canva link.'
             : (a2 === 'prototype')
@@ -5956,7 +6138,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
         'Read our codebase + design files. Show me the inferred design system before I lock it in.',
         (a3 === 'yes')
           ? 'In Claude Code: pick up this handoff bundle and scaffold the route in apps/web/.'
-          : 'Build a one-pager for the design review meeting — same brand, PDF output.'
+          : 'Build a one-pager for the design review meeting.same brand, PDF output.'
       ];
       if (a3 === 'no') REC.fold = ['code'];
       if (a2 !== 'presentation' && a3 !== 'yes') REC.fold = ['cowork'];
@@ -6237,7 +6419,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
         // Short pause for visual confirmation, then advance
         setTimeout(() => {
           if (state.role === 'other') {
-            // Skip to finish — no follow-up questions.
+            // Skip to finish.no follow-up questions.
             finish();
           } else {
             state.step = 2;
@@ -6256,7 +6438,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
     }));
     wiz.querySelectorAll('[data-wiz-finish]').forEach(b => b.addEventListener('click', finish));
 
-    // Skip — clear any saved profile, close
+    // Skip.clear any saved profile, close
     skipBtn.addEventListener('click', () => {
       clearProfile();
       applyProfile(null);
@@ -6288,7 +6470,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
     if (existing) {
       applyProfile(existing);
     } else {
-      // First visit — open wizard after a short delay (lets the hero render first)
+      // First visit.open wizard after a short delay (lets the hero render first)
       setTimeout(openWizard, 600);
     }
   }
@@ -6343,7 +6525,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
     if (label) label.textContent = 'Edit profile';
     navEditBtn.setAttribute('aria-label', 'Edit your profile');
 
-    // Heading — explicit per-role label avoids "an UX" type errors
+    // Heading.explicit per-role label avoids "an UX" type errors
     const PATH_NAME = {
       designer:   'a Designer',
       pm:         'a Product Manager',
@@ -6388,19 +6570,21 @@ section[id], .hero { scroll-margin-top: 5rem; }
     pathPbDesc.textContent = pb.desc;
     pathPbLink.href = '#playbooks';
 
-    // Skills — render the role's top 10 as detailed cards
+    // Skills.render the role's top 10 as detailed cards
     pathSkillRow.innerHTML = '';
     const skillList = SKILLS_BY_ROLE[profile.role] || SKILLS_BY_ROLE.other;
     skillList.forEach(entry => {
       const meta = SKILLS[entry.id];
       if (!meta) return;
       const li = document.createElement('li');
-      li.className = 'skill-card' + (entry.mandatory ? ' is-mandatory' : '');
+      li.className = 'skill-card' + (entry.mandatory ? ' is-mandatory' : '') + (entry.recommended ? ' is-recommended' : '');
 
       const tags = [];
-      if (entry.mandatory) tags.push('<span class="skill-tag mandatory"><svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>Mandatory</span>');
+      if (entry.recommended) tags.push('<span class="skill-tag recommended"><svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>Recommended</span>');
+      if (entry.mandatory)   tags.push('<span class="skill-tag mandatory"><svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>Mandatory</span>');
       if (meta.source === 'anthropic')   tags.push('<span class="skill-tag anthropic">' + meta.sourceLabel + '</span>');
       if (meta.source === 'custom')      tags.push('<span class="skill-tag custom">' + meta.sourceLabel + '</span>');
+      if (meta.source === 'community')   tags.push('<span class="skill-tag community">' + meta.sourceLabel + '</span>');
       if (meta.source === 'third-party') tags.push('<span class="skill-tag third-party">' + meta.sourceLabel + '</span>');
 
       const nameHtml = meta.url
@@ -6461,7 +6645,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
   }
 
   /* ---------------------------------------------------------------
-     PLAYBOOKS — add .in-view on scroll for stations to animate
+     PLAYBOOKS.add .in-view on scroll for stations to animate
      --------------------------------------------------------------- */
   (function initPlaybooks() {
     const playbooks = document.querySelectorAll('.playbook');
@@ -6482,7 +6666,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
   })();
 
   /* ---------------------------------------------------------------
-     DESIGN DEMO — canvas → handoff bundle
+     DESIGN DEMO.canvas → handoff bundle
      --------------------------------------------------------------- */
   (function initDesignDemo() {
     const demo = document.getElementById('designDemo');
@@ -6541,14 +6725,14 @@ section[id], .hero { scroll-margin-top: 5rem; }
       if (isInstant()) {
         status.textContent = fmt + ' exported · 1 file';
         empty.hidden = false;
-        empty.innerHTML = 'Exported as <strong>' + fmt + '</strong>. (Demo only — click <em>Claude Code handoff bundle</em> to see the bundle drop.)';
+        empty.innerHTML = 'Exported as <strong>' + fmt + '</strong>. (Demo only.click <em>Claude Code handoff bundle</em> to see the bundle drop.)';
         return;
       }
       await wait(620);
       if (myToken !== token) return;
       status.textContent = fmt + ' exported · 1 file';
       empty.hidden = false;
-      empty.innerHTML = 'Exported as <strong>' + fmt + '</strong>. (Demo only — click <em>Claude Code handoff bundle</em> to see the bundle drop.)';
+      empty.innerHTML = 'Exported as <strong>' + fmt + '</strong>. (Demo only.click <em>Claude Code handoff bundle</em> to see the bundle drop.)';
     }
 
     allPills.forEach(pill => {
@@ -6576,7 +6760,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
   })();
 
   /* ---------------------------------------------------------------
-     TRIAGE MATRIX — connector animation + product highlight
+     TRIAGE MATRIX.connector animation + product highlight
      --------------------------------------------------------------- */
   (function initMatrix() {
     const stage = document.getElementById('matrixStage');
@@ -6655,9 +6839,9 @@ section[id], .hero { scroll-margin-top: 5rem; }
         void path.getBoundingClientRect();
         path.classList.add('active');
       }
-      window.TCS.announce(
+      window. TCS.announce(
         'Recommended for "' + job.querySelector('.job-text').textContent +
-        '" — ' + (matched ? matched.querySelector('.prod-card-name').textContent : '')
+        '".' + (matched ? matched.querySelector('.prod-card-name').textContent : '')
       );
     }
 
