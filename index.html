@@ -11,37 +11,44 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
+<!-- Lenis: subtle smooth scrolling. ~3KB. Honored only when motion is allowed. -->
+<script defer src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+
 <style>
 /* ------------------------------------------------------------------
    THE CLAUDE STACK — design tokens
    ------------------------------------------------------------------ */
 :root {
   color-scheme: light;
-  /* ───── LIGHT THEME (default) — warm paper, dark ink ───── */
+  /* ───── LIGHT THEME (default) — warm paper, dark ink, G2 red ───── */
   --ink:           #FBF8F1;   /* page background — warm cream paper */
   --ink-deep:      #F2EBDA;   /* slightly deeper bg */
   --paper:         #FFFFFF;   /* cards, surfaces */
   --paper-raised:  #FBF7EC;
   --paper-warm:    #F5EFDF;
+
+  /* Typography — bumped contrast for AA legibility on cream bg */
   --cream:         #18150F;   /* body text — warm dark */
-  --cream-mid:     #4A4339;
-  --cream-dim:     #7A7062;
-  --cream-faint:   #ACA28F;
-  --line:          rgba(24, 21, 15, 0.10);
-  --line-strong:   rgba(24, 21, 15, 0.22);
-  --ember:         #B85A3D;   /* darker ember for contrast on light */
-  --ember-deep:    #8E4326;
-  --ember-glow:    rgba(184, 90, 61, 0.14);
+  --cream-mid:     #3D3830;   /* was #4A4339 — darker for prose */
+  --cream-dim:     #5C5448;   /* was #7A7062 — darker for secondary text */
+  --cream-faint:   #897F6E;   /* was #ACA28F — darker for tertiary labels */
 
-  /* Per-product accents — darkened for legibility on light bg */
-  --chat:    #A36F1F;
-  --cowork:  #3E6A40;
-  --code:    #0F7146;
-  --design:  #6B3FA8;
+  --line:          rgba(24, 21, 15, 0.12);
+  --line-strong:   rgba(24, 21, 15, 0.24);
 
-  /* Text color that always stays dark — for use on bright accent backgrounds
-     regardless of theme (e.g. buttons, badges with ember/chat/design fills). */
-  --on-accent: #18150F;
+  /* Primary brand: G2 red. Used as the dominant accent. */
+  --ember:         #CC3A23;
+  --ember-deep:    #A22B17;
+  --ember-glow:    rgba(204, 58, 35, 0.14);
+
+  /* Per-product accents — darkened for AA legibility on light bg */
+  --chat:    #8E5910;   /* deeper amber */
+  --cowork:  #335A37;   /* deeper moss */
+  --code:    #0A5A38;   /* deeper green */
+  --design:  #5C36A1;   /* deeper orchid */
+
+  /* Always-dark text for use on bright accent backgrounds */
+  --on-accent: #FFFFFF;   /* text on G2 red — white reads cleanly at AA */
 
   /* Typography */
   --display: 'Oswald', 'Helvetica Neue Condensed', 'Helvetica Neue', sans-serif;
@@ -60,9 +67,32 @@
   --fs-4xl:  clamp(2.75rem, 5vw + 1rem, 4.25rem);
   --fs-5xl:  clamp(3.5rem, 8vw + 1rem, 6.75rem);
 
-  /* Spacing */
-  --pad-section: clamp(4rem, 9vw, 8rem);
-  --pad-inner:   clamp(1.25rem, 4vw, 2.5rem);
+  /* ───── 8pt SPACING SCALE — senior-designer rhythm ─────
+     Every margin and gap on the page draws from this scale. */
+  --s-1:   0.25rem;   /*  4 */
+  --s-2:   0.5rem;    /*  8 */
+  --s-3:   0.75rem;   /* 12 */
+  --s-4:   1rem;      /* 16 */
+  --s-5:   1.25rem;   /* 20 */
+  --s-6:   1.5rem;    /* 24 */
+  --s-8:   2rem;      /* 32 */
+  --s-10:  2.5rem;    /* 40 */
+  --s-12:  3rem;      /* 48 */
+  --s-14:  3.5rem;    /* 56 */
+  --s-16:  4rem;      /* 64 */
+  --s-20:  5rem;      /* 80 */
+  --s-24:  6rem;      /* 96 */
+  --s-32:  8rem;      /* 128 */
+
+  /* Semantic tokens — used everywhere. Change ONLY here. */
+  --section-y:   clamp(var(--s-16), 9vw, var(--s-24));   /* between major sections */
+  --block-gap:   var(--s-12);                            /* between blocks inside a section */
+  --stack-gap:   var(--s-6);                             /* between stacked elements inside a block */
+  --inline-gap:  var(--s-3);                             /* between inline items */
+
+  /* Legacy aliases (used in many places already) */
+  --pad-section: var(--section-y);
+  --pad-inner:   clamp(var(--s-5), 4vw, var(--s-10));
   --max-w:       76rem;
   --max-w-read:  44rem;
 
@@ -92,17 +122,23 @@ html[data-theme="dark"] {
   --cream:         #F2EBDA;
   --cream-mid:     #C9C1AE;
   --cream-dim:     #968D7B;
-  --cream-faint:   #635B4D;
-  --line:          rgba(242, 235, 218, 0.09);
-  --line-strong:   rgba(242, 235, 218, 0.18);
-  --ember:         #D97757;
-  --ember-deep:    #A85A40;
-  --ember-glow:    rgba(217, 119, 87, 0.18);
+  --cream-faint:   #7A7160;     /* slightly lighter for AA on dark bg */
+  --line:          rgba(242, 235, 218, 0.10);
+  --line-strong:   rgba(242, 235, 218, 0.22);
 
+  /* G2 red — slightly lifted for dark-bg legibility */
+  --ember:         #E25A45;
+  --ember-deep:    #B83D27;
+  --ember-glow:    rgba(226, 90, 69, 0.18);
+
+  /* Brighter per-product accents on dark */
   --chat:    #E9B25E;
   --cowork:  #7FAE7F;
   --code:    #5BE3A4;
   --design:  #C893F6;
+
+  /* On bright accent: still white (text stays legible on G2 red in both themes) */
+  --on-accent: #FFFFFF;
 }
 
 /* ───── Smooth theme transition ───── */
@@ -119,8 +155,8 @@ body, .nav, .product, .your-path, .wiz-card, .demo, .terminal, .cap, .flow,
 html:not([data-theme="dark"]) body::before { opacity: 0.18; mix-blend-mode: multiply; }
 html:not([data-theme="dark"]) body::after  {
   background:
-    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(184, 90, 61, 0.08), transparent 60%),
-    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(107, 63, 168, 0.04), transparent 70%);
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(204, 58, 35, 0.07), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(92, 54, 161, 0.04), transparent 70%);
 }
 html:not([data-theme="dark"]) header.nav {
   background: linear-gradient(to bottom, rgba(251, 248, 241, 0.88), rgba(251, 248, 241, 0.58));
@@ -211,7 +247,7 @@ body::after {
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(217, 119, 87, 0.10), transparent 60%),
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(226, 90, 69, 0.10), transparent 60%),
     radial-gradient(ellipse 60% 40% at 100% 100%, rgba(200, 147, 246, 0.06), transparent 70%);
   pointer-events: none;
   z-index: 0;
@@ -231,8 +267,8 @@ h1, h2, h3, h4, h5 {
   color: var(--cream);
   margin: 0;
 }
-/* Oswald has no native italic — use Poppins italic for emphasis bits originally
-   styled as italic-serif. Creates intentional font contrast in headings. */
+/* Heading emphasis — keep accent color, drop italic. Per request: state-of-the-art
+   restraint, no slanted titles. The color carries the emphasis. */
 .serif-italic,
 .hero-title .num,
 .section-title .em,
@@ -242,12 +278,16 @@ h1, h2, h3, h4, h5 {
 .path-eyebrow .path-name,
 .path-playbook-name,
 .foot-brand .amp,
-.brand .ampersand {
-  font-family: var(--sans);
-  font-style: italic;
-  font-weight: 500;
-  letter-spacing: -0.005em;
+.brand .ampersand,
+.tldr-pitch em,
+.tldr-stat .value small {
+  font-family: var(--display);
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0;
 }
+/* Body italics also go upright — keep cream-dim color cue */
+.prompt em { font-style: normal; color: var(--cream-dim); }
 
 p { margin: 0; }
 a { color: inherit; text-decoration: none; }
@@ -258,6 +298,26 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 }
 
 ::selection { background: var(--ember); color: var(--on-accent); }
+
+/* ───── ICONS (stroke-rounded SVG sprite) ───── */
+.icon {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  vertical-align: -0.125em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+.icon-lg { width: 1.4em; height: 1.4em; }
+.icon-xl { width: 1.8em; height: 1.8em; }
+.role-glyph .icon { width: 1.3rem; height: 1.3rem; stroke-width: 1.5; }
+.theme-toggle .icon { width: 1.1rem; height: 1.1rem; stroke-width: 1.6; }
+.nav-edit .icon { width: 1rem; height: 1rem; }
+.path-access::before .icon { width: 1.1rem; height: 1.1rem; }
 
 /* ------------------------------------------------------------------
    Skip link
@@ -375,8 +435,12 @@ header.nav {
   color: var(--ember);
   border-color: var(--ember);
 }
-.theme-icon { transition: transform 320ms var(--ease-out); display: inline-block; }
-.theme-toggle:hover .theme-icon { transform: rotate(20deg); }
+.theme-icon-sun, .theme-icon-moon { transition: transform 320ms var(--ease-out); }
+.theme-toggle:hover .icon { transform: rotate(20deg); }
+.theme-icon-sun  { display: none; }
+.theme-icon-moon { display: inline-block; }
+html[data-theme="dark"] .theme-icon-sun  { display: inline-block; }
+html[data-theme="dark"] .theme-icon-moon { display: none; }
 
 /* Persona menu */
 .persona-menu {
@@ -580,7 +644,7 @@ header.nav {
   font-weight: 400;
 }
 .hero-title .underline {
-  background: linear-gradient(120deg, transparent 0 12%, rgba(217, 119, 87, 0.35) 12% 88%, transparent 88%);
+  background: linear-gradient(120deg, transparent 0 12%, rgba(204, 58, 35, 0.28) 12% 88%, transparent 88%);
   background-size: 100% 0.4em;
   background-position: 0 88%;
   background-repeat: no-repeat;
@@ -692,6 +756,69 @@ header.nav {
   transform: translateY(0);
 }
 
+/* ───── Cursor glow (subtle ember halo following the mouse) ───── */
+.cursor-glow {
+  position: fixed;
+  top: 0; left: 0;
+  width: 520px; height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    color-mix(in srgb, var(--ember) 14%, transparent),
+    color-mix(in srgb, var(--ember) 6%, transparent) 35%,
+    transparent 65%);
+  pointer-events: none;
+  transform: translate3d(-9999px, -9999px, 0);
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-out);
+  mix-blend-mode: multiply;
+}
+html[data-theme="dark"] .cursor-glow { mix-blend-mode: screen; }
+@media (hover: hover) and (pointer: fine) {
+  .has-cursor-glow .cursor-glow { opacity: 1; }
+}
+html[data-motion="paused"] .cursor-glow { display: none; }
+
+/* ───── Hover shine on cap cards (subtle gradient sweep) ───── */
+.cap { overflow: hidden; }
+.cap::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -120%;
+  width: 80%; height: 100%;
+  background: linear-gradient(110deg,
+    transparent 0%,
+    color-mix(in srgb, var(--ember) 6%, transparent) 50%,
+    transparent 100%);
+  transition: left 720ms var(--ease-out);
+  pointer-events: none;
+  z-index: 0;
+}
+.cap:hover::before { left: 120%; }
+.cap > * { position: relative; z-index: 1; }
+
+/* ───── Staggered reveals on grid children (cap cards, skill cards, prompts) ───── */
+.cap-grid > .cap.reveal:nth-child(2)      { transition-delay: 60ms; }
+.cap-grid > .cap.reveal:nth-child(3)      { transition-delay: 120ms; }
+.cap-grid > .cap.reveal:nth-child(4)      { transition-delay: 180ms; }
+.cap-grid > .cap.reveal:nth-child(5)      { transition-delay: 240ms; }
+.cap-grid > .cap.reveal:nth-child(6)      { transition-delay: 300ms; }
+
+.skills-grid > .skill-card.reveal:nth-child(2)  { transition-delay: 40ms; }
+.skills-grid > .skill-card.reveal:nth-child(3)  { transition-delay: 80ms; }
+.skills-grid > .skill-card.reveal:nth-child(4)  { transition-delay: 120ms; }
+.skills-grid > .skill-card.reveal:nth-child(5)  { transition-delay: 160ms; }
+.skills-grid > .skill-card.reveal:nth-child(6)  { transition-delay: 200ms; }
+.skills-grid > .skill-card.reveal:nth-child(7)  { transition-delay: 240ms; }
+.skills-grid > .skill-card.reveal:nth-child(8)  { transition-delay: 280ms; }
+.skills-grid > .skill-card.reveal:nth-child(9)  { transition-delay: 320ms; }
+.skills-grid > .skill-card.reveal:nth-child(10) { transition-delay: 360ms; }
+
+.prompts > .prompt.reveal:nth-child(2) { transition-delay: 60ms; }
+.prompts > .prompt.reveal:nth-child(3) { transition-delay: 120ms; }
+
+.flows > .flow.reveal:nth-child(2) { transition-delay: 90ms; }
+
 /* Reduced motion: collapse all motion to instant fades */
 @media (prefers-reduced-motion: reduce) {
   .reveal { transition: opacity 120ms linear; transform: none; }
@@ -762,9 +889,20 @@ section.product, section.matrix, section.playbooks {
 .section-head {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1rem;
-  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  gap: var(--s-4);
+  margin-bottom: var(--s-12);
   max-width: 50rem;
+}
+
+/* In-section subheads — consistent rhythm above content blocks */
+.subhead {
+  font-family: var(--display);
+  font-size: var(--fs-2xl);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: 0;
+  margin: var(--s-12) 0 var(--s-3);
+  color: var(--cream);
 }
 .section-eyebrow {
   font-family: var(--mono);
@@ -805,11 +943,11 @@ section.product, section.matrix, section.playbooks {
 
 /* Recommendation callout — recurring pattern */
 .recco {
-  border-left: 2px solid var(--ember);
+  border-left: 3px solid var(--ember);
   background: linear-gradient(90deg, var(--ember-glow), transparent 70%);
-  padding: 0.9rem 1.1rem 0.9rem 1.25rem;
+  padding: var(--s-4) var(--s-5);
   border-radius: 0 var(--r-md) var(--r-md) 0;
-  margin: 1.5rem 0;
+  margin: var(--s-6) 0 var(--s-12);
   max-width: 42rem;
   font-size: var(--fs-sm);
   color: var(--cream);
@@ -1075,9 +1213,9 @@ section.product, section.matrix, section.playbooks {
 .tldr {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1rem;
-  margin: 2rem 0 2.5rem;
-  padding: 1.5rem 1.6rem;
+  gap: var(--s-4);
+  margin: var(--s-6) 0 var(--s-12);
+  padding: var(--s-6) var(--s-6);
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
   background:
@@ -1137,8 +1275,8 @@ section.product, section.matrix, section.playbooks {
 .what-is {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
-  margin-bottom: 3rem;
+  gap: var(--s-8);
+  margin-bottom: var(--s-12);
 }
 @media (min-width: 880px) {
   .what-is { grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); }
@@ -1161,8 +1299,8 @@ section.product, section.matrix, section.playbooks {
 .cap-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1rem;
-  margin: 1.5rem 0 3rem;
+  gap: var(--s-4);
+  margin: var(--s-6) 0 var(--s-12);
 }
 .cap {
   padding: 1.25rem 1.25rem 1.4rem;
@@ -1206,11 +1344,11 @@ section.product, section.matrix, section.playbooks {
 .demo {
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
-  padding: 1.25rem;
+  padding: var(--s-5);
   background:
     radial-gradient(ellipse at 30% 0%, color-mix(in srgb, var(--pa) 6%, transparent), transparent 60%),
     linear-gradient(180deg, var(--paper-raised), var(--paper));
-  margin: 1rem 0 3rem;
+  margin: var(--s-4) 0 var(--s-12);
   position: relative;
 }
 .demo-head {
@@ -1423,8 +1561,8 @@ section.product, section.matrix, section.playbooks {
 .prompts {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.6rem;
-  margin: 1rem 0 3rem;
+  gap: var(--s-2);
+  margin: var(--s-4) 0 var(--s-12);
   counter-reset: prompt;
 }
 .prompt {
@@ -1453,8 +1591,8 @@ section.product, section.matrix, section.playbooks {
 .flows {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.2rem;
-  margin: 1rem 0 3rem;
+  gap: var(--s-5);
+  margin: var(--s-4) 0 var(--s-12);
 }
 @media (min-width: 880px) {
   .flows { grid-template-columns: 1fr 1fr; }
@@ -1513,8 +1651,8 @@ section.product, section.matrix, section.playbooks {
 .when-card {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.5rem;
-  margin: 1rem 0 3rem;
+  gap: var(--s-2);
+  margin: var(--s-4) 0 var(--s-12);
   border: 1px solid var(--line);
   border-radius: var(--r-md);
   overflow: hidden;
@@ -1546,8 +1684,8 @@ section.product, section.matrix, section.playbooks {
 /* Deep dives — disclosures */
 .deep-set {
   display: grid;
-  gap: 0.6rem;
-  margin: 1rem 0 0;
+  gap: var(--s-2);
+  margin: var(--s-4) 0 0;
 }
 .deep {
   border: 1px solid var(--line);
@@ -3118,26 +3256,29 @@ footer.foot {
 
 /* Access banner inside Your Path */
 .path-access {
-  margin: -0.4rem 0 1.4rem;
-  padding: 0.85rem 1.1rem;
+  margin: var(--s-2) 0 var(--s-6);
+  padding: var(--s-4) var(--s-5);
   border-radius: var(--r-md);
   background: linear-gradient(90deg, color-mix(in srgb, var(--ember) 14%, var(--paper-warm)), var(--paper-warm) 90%);
-  border: 1px solid color-mix(in srgb, var(--ember) 35%, var(--line));
+  border: 1px solid color-mix(in srgb, var(--ember) 38%, var(--line));
   font-family: var(--sans);
   font-size: var(--fs-sm);
   color: var(--cream);
   line-height: 1.55;
   display: flex;
   align-items: flex-start;
-  gap: 0.7rem;
+  gap: var(--s-3);
 }
-.path-access::before {
-  content: '⚡';
-  font-size: 1rem;
-  color: var(--ember);
-  flex-shrink: 0;
-  padding-top: 0.1rem;
+.path-access > .icon { color: var(--ember); width: 1.25rem; height: 1.25rem; margin-top: 0.15rem; flex-shrink: 0; }
+
+/* Icon-in-button alignment helpers */
+.path-edit, .demo-btn, .nav-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
 }
+.skill-tag .icon { width: 0.95em; height: 0.95em; margin-right: 0.25em; vertical-align: -0.15em; }
+.skill-tag.mandatory .icon { color: var(--on-accent); }
 .path-access strong { color: var(--ember); font-weight: 600; }
 .path-access em { color: var(--cream); font-style: normal; font-weight: 500; }
 
@@ -3277,7 +3418,42 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
 <body>
 
+<!-- ===== Icon sprite — stroke-rounded outline (Hugeicons-inspired) =====
+     Inline SVG defs. Icons are used via <svg class="icon"><use href="#i-name"/></svg>.
+     Style: 24×24 viewBox · stroke 1.5 · round caps · currentColor stroke · no fill. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- products -->
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-7l-4 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="M8 10h8M8 13h5"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2.5h8a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+    <symbol id="i-terminal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M13 15h5"/></symbol>
+    <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 22a10 10 0 1 1 0-20c5 0 9 3.5 9 8 0 2-1.5 4-4 4h-1.5a2 2 0 0 0-1.5 3.5A2 2 0 0 1 12 22z"/><circle cx="8" cy="10" r="1"/><circle cx="11" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="18" cy="10" r="1"/></symbol>
+
+    <!-- roles -->
+    <symbol id="i-pen" viewBox="0 0 24 24"><path d="m16 4 4 4-11 11H5v-4z"/><path d="m14 6 4 4"/></symbol>
+    <symbol id="i-briefcase" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M3 12h18"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></symbol>
+    <symbol id="i-crown" viewBox="0 0 24 24"><path d="m3 18 2-10 5 4 2-7 2 7 5-4 2 10z"/><path d="M3 18h18"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+    <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4l-6 6 2.7 2.7 6-6a4 4 0 0 0 5.4-5.4l-2.7 2.7-2.7-2.7z"/></symbol>
+    <symbol id="i-question" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 9a3 3 0 0 1 6 0c0 2-3 2-3 4"/><circle cx="12" cy="17" r=".7" fill="currentColor"/></symbol>
+
+    <!-- UI -->
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="m12 3 1.7 5.3L19 10l-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7z"/><path d="m18 2 .7 2L21 4.5l-2 .7L18 7l-.7-1.8L15 4.5 17 4z"/></symbol>
+    <symbol id="i-pencil" viewBox="0 0 24 24"><path d="m16 4 4 4-12 12H4v-4z"/><path d="m14 6 4 4"/></symbol>
+    <symbol id="i-lightning" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.7 6 6.3.7-4.6 4.5 1.2 6.3L12 17.7 6.4 20.5l1.2-6.3L3 9.7 9.3 9z"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></symbol>
+    <symbol id="i-replay" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 9"/><path d="M3 3v6h6"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></symbol>
+  </defs>
+</svg>
+
 <a href="#main" class="skip">Skip to content</a>
+<div class="cursor-glow" aria-hidden="true"></div>
 
 <!-- ===== Wizard modal (first-visit personalization) ===== -->
 <div class="wiz-backdrop" id="wizard" role="dialog" aria-modal="true" aria-labelledby="wiz-title-1" hidden>
@@ -3302,49 +3478,49 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
       <div class="role-grid" role="radiogroup" aria-label="Choose your role">
         <button type="button" class="role-card" data-role="designer" aria-pressed="false" role="radio">
-          <span class="role-glyph" aria-hidden="true">D</span>
+          <span class="role-glyph" aria-hidden="true"><svg class="icon"><use href="#i-pen"/></svg></span>
           <span>
             <span class="role-name">Designer</span>
             <span class="role-desc">UI, design systems, prototyping, presentations.</span>
           </span>
         </button>
         <button type="button" class="role-card" data-role="pm" aria-pressed="false" role="radio">
-          <span class="role-glyph" aria-hidden="true">P</span>
+          <span class="role-glyph" aria-hidden="true"><svg class="icon"><use href="#i-briefcase"/></svg></span>
           <span>
             <span class="role-name">Product manager</span>
             <span class="role-desc">Specs, status, stakeholder comms, customer research.</span>
           </span>
         </button>
         <button type="button" class="role-card" data-role="engineer" aria-pressed="false" role="radio">
-          <span class="role-glyph" aria-hidden="true">E</span>
+          <span class="role-glyph" aria-hidden="true"><svg class="icon"><use href="#i-code"/></svg></span>
           <span>
             <span class="role-name">Engineer</span>
             <span class="role-desc">Code, refactors, PRs, tests, MCP integrations.</span>
           </span>
         </button>
         <button type="button" class="role-card" data-role="leader" aria-pressed="false" role="radio">
-          <span class="role-glyph" aria-hidden="true">L</span>
+          <span class="role-glyph" aria-hidden="true"><svg class="icon"><use href="#i-crown"/></svg></span>
           <span>
             <span class="role-name">Leadership</span>
             <span class="role-desc">Buying decisions, team productivity, roadmaps.</span>
           </span>
         </button>
         <button type="button" class="role-card" data-role="researcher" aria-pressed="false" role="radio">
-          <span class="role-glyph" aria-hidden="true">R</span>
+          <span class="role-glyph" aria-hidden="true"><svg class="icon"><use href="#i-search"/></svg></span>
           <span>
             <span class="role-name">UX Researcher</span>
             <span class="role-desc">Interviews, synthesis, insight reports, readouts.</span>
           </span>
         </button>
         <button type="button" class="role-card" data-role="operator" aria-pressed="false" role="radio">
-          <span class="role-glyph" aria-hidden="true">O</span>
+          <span class="role-glyph" aria-hidden="true"><svg class="icon"><use href="#i-wrench"/></svg></span>
           <span>
             <span class="role-name">Operator</span>
             <span class="role-desc">Finance, ops, legal, sales, marketing, or support.</span>
           </span>
         </button>
         <button type="button" class="role-card" data-role="other" aria-pressed="false" role="radio">
-          <span class="role-glyph" aria-hidden="true">?</span>
+          <span class="role-glyph" aria-hidden="true"><svg class="icon"><use href="#i-question"/></svg></span>
           <span>
             <span class="role-name">None of these</span>
             <span class="role-desc">I'll explore the unpersonalized guide.</span>
@@ -3394,20 +3570,20 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
     <div class="nav-controls">
       <button type="button" class="nav-edit" id="navEdit" aria-label="Personalize this guide">
-        <span aria-hidden="true" id="navEditIcon">✨</span>
+        <svg class="icon" id="navEditIcon" aria-hidden="true"><use href="#i-sparkle"/></svg>
         <span class="label-long" id="navEditLabel">Personalize</span>
-        <span class="label-short" aria-hidden="true">✨</span>
       </button>
       <button class="persona-toggle" id="personaToggle" aria-haspopup="menu" aria-expanded="false" aria-controls="personaMenu">
         <span class="persona-label">Reading as</span>
         <span class="persona-current" id="personaCurrent">Everyone</span>
         <span class="persona-chev" aria-hidden="true">▾</span>
       </button>
-      <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme">
-        <span class="theme-icon" id="themeIcon" aria-hidden="true">☾</span>
+      <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" title="Switch theme">
+        <svg class="icon theme-icon-moon" aria-hidden="true"><use href="#i-moon"/></svg>
+        <svg class="icon theme-icon-sun"  aria-hidden="true"><use href="#i-sun"/></svg>
       </button>
       <button class="motion-toggle" id="motionToggle" aria-pressed="false" aria-label="Pause animations" title="Pause animations">
-        <span aria-hidden="true">❚❚</span>
+        <svg class="icon" aria-hidden="true"><use href="#i-pause"/></svg>
       </button>
     </div>
 
@@ -3533,6 +3709,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
     <!-- G2 access note (same for every role) -->
     <aside class="path-access" role="note" aria-label="Access info">
+      <svg class="icon" aria-hidden="true"><use href="#i-lightning"/></svg>
       <span>
         <strong>Need access?</strong> Use the <em>G2 Assist Slackbot</em>. If it doesn’t work, ping <em>@Johnny Trieu</em>.
       </span>
@@ -3566,7 +3743,10 @@ section[id], .hero { scroll-margin-top: 5rem; }
     </div>
 
     <div class="path-foot">
-      <button type="button" class="path-edit" id="pathEdit">✎ Edit my profile</button>
+      <button type="button" class="path-edit" id="pathEdit">
+        <svg class="icon" aria-hidden="true"><use href="#i-pencil"/></svg>
+        Edit my profile
+      </button>
       <button type="button" class="path-clear" id="pathClear">Clear personalization</button>
     </div>
   </section>
@@ -3734,7 +3914,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       <div class="demo-head">
         <span class="demo-title">Demo · prompt to Live Artifact</span>
         <button type="button" class="demo-btn" data-demo-replay="chat">
-          <span aria-hidden="true">↻</span> Replay
+          <svg class="icon" aria-hidden="true"><use href="#i-replay"/></svg> Replay
         </button>
       </div>
 
@@ -3786,14 +3966,14 @@ section[id], .hero { scroll-margin-top: 5rem; }
       </div>
     </div>
 
-    <h3 class="reveal" style="font-size: var(--fs-2xl); margin: 1rem 0 0.5rem;">Example prompts</h3>
+    <h3 class="subhead reveal">Example prompts</h3>
     <div class="prompts reveal">
       <div class="prompt">Read this earnings call PDF and surface the three biggest assumptions buried in the guidance section.<em>Combines file upload + reasoning. Claude links each assumption back to the page it came from.</em></div>
       <div class="prompt">Build me a live dashboard of my Asana tasks due this week, grouped by project. Make it re-openable.<em>Produces a Live Artifact with the Asana MCP connector; refreshes on reopen, no manual updates.</em></div>
       <div class="prompt">Search the web for what Anthropic shipped last month and draft a one-pager I can email to my CEO.<em>Web search + Project memory. Drops the result in an Artifact you can iterate on across sessions.</em></div>
     </div>
 
-    <h3 class="reveal" style="font-size: var(--fs-2xl); margin: 1rem 0 0.5rem;">Workflows</h3>
+    <h3 class="subhead reveal">Workflows</h3>
     <div class="flows reveal">
       <article class="flow">
         <h4 class="flow-title">Live status page from your tools</h4>
@@ -3815,7 +3995,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       </article>
     </div>
 
-    <h3 class="reveal" style="font-size: var(--fs-2xl); margin: 1rem 0 0.5rem;">When to reach for Chat — and when not</h3>
+    <h3 class="subhead reveal">When to reach for Chat — and when not</h3>
     <div class="when-card reveal">
       <div class="when-col use">
         <h4>Use Chat when</h4>
@@ -3840,7 +4020,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       <p class="recco-body"><strong>Artifacts are conversation-scoped live HTML; Claude Design is a persistent visual canvas.</strong> Use Artifacts when you'd reach for a code sandbox: quick dashboards, mini-tools, working prototypes. Use Design when you'd reach for Figma or Canva: real exports, multiplayer review, a build-handoff bundle. They overlap on "show me something visual" — but the export paths differ, and that's usually the deciding factor.</p>
     </aside>
 
-    <h3 class="reveal" style="font-size: var(--fs-2xl); margin: 2rem 0 0.5rem;">Deep dives</h3>
+    <h3 class="subhead reveal">Deep dives</h3>
     <div class="deep-set reveal">
       <details class="deep" data-show-for="everyone pm">
         <summary><span><span class="deep-tag">PM</span>Choosing between an Artifact and a Project</span></summary>
@@ -3940,7 +4120,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       <div class="demo-head">
         <span class="demo-title">Demo · permission &amp; reorganize</span>
         <button type="button" class="demo-btn" data-demo-replay="cowork">
-          <span aria-hidden="true">↻</span> Replay
+          <svg class="icon" aria-hidden="true"><use href="#i-replay"/></svg> Replay
         </button>
       </div>
 
@@ -4005,14 +4185,14 @@ section[id], .hero { scroll-margin-top: 5rem; }
       </div>
     </div>
 
-    <h3 class="reveal" style="font-size: var(--fs-2xl); margin: 1rem 0 0.5rem;">Example prompts</h3>
+    <h3 class="subhead reveal">Example prompts</h3>
     <div class="prompts reveal">
       <div class="prompt">Look in my Downloads folder. Make a <code>Receipts/2026/</code> tree by month and move every PDF receipt into it. Rename to <code>YYYY-MM-DD_vendor.pdf</code>.<em>One-shot reorg with rename. Cowork will ask before destructive moves on the first run.</em></div>
       <div class="prompt">Read my Q1 meeting notes folder and generate a quarterly summary doc. Save it next to the source folder as <code>Q1-2026-summary.docx</code>.<em>Reads, summarizes, writes a Word doc using the docx skill — without leaving the desktop.</em></div>
       <div class="prompt">Each morning at 8:00, pull yesterday's screenshots, OCR them, and append any text containing <code>TODO</code> into <code>todos.md</code>.<em>Scheduled task. Combines OCR + local file write; surfaces a notification when new TODOs land.</em></div>
     </div>
 
-    <h3 class="reveal" style="font-size: var(--fs-2xl); margin: 1rem 0 0.5rem;">Workflows</h3>
+    <h3 class="subhead reveal">Workflows</h3>
     <div class="flows reveal">
       <article class="flow">
         <h4 class="flow-title">Tax-time receipts</h4>
@@ -4034,7 +4214,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       </article>
     </div>
 
-    <h3 class="reveal" style="font-size: var(--fs-2xl); margin: 1rem 0 0.5rem;">When to reach for Cowork — and when not</h3>
+    <h3 class="subhead reveal">When to reach for Cowork — and when not</h3>
     <div class="when-card reveal">
       <div class="when-col use">
         <h4>Use Cowork when</h4>
@@ -4059,7 +4239,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       <p class="recco-body"><strong>Don't give Cowork your home directory.</strong> The permission UX is per-folder for a reason. Start with the narrowest folder that contains the work — <code>~/Downloads/receipts/</code> beats <code>~/Downloads</code>; <code>~/Documents/clients/acme/</code> beats <code>~/Documents</code>. You'll get fewer surprising actions, faster reasoning over the file set, and a safer audit trail. Expand access only when the task forces you to.</p>
     </aside>
 
-    <h3 class="reveal" style="font-size: var(--fs-2xl); margin: 2rem 0 0.5rem;">Deep dives</h3>
+    <h3 class="subhead reveal">Deep dives</h3>
     <div class="deep-set reveal">
       <details class="deep" data-show-for="everyone pm">
         <summary><span><span class="deep-tag">PM</span>Cowork vs. Chat — same Skills, different surface</span></summary>
@@ -4159,7 +4339,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       <div class="demo-head">
         <span class="demo-title">Demo · claude in the terminal</span>
         <button type="button" class="demo-btn" data-demo-replay="code">
-          <span aria-hidden="true">↻</span> Replay
+          <svg class="icon" aria-hidden="true"><use href="#i-replay"/></svg> Replay
         </button>
       </div>
 
@@ -4174,14 +4354,14 @@ section[id], .hero { scroll-margin-top: 5rem; }
       </div>
     </div>
 
-    <h3 class="reveal" style="font-size: var(--fs-2xl); margin: 1rem 0 0.5rem;">Example prompts</h3>
+    <h3 class="subhead reveal">Example prompts</h3>
     <div class="prompts reveal">
       <div class="prompt"><code>claude "Map this repo and tell me which modules I shouldn't touch in a refactor."</code><em>Agentic codebase search + reasoning. Returns a risk-tier map of your modules.</em></div>
       <div class="prompt"><code>claude --mcp jira "Pick the next ticket in my queue, open a branch, draft the PR."</code><em>MCP-driven workflow. Reads Jira, opens the branch, scaffolds the PR with linked commits.</em></div>
       <div class="prompt"><code>claude "Run the test suite, identify flakes, propose a fix for each."</code><em>Subagents fan out across spec files. A lead agent consolidates findings into a single report.</em></div>
     </div>
 
-    <h3 class="reveal" style="font-size: var(--fs-2xl); margin: 1rem 0 0.5rem;">Workflows</h3>
+    <h3 class="subhead reveal">Workflows</h3>
     <div class="flows reveal">
       <article class="flow">
         <h4 class="flow-title">Repo orientation in 10 minutes</h4>
@@ -4203,7 +4383,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       </article>
     </div>
 
-    <h3 class="reveal" style="font-size: var(--fs-2xl); margin: 1rem 0 0.5rem;">When to reach for Code — and when not</h3>
+    <h3 class="subhead reveal">When to reach for Code — and when not</h3>
     <div class="when-card reveal">
       <div class="when-col use">
         <h4>Use Code when</h4>
@@ -4228,7 +4408,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       <p class="recco-body"><strong>The single highest-leverage move is writing a CLAUDE.md before your first real task.</strong> Even a 20-line file — preferred libraries, the test command, the review checklist, the "don't touch" modules — multiplies output. Treat it like onboarding documentation for a new hire who reads it every morning. The 2-4× velocity numbers people report come almost entirely from teams that invested in this config, not from raw model capability.</p>
     </aside>
 
-    <h3 class="reveal" style="font-size: var(--fs-2xl); margin: 2rem 0 0.5rem;">Deep dives</h3>
+    <h3 class="subhead reveal">Deep dives</h3>
     <div class="deep-set reveal">
       <details class="deep" data-show-for="everyone pm">
         <summary><span><span class="deep-tag">PM</span>How to estimate Claude Code's effect on a team</span></summary>
@@ -4329,7 +4509,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       <div class="demo-head">
         <span class="demo-title">Demo · canvas → handoff bundle</span>
         <button type="button" class="demo-btn" data-demo-replay="design">
-          <span aria-hidden="true">↻</span> Replay
+          <svg class="icon" aria-hidden="true"><use href="#i-replay"/></svg> Replay
         </button>
       </div>
 
@@ -4391,14 +4571,14 @@ section[id], .hero { scroll-margin-top: 5rem; }
       </div>
     </div>
 
-    <h3 class="reveal" style="font-size: var(--fs-2xl); margin: 1rem 0 0.5rem;">Example prompts</h3>
+    <h3 class="subhead reveal">Example prompts</h3>
     <div class="prompts reveal">
       <div class="prompt">Build me a 5-slide pitch deck for our Q3 roadmap. Use the company design system. Export to PPTX.<em>Pulls components from your team design system; produces an editable deck you can hand to leadership.</em></div>
       <div class="prompt">Take the attached Figma file and turn it into a clickable prototype I can share for user testing.<em>Static mockup → interactive prototype with a comment-enabled share URL.</em></div>
       <div class="prompt">Generate a Claude Code handoff bundle for the dashboard prototype, ready for the front-end repo.<em>Outputs spec.json, tokens.css, layout.tsx, /assets/. Engineering picks it up in <code>claude</code> with no extra translation.</em></div>
     </div>
 
-    <h3 class="reveal" style="font-size: var(--fs-2xl); margin: 1rem 0 0.5rem;">Workflows</h3>
+    <h3 class="subhead reveal">Workflows</h3>
     <div class="flows reveal">
       <article class="flow">
         <h4 class="flow-title">Prompt → prototype → build bundle</h4>
@@ -4420,7 +4600,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       </article>
     </div>
 
-    <h3 class="reveal" style="font-size: var(--fs-2xl); margin: 1rem 0 0.5rem;">When to reach for Design — and when not</h3>
+    <h3 class="subhead reveal">When to reach for Design — and when not</h3>
     <div class="when-card reveal">
       <div class="when-col use">
         <h4>Use Design when</h4>
@@ -4445,7 +4625,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       <p class="recco-body"><strong>Decide where this is going before you put anything on the canvas.</strong> Meeting review → PPTX or PDF. Client sharing → PDF or Canva. Build handoff → Claude Code bundle or HTML. The export format dictates how Claude composes the layout — chasing a deck and then trying to convert to a handoff bundle wastes the round. The Claude Design team itself ships this advice as a "rule"; follow it.</p>
     </aside>
 
-    <h3 class="reveal" style="font-size: var(--fs-2xl); margin: 2rem 0 0.5rem;">Deep dives</h3>
+    <h3 class="subhead reveal">Deep dives</h3>
     <div class="deep-set reveal">
       <details class="deep" data-show-for="everyone pm">
         <summary><span><span class="deep-tag">PM</span>Buying decisions — Design vs Canva vs Figma</span></summary>
@@ -4731,12 +4911,10 @@ section[id], .hero { scroll-margin-top: 5rem; }
   /* ---------- Theme toggle (light default + dark) ----------------- */
   const LS_THEME = 'tcs.theme';
   const themeToggle = document.getElementById('themeToggle');
-  const themeIcon = document.getElementById('themeIcon');
 
   function applyTheme(theme) {
     if (theme !== 'dark') theme = 'light';
     root.setAttribute('data-theme', theme);
-    if (themeIcon) themeIcon.textContent = (theme === 'dark') ? '☀' : '☾';
     if (themeToggle) {
       themeToggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
       themeToggle.title = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
@@ -4744,12 +4922,13 @@ section[id], .hero { scroll-margin-top: 5rem; }
     try { localStorage.setItem(LS_THEME, theme); } catch (e) {}
   }
 
-  // Initial: saved choice > system preference > light default
+  // Initial: saved choice ONLY. First-time visitors always land in light mode
+  // per design direction. The toggle (☾/☀) lets them switch to dark and we
+  // remember their choice for next time.
   const savedTheme = (function () {
     try { return localStorage.getItem(LS_THEME); } catch (e) { return null; }
   })();
-  const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  applyTheme(savedTheme || (systemDark ? 'dark' : 'light'));
+  applyTheme(savedTheme === 'dark' ? 'dark' : 'light');
 
   if (themeToggle) {
     themeToggle.addEventListener('click', () => {
@@ -4862,6 +5041,92 @@ section[id], .hero { scroll-margin-top: 5rem; }
   function isInstant() {
     return root.getAttribute('data-motion') === 'paused' || prefersReduced.matches;
   }
+
+  /* ---------------------------------------------------------------
+     EXTENDED MOTION — Lenis smooth scroll, cursor glow, more reveals
+     --------------------------------------------------------------- */
+  // 1. Add .reveal to grid children + register with shared observer for stagger
+  (function extendReveals() {
+    const candidates = document.querySelectorAll(
+      '.cap, .skill-card, .prompt, .flow, .src-col, .when-card, .tldr, .what-is, .deep-set'
+    );
+    candidates.forEach(el => {
+      if (!el.classList.contains('reveal')) el.classList.add('reveal');
+    });
+    if (window.TCS && window.TCS.observeReveal) {
+      window.TCS.observeReveal(candidates);
+    }
+  })();
+
+  // 2. Lenis smooth scroll — opt-out for reduced motion / paused
+  (function initLenis() {
+    if (isInstant()) return;
+    function go() {
+      if (!window.Lenis) return setTimeout(go, 150);
+      const lenis = new window.Lenis({
+        duration: 1.35,
+        easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
+        smoothWheel: true,
+        smoothTouch: false,
+        wheelMultiplier: 1.0,
+      });
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+      // Expose for anchor-link smoothness
+      window.__lenis = lenis;
+    }
+    go();
+  })();
+
+  // 3. Anchor links — route through Lenis when available
+  document.addEventListener('click', function (e) {
+    const link = e.target.closest('a[href^="#"]');
+    if (!link) return;
+    const id = link.getAttribute('href');
+    if (!id || id === '#' || id.length < 2) return;
+    const target = document.querySelector(id);
+    if (!target) return;
+    if (window.__lenis) {
+      e.preventDefault();
+      window.__lenis.scrollTo(target, { offset: -72, duration: 1.3 });
+    }
+  });
+
+  // 4. Cursor glow follower — only on hover-capable devices, only when motion allowed
+  (function initCursorGlow() {
+    const glow = document.querySelector('.cursor-glow');
+    if (!glow) return;
+    if (isInstant()) return;
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    document.body.classList.add('has-cursor-glow');
+
+    let mx = window.innerWidth / 2;
+    let my = -1000;
+    let gx = mx, gy = my;
+    let active = false;
+
+    window.addEventListener('mousemove', function (e) {
+      mx = e.clientX;
+      my = e.clientY;
+      if (!active) { gx = mx; gy = my; active = true; }
+    }, { passive: true });
+
+    document.documentElement.addEventListener('mouseleave', function () {
+      my = -1000;
+    });
+
+    function tick() {
+      gx += (mx - gx) * 0.12;
+      gy += (my - gy) * 0.12;
+      glow.style.transform = 'translate3d(' + (gx - 260) + 'px, ' + (gy - 260) + 'px, 0)';
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  })();
 
   /* ---------------------------------------------------------------
      CHAT DEMO — prompt → typing → stream → artifact
@@ -6047,10 +6312,13 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
     if (!profile) {
       yp.hidden = true;
-      // Reset nav button to "Personalize"
-      const icon = document.getElementById('navEditIcon');
+      // Reset nav button to "Personalize" (sparkle icon)
+      const iconEl = document.getElementById('navEditIcon');
       const label = document.getElementById('navEditLabel');
-      if (icon) icon.textContent = '✨';
+      if (iconEl) {
+        const use = iconEl.querySelector('use');
+        if (use) use.setAttribute('href', '#i-sparkle');
+      }
       if (label) label.textContent = 'Personalize';
       navEditBtn.setAttribute('aria-label', 'Personalize this guide');
       const heroAside = document.querySelector('.hero-aside');
@@ -6065,10 +6333,13 @@ section[id], .hero { scroll-margin-top: 5rem; }
     // Set persona toggle
     if (role.persona) applyPersona(role.persona);
 
-    // Switch nav button to "Edit profile" mode
-    const icon = document.getElementById('navEditIcon');
+    // Switch nav button to "Edit profile" mode (pencil icon)
+    const iconEl = document.getElementById('navEditIcon');
     const label = document.getElementById('navEditLabel');
-    if (icon) icon.textContent = '✎';
+    if (iconEl) {
+      const use = iconEl.querySelector('use');
+      if (use) use.setAttribute('href', '#i-pencil');
+    }
     if (label) label.textContent = 'Edit profile';
     navEditBtn.setAttribute('aria-label', 'Edit your profile');
 
@@ -6127,7 +6398,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       li.className = 'skill-card' + (entry.mandatory ? ' is-mandatory' : '');
 
       const tags = [];
-      if (entry.mandatory) tags.push('<span class="skill-tag mandatory">Mandatory</span>');
+      if (entry.mandatory) tags.push('<span class="skill-tag mandatory"><svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>Mandatory</span>');
       if (meta.source === 'anthropic')   tags.push('<span class="skill-tag anthropic">' + meta.sourceLabel + '</span>');
       if (meta.source === 'custom')      tags.push('<span class="skill-tag custom">' + meta.sourceLabel + '</span>');
       if (meta.source === 'third-party') tags.push('<span class="skill-tag third-party">' + meta.sourceLabel + '</span>');
