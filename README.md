@@ -1,66 +1,67 @@
-# G2 Claude Guide
+<p align="center">
+  <img src="banner.svg" alt="G2 Claude Guide — A field guide to Anthropic's four products, personalized by role" width="100%">
+</p>
 
-Interactive field guide to Anthropic's four products — Claude Chat, Cowork, Code, and Design — built for G2 teammates. A 3-step wizard personalizes the guide by role: Designer, Product Manager, Engineer, Leadership, UX Researcher, Operator, or Curious.
+<p align="center">
+  <strong>The G2 field guide to Anthropic's four products.</strong><br>
+  Personalized by role — open it once, get a path tailored to your week.
+</p>
 
-## View it
-
-- **Live:** `https://lsanchez-g2.github.io/g2-claude-guide/` *(once Pages is enabled — see Deploy below)*
-- **Local:** open `index.html` in any modern browser. No build step, no dependencies beyond Google Fonts.
-
-## What's inside
-
-- **Single-file HTML** — no framework, no build, no bundler. ~240 KB.
-- **Wizard with 7 roles** that personalizes:
-  - Product priority (which Claude to start with)
-  - Three example prompts that match your work
-  - The playbook to run end-to-end first
-  - Top 10 skills to install (mandatory items highlighted in ember)
-- **4 product sections** — each with an animated demo: chat-to-Artifact, Cowork folder-reorganize, Claude Code terminal session, Claude Design canvas + handoff bundle.
-- **3 cross-product playbooks** — Spec → Ship, Inbox → Insight, Repo → Refactor.
-- **Full accessibility** — `prefers-reduced-motion`, keyboard navigation, focus rings, skip-to-content, ARIA live regions.
-
-## Need access?
-
-Use the **G2 Assist Slackbot**. If it doesn't work, ping **@Johnny Trieu**.
-
-## Skills bundled
-
-The `skills-to-install/` folder ships two `SKILL.md` files you can install into Cowork:
-
-- `frontend-design` — Anthropic official (Apache 2.0).
-- `product-self-knowledge` — third-party (MIT), routing methodology.
-
-The custom **ds-architect** skill referenced in the guide lives at [github.com/lsanchez-g2/ds-architect](https://github.com/lsanchez-g2/ds-architect) — mandatory for designers.
-
-## Deploy (GitHub Pages)
-
-After pushing the repo:
-
-1. Go to **Settings → Pages** in the repo on GitHub.
-2. Source: **Deploy from a branch**.
-3. Branch: **main**, folder: **/ (root)**.
-4. Save. Pages will publish at `https://lsanchez-g2.github.io/g2-claude-guide/` within ~60 seconds.
-
-Or via the GitHub CLI:
-
-```bash
-gh api repos/lsanchez-g2/g2-claude-guide/pages \
-  -X POST \
-  -F source[branch]=main \
-  -F source[path]=/
-```
-
-## Editing
-
-The whole experience lives in one file: `index.html`. Sections you'll touch most:
-
-- **`ROLES` object** — the wizard's role catalog (questions per role).
-- **`recommend()` function** — the per-role recommendation engine (products, prompts, playbook, fold).
-- **`SKILLS` catalog** — what each skill is, its source, its URL.
-- **`SKILLS_BY_ROLE`** — the top-10 list per role (with `mandatory: true` for required items).
-
-All are at the top of the wizard script block (search for `WIZARD — first-visit personalization`).
+<p align="center">
+  <a href="https://lsanchez-g2.github.io/g2-claude-guide/">
+    <strong>→ View the guide</strong>
+  </a>
+</p>
 
 ---
 
-Lex Sánchez · G2 · Product Builder — 2026
+## A guide that shapes itself to you
+
+Open the page and a short three-step wizard asks who you are, what slows you down most, and where your work lives. From those answers it builds a **Your Path** card with everything you need on one screen:
+
+- **A starting order** — which of the four Claudes to reach for first, second, third.
+- **Three prompts you can paste in this week**, written for your role.
+- **One playbook to run end-to-end** before you add the next.
+- **Your top 10 skills to install** — mandatory items called out in ember.
+
+You can change roles any time. The persona menu in the top right re-tailors the deep dives in every section.
+
+## The four products, at a glance
+
+| Product | Job | Where the work happens |
+|---|---|---|
+| **Claude Chat** | Think with it, draft with it, dashboard with it. | Conversation, Artifacts, connectors. |
+| **Claude Cowork** | Files on your computer, organised by you-but-not-by-you. | Your desktop, with explicit folder access. |
+| **Claude Code** | Ship the PR from a one-line goal. | Your terminal — CLI, MCP, subagents, hooks. |
+| **Claude Design** | Mockups, decks, handoff bundles — all from one prompt. | A visual canvas with real exports (Canva, PPTX, PDF, HTML, Code handoff). |
+
+Each section has an animated demo so you can see the product before you decide.
+
+## Three playbooks that stitch the stack
+
+The four Claudes are designed to compose. Three named routes are rendered as colour-coded subway maps inside the guide:
+
+1. **Spec → Ship.** A PM's one-pager becomes a designer's prototype, becomes a build bundle, becomes a shipped PR.
+2. **Inbox → Insight.** Cowork tidies a folder; Chat turns the result into a re-openable Live Artifact the team can check each Monday.
+3. **Repo → Refactor.** Subagents map a legacy module; the findings become a one-pager and a leadership slide.
+
+## Seven roles, seven paths
+
+The wizard knows about **Designer**, **Product Manager**, **Engineer**, **Leadership**, **UX Researcher**, **Operator** (finance / ops / legal / sales / marketing / support), and a *Curious* catch-all. Pick yours and the whole guide reflows — product priority, prompts, playbook, skills.
+
+## Light or dark, mobile or desktop
+
+The guide opens in light mode with a toggle in the top nav for dark. It respects `prefers-color-scheme` for first-time visitors. It's fully responsive — the wizard, the matrix, and the four animated demos all collapse cleanly to one column on phones.
+
+> [!IMPORTANT]
+> **Need access?** Use the **G2 Assist Slackbot**. If it doesn't work, ping **@Johnny Trieu**.
+
+## Skills you can take with you
+
+The guide recommends ten skills per role, mixing official Anthropic skills with custom and third-party additions. The custom **ds-architect** skill is *mandatory* for designers and lives at [github.com/lsanchez-g2/ds-architect](https://github.com/lsanchez-g2/ds-architect). Two ready-to-install `SKILL.md` files are bundled in `skills-to-install/` for the impatient.
+
+---
+
+<p align="center">
+  <em>Lex Sánchez &middot; G2 &middot; Product Builder &middot; 2026</em>
+</p>
