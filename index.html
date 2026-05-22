@@ -958,29 +958,6 @@ html[data-motion="paused"] .scroll-progress { transition: none; }
   position: relative;
 }
 
-/* ───── Cursor glow (subtle ember halo following the mouse) ───── */
-.cursor-glow {
-  position: fixed;
-  top: 0; left: 0;
-  width: 520px; height: 520px;
-  border-radius: 50%;
-  background: radial-gradient(circle,
-    color-mix(in srgb, var(--ember) 14%, transparent),
-    color-mix(in srgb, var(--ember) 6%, transparent) 35%,
-    transparent 65%);
-  pointer-events: none;
-  transform: translate3d(-9999px, -9999px, 0);
-  z-index: 1;
-  opacity: 0;
-  transition: opacity 400ms var(--ease-out);
-  mix-blend-mode: multiply;
-}
-html[data-theme="dark"] .cursor-glow { mix-blend-mode: screen; }
-@media (hover: hover) and (pointer: fine) {
-  .has-cursor-glow .cursor-glow { opacity: 1; }
-}
-html[data-motion="paused"] .cursor-glow { display: none; }
-
 /* ───── Hover shine on cap cards (subtle gradient sweep) ───── */
 .cap { overflow: hidden; }
 .cap::before {
@@ -3100,13 +3077,7 @@ footer.foot {
   height: 6px;
   border-radius: 50%;
   background: var(--ember);
-  animation: careHeartbeat 2.4s ease-in-out infinite;
 }
-@keyframes careHeartbeat {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50%      { transform: scale(1.4); opacity: 0.6; }
-}
-html[data-motion="paused"] .foot-care::before { animation: none; }
 
 /* ------------------------------------------------------------------
    WIZARD.first-visit personalization
@@ -3220,34 +3191,35 @@ html[data-motion="paused"] .foot-care::before { animation: none; }
   to   { opacity: 1; transform: none; }
 }
 
-/* Staggered entrance for the role cards inside step 1 */
-.wiz-backdrop.open .wiz-step.active[data-step="1"] .role-card {
+/* Staggered entrance — only on the first open of the wizard per session.
+   After that, .has-been-seen is added and cards appear instantly. */
+.wiz-backdrop.open:not(.has-been-seen) .wiz-step.active[data-step="1"] .role-card {
   opacity: 0;
   transform: translateY(10px);
   animation: roleCardIn 380ms var(--ease-out) forwards;
 }
-.wiz-backdrop.open .wiz-step.active[data-step="1"] .role-card:nth-child(1) { animation-delay: 60ms; }
-.wiz-backdrop.open .wiz-step.active[data-step="1"] .role-card:nth-child(2) { animation-delay: 110ms; }
-.wiz-backdrop.open .wiz-step.active[data-step="1"] .role-card:nth-child(3) { animation-delay: 160ms; }
-.wiz-backdrop.open .wiz-step.active[data-step="1"] .role-card:nth-child(4) { animation-delay: 210ms; }
-.wiz-backdrop.open .wiz-step.active[data-step="1"] .role-card:nth-child(5) { animation-delay: 260ms; }
-.wiz-backdrop.open .wiz-step.active[data-step="1"] .role-card:nth-child(6) { animation-delay: 310ms; }
-.wiz-backdrop.open .wiz-step.active[data-step="1"] .role-card:nth-child(7) { animation-delay: 360ms; }
+.wiz-backdrop.open:not(.has-been-seen) .wiz-step.active[data-step="1"] .role-card:nth-child(1) { animation-delay: 60ms; }
+.wiz-backdrop.open:not(.has-been-seen) .wiz-step.active[data-step="1"] .role-card:nth-child(2) { animation-delay: 110ms; }
+.wiz-backdrop.open:not(.has-been-seen) .wiz-step.active[data-step="1"] .role-card:nth-child(3) { animation-delay: 160ms; }
+.wiz-backdrop.open:not(.has-been-seen) .wiz-step.active[data-step="1"] .role-card:nth-child(4) { animation-delay: 210ms; }
+.wiz-backdrop.open:not(.has-been-seen) .wiz-step.active[data-step="1"] .role-card:nth-child(5) { animation-delay: 260ms; }
+.wiz-backdrop.open:not(.has-been-seen) .wiz-step.active[data-step="1"] .role-card:nth-child(6) { animation-delay: 310ms; }
+.wiz-backdrop.open:not(.has-been-seen) .wiz-step.active[data-step="1"] .role-card:nth-child(7) { animation-delay: 360ms; }
 @keyframes roleCardIn {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Same gentle stagger for option cards in steps 2 and 3 */
-.wiz-backdrop.open .wiz-step.active .opt {
+/* Same gentle stagger for option cards (first open only) */
+.wiz-backdrop.open:not(.has-been-seen) .wiz-step.active .opt {
   opacity: 0;
   transform: translateY(8px);
   animation: roleCardIn 320ms var(--ease-out) forwards;
 }
-.wiz-backdrop.open .wiz-step.active .opt:nth-child(1) { animation-delay: 80ms; }
-.wiz-backdrop.open .wiz-step.active .opt:nth-child(2) { animation-delay: 130ms; }
-.wiz-backdrop.open .wiz-step.active .opt:nth-child(3) { animation-delay: 180ms; }
-.wiz-backdrop.open .wiz-step.active .opt:nth-child(4) { animation-delay: 230ms; }
-.wiz-backdrop.open .wiz-step.active .opt:nth-child(5) { animation-delay: 280ms; }
+.wiz-backdrop.open:not(.has-been-seen) .wiz-step.active .opt:nth-child(1) { animation-delay: 80ms; }
+.wiz-backdrop.open:not(.has-been-seen) .wiz-step.active .opt:nth-child(2) { animation-delay: 130ms; }
+.wiz-backdrop.open:not(.has-been-seen) .wiz-step.active .opt:nth-child(3) { animation-delay: 180ms; }
+.wiz-backdrop.open:not(.has-been-seen) .wiz-step.active .opt:nth-child(4) { animation-delay: 230ms; }
+.wiz-backdrop.open:not(.has-been-seen) .wiz-step.active .opt:nth-child(5) { animation-delay: 280ms; }
 
 .wiz-eyebrow {
   font-family: var(--mono);
@@ -4193,7 +4165,6 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
 <a href="#main" class="skip">Skip to content</a>
 <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
-<div class="cursor-glow" aria-hidden="true"></div>
 
 <!-- ===== Wizard modal (first-visit personalization) ===== -->
 <div class="wiz-backdrop" id="wizard" role="dialog" aria-modal="true" aria-labelledby="wiz-title-1" hidden>
@@ -6005,44 +5976,14 @@ section[id], .hero { scroll-margin-top: 5rem; }
         links.forEach(l => l.classList.toggle('is-active', l.dataset.prod === bestId));
       }
     }, {
-      rootMargin: '-30% 0px -55% 0px',
-      threshold: [0, 0.25, 0.5, 0.75, 1]
+      // Wider band so the active nav link updates as a section enters
+      // the top third of the viewport, not just the middle 15%.
+      rootMargin: '-15% 0px -50% 0px',
+      threshold: [0, 0.2, 0.4, 0.6, 0.8, 1]
     });
     targets.forEach(t => io.observe(t));
   })();
 
-  // 6. Cursor glow follower — only on hover-capable devices, only when motion allowed
-  (function initCursorGlow() {
-    const glow = document.querySelector('.cursor-glow');
-    if (!glow) return;
-    if (isInstant()) return;
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-
-    document.body.classList.add('has-cursor-glow');
-
-    let mx = window.innerWidth / 2;
-    let my = -1000;
-    let gx = mx, gy = my;
-    let active = false;
-
-    window.addEventListener('mousemove', function (e) {
-      mx = e.clientX;
-      my = e.clientY;
-      if (!active) { gx = mx; gy = my; active = true; }
-    }, { passive: true });
-
-    document.documentElement.addEventListener('mouseleave', function () {
-      my = -1000;
-    });
-
-    function tick() {
-      gx += (mx - gx) * 0.12;
-      gy += (my - gy) * 0.12;
-      glow.style.transform = 'translate3d(' + (gx - 260) + 'px, ' + (gy - 260) + 'px, 0)';
-      requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  })();
 
   /* ---------------------------------------------------------------
      CHAT DEMO.prompt → typing → stream → artifact
@@ -7212,11 +7153,22 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
     let state = { step: 1, role: null, a2: null, a3: null };
 
+    // Restore the "wizard has been seen this session" flag so subsequent opens skip the stagger
+    const WIZ_SEEN_KEY = 'tcs.wizard.seen';
+    try { if (sessionStorage.getItem(WIZ_SEEN_KEY)) wiz.classList.add('has-been-seen'); } catch (e) {}
+
     function openWizard(seed) {
       wiz.hidden = false;
       requestAnimationFrame(() => wiz.classList.add('open'));
       state = seed ? Object.assign({ step: 1 }, seed) : { step: 1, role: null, a2: null, a3: null };
       renderStep();
+      // After the first open's stagger finishes, mark as seen so future opens are instant
+      if (!wiz.classList.contains('has-been-seen')) {
+        setTimeout(() => {
+          wiz.classList.add('has-been-seen');
+          try { sessionStorage.setItem(WIZ_SEEN_KEY, '1'); } catch (e) {}
+        }, 800);
+      }
       // Trap focus on first focusable
       const first = wiz.querySelector('.role-card, .opt, .wiz-btn-ghost, .wiz-skip');
       if (first) setTimeout(() => first.focus(), 60);
