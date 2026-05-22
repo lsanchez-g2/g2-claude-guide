@@ -3966,6 +3966,67 @@ footer.foot {
   transform: translateX(2px);
 }
 .ref-card-arrow .icon { width: 1rem; height: 1rem; }
+
+/* "Also worth knowing" — hidden products surface */
+.path-also {
+  margin-top: var(--s-12);
+  padding-top: var(--s-8);
+  border-top: 1px solid var(--line);
+}
+.path-also-head {
+  display: grid;
+  gap: var(--s-2);
+  margin-bottom: var(--s-4);
+}
+.path-also-title {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cream-dim);
+}
+.path-also-lede {
+  font-size: var(--fs-sm);
+  color: var(--cream-mid);
+  line-height: 1.55;
+  margin: 0;
+  max-width: 48rem;
+}
+.path-also-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+}
+.path-also-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-md);
+  background: var(--paper);
+  color: var(--cream);
+  text-decoration: none;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  transition: all var(--t-fast) var(--ease-out);
+}
+.path-also-link:hover {
+  border-color: var(--ember);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--ember) 25%, transparent);
+}
+.path-also-link .icon { width: 0.95rem; height: 0.95rem; }
+.path-also-link .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--cream-faint);
+}
+.path-also-link[data-prod="chat"]   .dot { background: var(--chat); }
+.path-also-link[data-prod="cowork"] .dot { background: var(--cowork); }
+.path-also-link[data-prod="code"]   .dot { background: var(--code); }
+.path-also-link[data-prod="design"] .dot { background: var(--design); }
 .skill-tag.anthropic   { color: var(--chat);    border-color: color-mix(in srgb, var(--chat) 40%, var(--line));    background: color-mix(in srgb, var(--chat) 8%, var(--paper-warm)); }
 .skill-tag.custom      { color: var(--design);  border-color: color-mix(in srgb, var(--design) 45%, var(--line));  background: color-mix(in srgb, var(--design) 8%, var(--paper-warm)); }
 .skill-tag.third-party { color: var(--cream-dim); }
@@ -4467,8 +4528,8 @@ section[id], .hero { scroll-margin-top: 5rem; }
     <!-- Design-system reference links — shown only when the role is Designer -->
     <section class="path-references" id="pathReferences" hidden aria-label="Design system reference links">
       <header class="path-references-head">
-        <h3>Reference links for designers</h3>
-        <p>Two G2 design systems are live right now. Pick the one you work with and the rest is one click away.</p>
+        <h3>G2 design system references</h3>
+        <p>Two G2 design systems are live right now. Useful for designers, PMs, engineers, or anyone who touches Software Advice or Capterra.</p>
       </header>
 
       <!-- Apollo v2 — Software Advice -->
@@ -4548,6 +4609,15 @@ section[id], .hero { scroll-margin-top: 5rem; }
           </a>
         </div>
       </div>
+    </section>
+
+    <!-- Hidden products in this path — shown only when fold is non-empty -->
+    <section class="path-also" id="pathAlso" hidden aria-label="Sections hidden in your path">
+      <header class="path-also-head">
+        <h3 class="path-also-title">Also worth knowing</h3>
+        <p class="path-also-lede">We kept these sections out of focus for your role. Click to dive in any time.</p>
+      </header>
+      <div class="path-also-grid" id="pathAlsoGrid"></div>
     </section>
 
     <div class="path-foot">
@@ -7325,14 +7395,10 @@ section[id], .hero { scroll-margin-top: 5rem; }
       applyProfile(null);
     });
 
-    // Apply on load (or open wizard if no profile)
+    // Apply on load. No auto-open: the Your Path empty-state CTA is the canonical entry
+    // point, so first-time visitors land on the guide itself and choose when to personalize.
     const existing = getProfile();
-    if (existing) {
-      applyProfile(existing);
-    } else {
-      // First visit.open wizard after a short delay (lets the hero render first)
-      setTimeout(openWizard, 600);
-    }
+    applyProfile(existing || null);
   }
 
   /* ---- Apply profile: render Your Path + filter content ---- */
@@ -7358,15 +7424,10 @@ section[id], .hero { scroll-margin-top: 5rem; }
       yp.dataset.state = 'empty';
       const refs = document.getElementById('pathReferences');
       if (refs) refs.hidden = true;
-      // Reset nav button to "Personalize" (sparkle icon)
-      const iconEl = document.getElementById('navEditIcon');
-      const label = document.getElementById('navEditLabel');
-      if (iconEl) {
-        const use = iconEl.querySelector('use');
-        if (use) use.setAttribute('href', '#i-sparkle');
-      }
-      if (label) label.textContent = 'Personalize';
-      navEditBtn.setAttribute('aria-label', 'Personalize this guide');
+      const also = document.getElementById('pathAlso');
+      if (also) also.hidden = true;
+      // No profile yet — hide the nav button. The empty-state CTA is the only entry point.
+      navEditBtn.hidden = true;
       applyPersona('everyone');
       return;
     }
@@ -7377,7 +7438,8 @@ section[id], .hero { scroll-margin-top: 5rem; }
     // Set persona toggle
     if (role.persona) applyPersona(role.persona);
 
-    // Switch nav button to "Edit profile" mode (pencil icon)
+    // Profile is set — reveal nav button as "Edit profile" (pencil icon)
+    navEditBtn.hidden = false;
     const iconEl = document.getElementById('navEditIcon');
     const label = document.getElementById('navEditLabel');
     if (iconEl) {
@@ -7506,9 +7568,10 @@ section[id], .hero { scroll-margin-top: 5rem; }
     // Reveal the filled state of Your Path
     yp.dataset.state = 'filled';
 
-    // Designer-only Apollo v2 reference block
+    // G2 internal design-system references — shown for any personalized role.
+    // (Hidden in the no-profile branch above.)
     const refs = document.getElementById('pathReferences');
-    if (refs) refs.hidden = (profile.role !== 'designer');
+    if (refs) refs.hidden = false;
 
     // Highlight capabilities
     Object.keys(REC.highlights).forEach(prod => {
@@ -7537,6 +7600,39 @@ section[id], .hero { scroll-margin-top: 5rem; }
       const matrixCard = document.getElementById('prod-' + prod);
       if (matrixCard) matrixCard.classList.add('is-folded');
     });
+
+    // "Also worth knowing" — surfaces what we hid, with one-click reveal
+    const alsoEl   = document.getElementById('pathAlso');
+    const alsoGrid = document.getElementById('pathAlsoGrid');
+    if (alsoEl && alsoGrid) {
+      if (REC.fold && REC.fold.length > 0) {
+        alsoGrid.innerHTML = '';
+        REC.fold.forEach(prod => {
+          const link = document.createElement('a');
+          link.className = 'path-also-link';
+          link.dataset.prod = prod;
+          link.href = '#' + prod;
+          link.innerHTML =
+            '<span class="dot" aria-hidden="true"></span>' +
+            (PROD_LABELS[prod] || prod) +
+            '<svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>';
+          link.addEventListener('click', function () {
+            // Reveal the folded surfaces in place so the anchor click can scroll there
+            const section = document.getElementById(prod);
+            if (section) section.classList.remove('is-folded');
+            const navLink = document.querySelector('.nav-link[data-prod="' + prod + '"]');
+            if (navLink) navLink.classList.remove('is-folded');
+            document.querySelectorAll('.job[data-target="' + prod + '"].is-folded').forEach(j => j.classList.remove('is-folded'));
+            const matrixCard = document.getElementById('prod-' + prod);
+            if (matrixCard) matrixCard.classList.remove('is-folded');
+          });
+          alsoGrid.appendChild(link);
+        });
+        alsoEl.hidden = false;
+      } else {
+        alsoEl.hidden = true;
+      }
+    }
 
     // Scroll Your Path into view for emphasis (after a beat)
     setTimeout(() => {
