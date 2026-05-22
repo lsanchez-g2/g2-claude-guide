@@ -887,9 +887,13 @@ html[data-motion="paused"] .hero-scroll-line::after { animation: none; }
 .avatar-lg { width: 56px; height: 56px; font-size: 21px; }
 .avatar-sm { width: 36px; height: 36px; font-size: 14px; }
 
-/* Hero byline pill — info-only, sits above the eyebrow. Email link is internal. */
+/* Hero byline pill — info-only, sits on its own row above the eyebrow.
+   `display: flex` + `width: fit-content` keeps the pill auto-sized but
+   forces it onto its own line so the eyebrow drops below. */
 .hero-byline {
-  display: inline-flex;
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
   align-items: center;
   gap: var(--s-3);
   padding: var(--s-2) var(--s-4) var(--s-2) var(--s-2);
