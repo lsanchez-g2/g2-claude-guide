@@ -1072,7 +1072,7 @@ section.product::before, section.matrix::before, section.playbooks::before, sect
   font-weight: 700;
   font-size: clamp(7rem, 16vw, 14rem);
   line-height: 0.85;
-  color: color-mix(in srgb, var(--ember) 6%, transparent);
+  color: color-mix(in srgb, var(--ember) 9%, transparent);
   position: absolute;
   top: clamp(2rem, 5vw, 4rem);
   right: var(--pad-inner);
@@ -1080,6 +1080,12 @@ section.product::before, section.matrix::before, section.playbooks::before, sect
   z-index: 0;
   user-select: none;
   letter-spacing: -0.04em;
+}
+html[data-theme="dark"] section.product::before,
+html[data-theme="dark"] section.matrix::before,
+html[data-theme="dark"] section.playbooks::before,
+html[data-theme="dark"] section.sources::before {
+  color: color-mix(in srgb, var(--ember) 7%, transparent);
 }
 section.product > *, section.matrix > *, section.playbooks > *, section.sources > * {
   position: relative;
@@ -1096,7 +1102,7 @@ section#sources::before    { content: "08"; }
   section.product::before, section.matrix::before, section.playbooks::before, section.sources::before {
     font-size: 8rem;
     top: 1.25rem;
-    color: color-mix(in srgb, var(--ember) 4%, transparent);
+    color: color-mix(in srgb, var(--ember) 6%, transparent);
   }
 }
 
@@ -3730,6 +3736,40 @@ footer.foot {
 @media (min-width: 800px) {
   .skills-grid { grid-template-columns: 1fr 1fr; }
 }
+
+/* "Show 5 more" — only appears on mobile when more than 5 cards exist */
+.skills-show-more {
+  display: none;
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  background: var(--paper-warm);
+  border: 1px solid var(--line-strong);
+  color: var(--cream);
+  padding: var(--s-3) var(--s-5);
+  border-radius: var(--r-md);
+  margin: var(--s-4) 0 0;
+  cursor: pointer;
+  min-height: 2.5rem;
+  align-items: center;
+  gap: var(--s-2);
+  transition: border-color var(--t-fast) var(--ease-out), color var(--t-fast) var(--ease-out);
+  width: 100%;
+  justify-content: center;
+}
+.skills-show-more:hover, .skills-show-more:focus-visible {
+  border-color: var(--ember);
+  color: var(--ember);
+  outline: none;
+}
+.skills-show-more .icon { width: 0.9rem; height: 0.9rem; transform: rotate(90deg); }
+
+@media (max-width: 799px) {
+  .path-skills:not(.is-expanded) .skills-grid > .skill-card:nth-child(n+6) { display: none; }
+  .path-skills:not(.is-expanded) .skills-show-more { display: inline-flex; }
+}
 .skill-card {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -3829,6 +3869,28 @@ footer.foot {
   color: var(--cowork);
   border-color: color-mix(in srgb, var(--cowork) 50%, var(--line));
   background: color-mix(in srgb, var(--cowork) 10%, transparent);
+}
+/* Brief "COPIED" floating label below the button on success */
+.skill-copy::after {
+  content: 'Copied';
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cowork);
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out);
+  pointer-events: none;
+  white-space: nowrap;
+}
+.skill-copy.is-copied::after {
+  opacity: 1;
+  transform: translateY(0);
 }
 .skill-card { padding-right: var(--s-12); } /* leave room for the button */
 .skill-card {
@@ -4523,6 +4585,10 @@ section[id], .hero { scroll-margin-top: 5rem; }
         <span>Hover any card and tap the copy icon. Paste it into Cowork or Claude Code, and Claude installs the skill for you.</span>
       </p>
       <ol class="skills-grid" id="pathSkillRow" aria-label="Recommended skills"></ol>
+      <button type="button" class="skills-show-more" id="skillsShowMore">
+        Show 5 more
+        <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+      </button>
     </div>
 
     <!-- Design-system reference links — shown only when the role is Designer -->
@@ -5952,7 +6018,25 @@ section[id], .hero { scroll-margin-top: 5rem; }
   }
 
   /* ---------------------------------------------------------------
-     EXTENDED MOTION.Lenis smooth scroll, cursor glow, more reveals
+     READING TIMES — computed once on load, replaces the static labels
+     --------------------------------------------------------------- */
+  (function computeReadingTimes() {
+    document.querySelectorAll('section.product').forEach(section => {
+      const rt = section.querySelector('.read-time');
+      if (!rt) return;
+      const clone = section.cloneNode(true);
+      // Strip out non-reading visual blocks so the count reflects prose, not demos.
+      clone.querySelectorAll('.demo, .terminal, .canvas-shell, .chat-demo, .cowork-stage, .bundle-tile').forEach(el => el.remove());
+      const text = (clone.textContent || '').trim();
+      const words = text.split(/\s+/).filter(Boolean).length;
+      // 220 wpm — typical scanning-to-reading speed for product docs.
+      const minutes = Math.max(1, Math.round(words / 220));
+      rt.textContent = minutes + ' min read';
+    });
+  })();
+
+  /* ---------------------------------------------------------------
+     EXTENDED MOTION — Lenis smooth scroll, scroll spy, reveals
      --------------------------------------------------------------- */
   // 1. Add .reveal to grid children + register with shared observer for stagger
   (function extendReveals() {
@@ -7530,6 +7614,17 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
       pathSkillRow.appendChild(li);
     });
+
+    // Reset the "Show 5 more" collapsed state each time skills re-render
+    const pathSkillsEl = document.getElementById('pathSkills');
+    if (pathSkillsEl) pathSkillsEl.classList.remove('is-expanded');
+    const showMoreBtn = document.getElementById('skillsShowMore');
+    if (showMoreBtn && !showMoreBtn.__wired) {
+      showMoreBtn.addEventListener('click', function () {
+        if (pathSkillsEl) pathSkillsEl.classList.add('is-expanded');
+      });
+      showMoreBtn.__wired = true;
+    }
 
     // Wire copy buttons (clipboard write + brief check feedback)
     pathSkillRow.querySelectorAll('.skill-copy').forEach(btn => {
