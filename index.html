@@ -36,7 +36,7 @@
   --cream:         #18150F;   /* body text.warm dark */
   --cream-mid:     #3D3830;   /* was #4A4339.darker for prose */
   --cream-dim:     #5C5448;   /* was #7A7062.darker for secondary text */
-  --cream-faint:   #897F6E;   /* was #ACA28F.darker for tertiary labels */
+  --cream-faint:   #6E6452;   /* darker for ≥5.3:1 AA contrast on cream bg */
 
   --line:          rgba(24, 21, 15, 0.12);
   --line-strong:   rgba(24, 21, 15, 0.24);
@@ -659,12 +659,9 @@ html[data-theme="dark"] .theme-icon-moon { display: none; }
 .hero-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: clamp(2rem, 5vw, 4rem);
-  align-items: end;
+  gap: clamp(2rem, 5vw, 3rem);
 }
-@media (min-width: 900px) {
-  .hero-grid { grid-template-columns: 7fr 5fr; }
-}
+.hero-text { max-width: 56rem; }
 
 .hero-eyebrow {
   font-family: var(--mono);
@@ -890,7 +887,7 @@ html[data-motion="paused"] .hero-scroll-line::after { animation: none; }
 .avatar-lg { width: 56px; height: 56px; font-size: 21px; }
 .avatar-sm { width: 36px; height: 36px; font-size: 14px; }
 
-/* Hero byline pill — sits above the eyebrow */
+/* Hero byline pill — info-only, sits above the eyebrow. Email link is internal. */
 .hero-byline {
   display: inline-flex;
   align-items: center;
@@ -900,13 +897,7 @@ html[data-motion="paused"] .hero-scroll-line::after { animation: none; }
   border: 1px solid var(--line);
   border-radius: 999px;
   margin-bottom: var(--s-6);
-  transition: border-color var(--t-fast) var(--ease-out), transform var(--t-fast) var(--ease-out);
-  text-decoration: none;
   color: inherit;
-}
-.hero-byline:hover {
-  border-color: color-mix(in srgb, var(--ember) 40%, var(--line));
-  transform: translateY(-1px);
 }
 .byline-meta {
   display: grid;
@@ -927,8 +918,10 @@ html[data-motion="paused"] .hero-scroll-line::after { animation: none; }
   letter-spacing: 0.04em;
   color: var(--ember);
   text-decoration: none;
+  border-bottom: 1px dotted color-mix(in srgb, var(--ember) 50%, transparent);
+  width: fit-content;
 }
-.byline-link:hover { text-decoration: underline; }
+.byline-link:hover { border-bottom-style: solid; border-bottom-color: var(--ember); }
 
 /* ───── Scroll progress bar (top of viewport) ───── */
 .scroll-progress {
@@ -936,12 +929,12 @@ html[data-motion="paused"] .hero-scroll-line::after { animation: none; }
   top: 0; left: 0;
   width: 100%;
   height: 2px;
-  background: var(--ember);
+  background: var(--cream-mid);
   transform-origin: left center;
   transform: scaleX(0);
   z-index: 100;
   pointer-events: none;
-  box-shadow: 0 0 8px color-mix(in srgb, var(--ember) 50%, transparent);
+  opacity: 0.6;
 }
 html[data-motion="paused"] .scroll-progress { transition: none; }
 
@@ -1216,9 +1209,9 @@ section#sources::before    { content: "08"; }
   position: absolute;
   left: 0;
   top: 0.30em;
-  width: 4px;
+  width: 3px;
   height: 0.8em;
-  background: var(--ember);
+  background: var(--cream-faint);
   border-radius: 2px;
 }
 .section-eyebrow {
@@ -1554,7 +1547,8 @@ section#sources::before    { content: "08"; }
   margin-left: 5rem;
 }
 
-/* TL;DR.leadership card */
+/* TL;DR — leadership card
+   1-col on phones; pitch-on-top + 3-stats-below at 720-1099; 4-col at 1100+. */
 .tldr {
   display: grid;
   grid-template-columns: 1fr;
@@ -1569,7 +1563,21 @@ section#sources::before    { content: "08"; }
   position: relative;
   overflow: hidden;
 }
-@media (min-width: 720px) {
+@media (min-width: 720px) and (max-width: 1099px) {
+  .tldr {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas:
+      "pitch pitch pitch"
+      "s1    s2    s3";
+    align-items: start;
+    gap: var(--s-5) var(--s-6);
+  }
+  .tldr-pitch { grid-area: pitch; padding-right: 0; }
+  .tldr > .tldr-stat:nth-of-type(1) { grid-area: s1; }
+  .tldr > .tldr-stat:nth-of-type(2) { grid-area: s2; }
+  .tldr > .tldr-stat:nth-of-type(3) { grid-area: s3; }
+}
+@media (min-width: 1100px) {
   .tldr { grid-template-columns: 1.4fr 1fr 1fr 1fr; align-items: end; }
 }
 .tldr::before {
@@ -4379,16 +4387,16 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
     <div class="hero-grid">
       <div class="hero-text">
-        <a class="hero-byline reveal" href="mailto:gsancheztorres@g2.com" aria-label="Email Lex Sánchez">
+        <div class="hero-byline reveal">
           <span class="avatar avatar-lg" aria-hidden="true">
             <span class="avatar-initials">LS</span>
             <img src="avatar.jpg" alt="" onerror="this.style.display='none'">
           </span>
           <span class="byline-meta">
-            <span class="byline-line">Guide by <strong>Lex Sánchez</strong> · Product Builder · G2</span>
-            <span class="byline-link">gsancheztorres@g2.com</span>
+            <span class="byline-line">Guide by <strong>Lex Sánchez</strong> · Product Builder</span>
+            <a class="byline-link" href="mailto:gsancheztorres@g2.com">gsancheztorres@g2.com</a>
           </span>
-        </a>
+        </div>
 
         <p class="hero-eyebrow reveal">A field guide · May 2026</p>
 
@@ -4415,36 +4423,6 @@ section[id], .hero { scroll-margin-top: 5rem; }
         </a>
       </div>
 
-      <aside class="hero-aside reveal" aria-label="At a glance">
-        <a class="product-mini" href="#chat" data-product="chat">
-          <span class="product-mini-dot" aria-hidden="true"></span>
-          <span>
-            <span class="product-mini-name">Claude Chat</span>
-          </span>
-          <span class="product-mini-role">Think with</span>
-        </a>
-        <a class="product-mini" href="#cowork" data-product="cowork">
-          <span class="product-mini-dot" aria-hidden="true"></span>
-          <span>
-            <span class="product-mini-name">Claude Cowork</span>
-          </span>
-          <span class="product-mini-role">Work alongside</span>
-        </a>
-        <a class="product-mini" href="#code" data-product="code">
-          <span class="product-mini-dot" aria-hidden="true"></span>
-          <span>
-            <span class="product-mini-name">Claude Code</span>
-          </span>
-          <span class="product-mini-role">Build with</span>
-        </a>
-        <a class="product-mini" href="#design" data-product="design">
-          <span class="product-mini-dot" aria-hidden="true"></span>
-          <span>
-            <span class="product-mini-name">Claude Design</span>
-          </span>
-          <span class="product-mini-role">Draw with</span>
-        </a>
-      </aside>
     </div>
   </section>
 
@@ -5728,7 +5706,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
 <footer class="foot">
   <div class="foot-grid">
     <div>
-      <p class="foot-signature">G2 · Field guide · 2026</p>
+      <p class="foot-signature">Field guide · 2026</p>
       <p class="foot-brand">The Claude Stack.</p>
       <p class="foot-tagline">A field guide to Anthropic's four products: Chat, Cowork, Code, and Design. Written for the people who use them daily, not the people who write the press releases.</p>
     </div>
@@ -7437,8 +7415,6 @@ section[id], .hero { scroll-margin-top: 5rem; }
       }
       if (label) label.textContent = 'Personalize';
       navEditBtn.setAttribute('aria-label', 'Personalize this guide');
-      const heroAside = document.querySelector('.hero-aside');
-      if (heroAside) heroAside.style.opacity = '';
       applyPersona('everyone');
       return;
     }
@@ -7609,10 +7585,6 @@ section[id], .hero { scroll-margin-top: 5rem; }
       const matrixCard = document.getElementById('prod-' + prod);
       if (matrixCard) matrixCard.classList.add('is-folded');
     });
-
-    // Hide the "At a glance" hero aside since the Your Path card replaces it
-    const heroAside = document.querySelector('.hero-aside');
-    if (heroAside) heroAside.style.opacity = '0.45';
 
     // Scroll Your Path into view for emphasis (after a beat)
     setTimeout(() => {
