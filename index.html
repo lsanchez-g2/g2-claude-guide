@@ -1036,10 +1036,10 @@ section.product, section.matrix, section.playbooks, section.primer {
   position: relative;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
+  gap: var(--s-6);
 }
-@media (min-width: 880px) {
-  .matrix-stage { grid-template-columns: 5fr 4fr; gap: clamp(3rem, 6vw, 6rem); }
+@media (min-width: 1024px) {
+  .matrix-stage { grid-template-columns: 5fr 4fr; gap: clamp(2.5rem, 5vw, 5rem); }
 }
 
 /* Jobs column */
@@ -1144,8 +1144,8 @@ section.product, section.matrix, section.playbooks, section.primer {
 .connector-path[data-target="code"]   { stroke: var(--code); }
 .connector-path[data-target="design"] { stroke: var(--design); }
 
-/* Hide connectors on mobile */
-@media (max-width: 879px) {
+/* Hide connectors below the 2-column breakpoint */
+@media (max-width: 1023px) {
   .connectors { display: none; }
   .job { grid-template-columns: auto 1fr; }
   .job-pick { grid-column: 2; justify-self: start; margin-top: 0.4rem; }
@@ -1163,11 +1163,10 @@ section.product, section.matrix, section.playbooks, section.primer {
   z-index: 2;
 }
 .prod-card {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  column-gap: 1rem;
-  row-gap: 0.25rem;
-  padding: 1.1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  padding: var(--s-5);
   border: 1px solid var(--line);
   border-radius: var(--r-md);
   background: linear-gradient(180deg, var(--paper-raised), var(--paper));
@@ -1203,10 +1202,19 @@ section.product, section.matrix, section.playbooks, section.primer {
 .prod-mark {
   font-family: var(--mono);
   font-size: var(--fs-xs);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   color: var(--cream-faint);
-  align-self: start;
-  padding-top: 0.3rem;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+.prod-mark::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
 }
 .prod-card[data-product="chat"]   .prod-mark { color: var(--chat); }
 .prod-card[data-product="cowork"] .prod-mark { color: var(--cowork); }
@@ -1214,24 +1222,26 @@ section.product, section.matrix, section.playbooks, section.primer {
 .prod-card[data-product="design"] .prod-mark { color: var(--design); }
 
 .prod-card-name {
-  font-family: var(--serif);
+  font-family: var(--display);
   font-size: var(--fs-xl);
-  letter-spacing: -0.012em;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: 0;
   color: var(--cream);
 }
 .prod-card-line {
   font-size: var(--fs-sm);
   color: var(--cream-dim);
-  line-height: 1.4;
+  line-height: 1.5;
 }
 .prod-card-tier {
   font-family: var(--mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--cream-faint);
-  margin-top: 0.3rem;
-  grid-column: 2;
+  margin-top: auto;
+  padding-top: var(--s-2);
 }
 
 /* ------------------------------------------------------------------
@@ -7176,7 +7186,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
     });
 
     function isWide() {
-      return window.matchMedia('(min-width: 880px)').matches;
+      return window.matchMedia('(min-width: 1024px)').matches;
     }
 
     function computePathD(jobEl, prodEl) {
