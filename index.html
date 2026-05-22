@@ -4,7 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light dark">
-<title>The Claude Stack. A field guide to Chat, Cowork, Code & Design</title>
+
+<!-- Theme FOUC guard: read saved theme before paint so dark-mode visitors
+     don't see a brief flash of light mode on every load. -->
+<script>(function(){try{var t=localStorage.getItem('tcs.theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+
+<title>The Claude Stack — A field guide to Chat, Cowork, Code & Design</title>
 <meta name="description" content="An interactive field guide to Anthropic's four products: Claude Chat, Cowork, Code, and Design. Built for leaders, PMs, designers, and engineers.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -421,6 +426,7 @@ header.nav {
   border: 1px solid var(--line-strong);
   color: var(--cream-mid);
   padding: 0.5rem 0.75rem;
+  min-height: 2.5rem;
   border-radius: var(--r-sm);
   cursor: pointer;
   display: inline-flex;
@@ -438,12 +444,20 @@ header.nav {
 .persona-toggle .persona-chev { font-size: 0.7em; transition: transform var(--t-fast) var(--ease-out); }
 .persona-toggle[aria-expanded="true"] .persona-chev { transform: rotate(180deg); }
 
-.motion-toggle { width: 2.25rem; padding: 0.5rem 0; justify-content: center; }
+.motion-toggle {
+  width: 2.5rem;
+  height: 2.5rem;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  padding: 0;
+  justify-content: center;
+}
 .motion-toggle[aria-pressed="true"] { color: var(--ember); border-color: var(--ember); }
 
 /* Theme toggle */
 .theme-toggle {
-  width: 2.25rem; height: 2.25rem;
+  width: 2.5rem; height: 2.5rem;
+  min-width: 2.5rem; min-height: 2.5rem;
   display: inline-grid;
   place-items: center;
   background: transparent;
@@ -1716,12 +1730,13 @@ section#sources::before    { content: "08"; }
   background: transparent;
   border: 1px solid var(--line-strong);
   color: var(--cream-mid);
-  padding: 0.45rem 0.7rem;
+  padding: 0.45rem 0.9rem;
+  min-height: 2.5rem;
   border-radius: var(--r-sm);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.5rem;
   transition: all var(--t-fast) var(--ease-out);
 }
 .demo-btn:hover { color: var(--cream); border-color: var(--cream-dim); }
@@ -3796,8 +3811,8 @@ html[data-motion="paused"] .foot-care::before { animation: none; }
   position: absolute;
   top: var(--s-3);
   right: var(--s-3);
-  width: 1.85rem;
-  height: 1.85rem;
+  width: 2.25rem;
+  height: 2.25rem;
   display: inline-grid;
   place-items: center;
   background: transparent;
@@ -4009,7 +4024,8 @@ html[data-motion="paused"] .foot-care::before { animation: none; }
   background: transparent;
   border: 1px solid var(--line-strong);
   color: var(--cream-mid);
-  padding: 0.5rem 0.8rem;
+  padding: 0.5rem 0.9rem;
+  min-height: 2.5rem;
   border-radius: var(--r-sm);
   cursor: pointer;
   transition: all var(--t-fast) var(--ease-out);
@@ -4037,9 +4053,12 @@ html[data-motion="paused"] .foot-care::before { animation: none; }
 }
 
 /* Folded sections: HIDDEN entirely so the guide feels tighter for the chosen role.
-   Their corresponding nav links also hide via .nav-link.is-folded (set by JS). */
+   Their corresponding nav links also hide via .nav-link.is-folded (set by JS).
+   The matrix triage also drops matched jobs + product cards for consistency. */
 .product.is-folded { display: none; }
 .nav-link.is-folded { display: none; }
+.job.is-folded     { display: none; }
+.prod-card.is-folded { display: none; }
 
 /* Personalize / Edit-profile button in nav */
 .nav-edit {
@@ -7332,9 +7351,10 @@ section[id], .hero { scroll-margin-top: 5rem; }
       closeWizard();
     });
 
-    // Close on Escape
+    // Close on Escape — closes the wizard WITHOUT clearing the saved profile.
+    // (Only the explicit "Skip" button erases personalization.)
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && wiz.classList.contains('open')) skipBtn.click();
+      if (e.key === 'Escape' && wiz.classList.contains('open')) closeWizard();
     });
 
     // Open from nav button
@@ -7385,6 +7405,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
     document.querySelectorAll('.cap.is-for-you').forEach(el => el.classList.remove('is-for-you'));
     document.querySelectorAll('.product.is-folded').forEach(el => el.classList.remove('is-folded', 'was-unfolded'));
     document.querySelectorAll('.nav-link.is-folded').forEach(el => el.classList.remove('is-folded'));
+    document.querySelectorAll('.job.is-folded, .prod-card.is-folded').forEach(el => el.classList.remove('is-folded'));
 
     if (!profile) {
       yp.dataset.state = 'empty';
@@ -7560,12 +7581,16 @@ section[id], .hero { scroll-margin-top: 5rem; }
       });
     });
 
-    // Fold de-prioritized sections (hidden entirely + matching nav link hidden too)
+    // Fold de-prioritized sections (hidden entirely + matching nav link + matrix entries)
     REC.fold.forEach(prod => {
       const section = document.getElementById(prod);
       if (section) section.classList.add('is-folded');
       const navLink = document.querySelector('.nav-link[data-prod="' + prod + '"]');
       if (navLink) navLink.classList.add('is-folded');
+      // Matrix triage: drop the job rows pointing to this product and the product card itself
+      document.querySelectorAll('.job[data-target="' + prod + '"]').forEach(j => j.classList.add('is-folded'));
+      const matrixCard = document.getElementById('prod-' + prod);
+      if (matrixCard) matrixCard.classList.add('is-folded');
     });
 
     // Hide the "At a glance" hero aside since the Your Path card replaces it
