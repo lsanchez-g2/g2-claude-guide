@@ -879,11 +879,69 @@ footer.foot {
 .foot a:hover { color: var(--ember); border-bottom-color: var(--ember); }
 
 /* Section scaffolding (sections plug into this) */
-section.product, section.matrix, section.playbooks {
+section.product, section.matrix, section.playbooks, section.primer {
   padding: var(--pad-section) var(--pad-inner);
   max-width: var(--max-w);
   margin: 0 auto;
   position: relative;
+}
+
+/* Primer (Connectors & plugins) — two-card row */
+.primer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-4);
+}
+@media (min-width: 800px) {
+  .primer-grid { grid-template-columns: 1fr 1fr; gap: var(--s-6); }
+}
+.primer-card {
+  padding: var(--s-6) var(--s-6) var(--s-5);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--ember) 4%, transparent), transparent 60%),
+    linear-gradient(180deg, var(--paper-raised), var(--paper));
+  position: relative;
+}
+.primer-card[data-kind="plugins"] {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--design) 6%, transparent), transparent 60%),
+    linear-gradient(180deg, var(--paper-raised), var(--paper));
+}
+.primer-mark {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ember);
+  display: block;
+  margin-bottom: var(--s-3);
+}
+.primer-card[data-kind="plugins"] .primer-mark { color: var(--design); }
+
+.primer-title {
+  font-family: var(--display);
+  font-size: var(--fs-2xl);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.15;
+  color: var(--cream);
+  margin-bottom: var(--s-3);
+}
+.primer-card p {
+  font-size: var(--fs-md);
+  line-height: 1.6;
+  color: var(--cream-mid);
+}
+.primer-card p + p { margin-top: var(--s-3); }
+.primer-card p strong { color: var(--cream); font-weight: 500; }
+.primer-note {
+  margin-top: var(--s-4) !important;
+  padding-top: var(--s-3);
+  border-top: 1px dashed var(--line-strong);
+  font-size: var(--fs-sm) !important;
+  color: var(--cream-dim) !important;
 }
 
 /* ------------------------------------------------------------------
@@ -3203,6 +3261,27 @@ footer.foot {
   letter-spacing: 0.06em;
 }
 
+/* Small install instruction above the skills grid */
+.path-skills-howto {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin: 0 0 var(--s-5);
+  padding: var(--s-3) var(--s-4);
+  background: color-mix(in srgb, var(--ember) 5%, var(--paper-warm));
+  border: 1px solid color-mix(in srgb, var(--ember) 22%, var(--line));
+  border-radius: var(--r-md);
+  font-size: var(--fs-sm);
+  color: var(--cream-mid);
+  line-height: 1.5;
+}
+.path-skills-howto .icon {
+  color: var(--ember);
+  width: 1.05rem;
+  height: 1.05rem;
+  flex-shrink: 0;
+}
+
 /* 10-skill grid */
 .skills-grid {
   display: grid;
@@ -3341,6 +3420,38 @@ footer.foot {
 }
 .path-references-head strong { color: var(--cream); font-weight: 600; }
 .path-references-head .pin { color: var(--ember); font-weight: 500; }
+
+/* Group within references (one per design system) */
+.ref-group {
+  margin-top: var(--s-6);
+}
+.ref-group:first-of-type { margin-top: 0; }
+.ref-group-title {
+  font-family: var(--display);
+  font-size: var(--fs-md);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--cream);
+  text-transform: uppercase;
+  margin-bottom: var(--s-3);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s-3);
+}
+.ref-group-title strong { color: var(--ember); font-weight: 600; }
+.ref-group-ping {
+  font-family: var(--sans);
+  font-size: var(--fs-sm);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--cream-mid);
+}
+.ref-group-ping .pin {
+  color: var(--ember);
+  font-weight: 500;
+}
 
 .ref-grid {
   display: grid;
@@ -3877,50 +3988,98 @@ section[id], .hero { scroll-margin-top: 5rem; }
     <div class="path-skills" id="pathSkills">
       <div class="path-skills-head">
         <h3>Top 10 skills worth installing</h3>
-        <span class="hint">tailored for your role · mandatory items highlighted</span>
+        <span class="hint">tailored for your role · recommended ones in ember</span>
       </div>
+      <p class="path-skills-howto">
+        <svg class="icon" aria-hidden="true"><use href="#i-copy"/></svg>
+        <span>Hover any card and tap the copy icon. Paste it into Cowork or Claude Code, and Claude installs the skill for you.</span>
+      </p>
       <ol class="skills-grid" id="pathSkillRow" aria-label="Recommended skills"></ol>
     </div>
 
-    <!-- Apollo v2 reference links — shown only when the role is Designer -->
-    <section class="path-references" id="pathReferences" hidden aria-label="Apollo v2 reference links">
+    <!-- Design-system reference links — shown only when the role is Designer -->
+    <section class="path-references" id="pathReferences" hidden aria-label="Design system reference links">
       <header class="path-references-head">
         <h3>Reference links for designers</h3>
-        <p>If you work with the <strong>Software Advice Design System (Apollo v2)</strong>, ping <span class="pin">@Inma</span> or <span class="pin">@Joanna</span> for context.</p>
+        <p>Two G2 design systems are live right now. Pick the one you work with and the rest is one click away.</p>
       </header>
-      <div class="ref-grid">
-        <a class="ref-card" href="https://www.figma.com/design/3401ZFUHoboOwA6GGjAEsq/Apollo-v2--SA----Design-System?node-id=580-9181&p=f&t=oQVCz6R4pKPjd5ll-0" target="_blank" rel="noopener">
-          <span class="ref-card-icon" aria-hidden="true"><svg class="icon"><use href="#i-figma"/></svg></span>
-          <span>
-            <span class="ref-card-label">Figma</span>
-            <span class="ref-card-sub">Apollo v2 · SA Design System</span>
-          </span>
-          <span class="ref-card-arrow" aria-hidden="true"><svg class="icon"><use href="#i-arrow-right"/></svg></span>
-        </a>
-        <a class="ref-card" href="https://claude.ai/design/p/7a1a7127-8142-4cd1-9eeb-c5a4a68abd67" target="_blank" rel="noopener">
-          <span class="ref-card-icon" aria-hidden="true"><svg class="icon"><use href="#i-palette"/></svg></span>
-          <span>
-            <span class="ref-card-label">Claude Design</span>
-            <span class="ref-card-sub">Apollo v2 project</span>
-          </span>
-          <span class="ref-card-arrow" aria-hidden="true"><svg class="icon"><use href="#i-arrow-right"/></svg></span>
-        </a>
-        <a class="ref-card" href="https://bx-apollov2-poc.vercel.app/" target="_blank" rel="noopener">
-          <span class="ref-card-icon" aria-hidden="true"><svg class="icon"><use href="#i-book"/></svg></span>
-          <span>
-            <span class="ref-card-label">Storybook</span>
-            <span class="ref-card-sub">bx-apollov2-poc.vercel.app</span>
-          </span>
-          <span class="ref-card-arrow" aria-hidden="true"><svg class="icon"><use href="#i-arrow-right"/></svg></span>
-        </a>
-        <a class="ref-card" href="https://github.com/lsanchez-g2/apollo-v2-ds" target="_blank" rel="noopener">
-          <span class="ref-card-icon" aria-hidden="true"><svg class="icon"><use href="#i-repo"/></svg></span>
-          <span>
-            <span class="ref-card-label">Repo</span>
-            <span class="ref-card-sub">lsanchez-g2/apollo-v2-ds</span>
-          </span>
-          <span class="ref-card-arrow" aria-hidden="true"><svg class="icon"><use href="#i-arrow-right"/></svg></span>
-        </a>
+
+      <!-- Apollo v2 — Software Advice -->
+      <div class="ref-group">
+        <p class="ref-group-title"><strong>Apollo v2</strong> · Software Advice <span class="ref-group-ping">ping <span class="pin">@Inma Caravaca</span> or <span class="pin">@Joana Balague</span></span></p>
+        <div class="ref-grid">
+          <a class="ref-card" href="https://www.figma.com/design/3401ZFUHoboOwA6GGjAEsq/Apollo-v2--SA----Design-System?node-id=580-9181&p=f&t=oQVCz6R4pKPjd5ll-0" target="_blank" rel="noopener">
+            <span class="ref-card-icon" aria-hidden="true"><svg class="icon"><use href="#i-figma"/></svg></span>
+            <span>
+              <span class="ref-card-label">Figma</span>
+              <span class="ref-card-sub">Apollo v2 — SA Design System</span>
+            </span>
+            <span class="ref-card-arrow" aria-hidden="true"><svg class="icon"><use href="#i-arrow-right"/></svg></span>
+          </a>
+          <a class="ref-card" href="https://claude.ai/design/p/7a1a7127-8142-4cd1-9eeb-c5a4a68abd67" target="_blank" rel="noopener">
+            <span class="ref-card-icon" aria-hidden="true"><svg class="icon"><use href="#i-palette"/></svg></span>
+            <span>
+              <span class="ref-card-label">Claude Design</span>
+              <span class="ref-card-sub">Apollo v2 project</span>
+            </span>
+            <span class="ref-card-arrow" aria-hidden="true"><svg class="icon"><use href="#i-arrow-right"/></svg></span>
+          </a>
+          <a class="ref-card" href="https://bx-apollov2-poc.vercel.app/" target="_blank" rel="noopener">
+            <span class="ref-card-icon" aria-hidden="true"><svg class="icon"><use href="#i-book"/></svg></span>
+            <span>
+              <span class="ref-card-label">Storybook</span>
+              <span class="ref-card-sub">bx-apollov2-poc.vercel.app</span>
+            </span>
+            <span class="ref-card-arrow" aria-hidden="true"><svg class="icon"><use href="#i-arrow-right"/></svg></span>
+          </a>
+          <a class="ref-card" href="https://github.com/lsanchez-g2/apollo-v2-ds" target="_blank" rel="noopener">
+            <span class="ref-card-icon" aria-hidden="true"><svg class="icon"><use href="#i-repo"/></svg></span>
+            <span>
+              <span class="ref-card-label">Repo</span>
+              <span class="ref-card-sub">lsanchez-g2/apollo-v2-ds</span>
+            </span>
+            <span class="ref-card-arrow" aria-hidden="true"><svg class="icon"><use href="#i-arrow-right"/></svg></span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Nimbus v3 — Capterra -->
+      <div class="ref-group">
+        <p class="ref-group-title"><strong>Nimbus v3</strong> · Capterra <span class="ref-group-ping">ping <span class="pin">@Martin Leturia</span> or <span class="pin">@Ariadna Romeu</span></span></p>
+        <div class="ref-grid">
+          <a class="ref-card" href="https://www.figma.com/design/euN3FdxtNlCC8GiKC66YmG/Nimbus-v3.0?t=Zegcy6xP2pm2egcD-0" target="_blank" rel="noopener">
+            <span class="ref-card-icon" aria-hidden="true"><svg class="icon"><use href="#i-figma"/></svg></span>
+            <span>
+              <span class="ref-card-label">Figma</span>
+              <span class="ref-card-sub">Nimbus v3.0</span>
+            </span>
+            <span class="ref-card-arrow" aria-hidden="true"><svg class="icon"><use href="#i-arrow-right"/></svg></span>
+          </a>
+          <a class="ref-card" href="https://claude.ai/design/p/e5bd47f7-33b7-4d21-b8ec-e69d804c8405" target="_blank" rel="noopener">
+            <span class="ref-card-icon" aria-hidden="true"><svg class="icon"><use href="#i-palette"/></svg></span>
+            <span>
+              <span class="ref-card-label">Claude Design</span>
+              <span class="ref-card-sub">Nimbus v3 project</span>
+            </span>
+            <span class="ref-card-arrow" aria-hidden="true"><svg class="icon"><use href="#i-arrow-right"/></svg></span>
+          </a>
+          <a class="ref-card" href="https://bx-nimbus-v3-poc.vercel.app/" target="_blank" rel="noopener">
+            <span class="ref-card-icon" aria-hidden="true"><svg class="icon"><use href="#i-book"/></svg></span>
+            <span>
+              <span class="ref-card-label">Storybook</span>
+              <span class="ref-card-sub">bx-nimbus-v3-poc.vercel.app</span>
+            </span>
+            <span class="ref-card-arrow" aria-hidden="true"><svg class="icon"><use href="#i-arrow-right"/></svg></span>
+          </a>
+          <a class="ref-card" href="https://github.com/lsanchez-g2/nimbus-v3" target="_blank" rel="noopener">
+            <span class="ref-card-icon" aria-hidden="true"><svg class="icon"><use href="#i-repo"/></svg></span>
+            <span>
+              <span class="ref-card-label">Repo</span>
+              <span class="ref-card-sub">lsanchez-g2/nimbus-v3</span>
+            </span>
+            <span class="ref-card-arrow" aria-hidden="true"><svg class="icon"><use href="#i-arrow-right"/></svg></span>
+          </a>
+        </div>
       </div>
     </section>
 
@@ -4024,7 +4183,34 @@ section[id], .hero { scroll-margin-top: 5rem; }
   </section>
 
   <!-- =====================================================
-       03.Claude Chat
+       Language primer · Connectors & plugins
+       ===================================================== -->
+  <section class="primer" id="primer" aria-labelledby="primer-title">
+    <header class="section-head reveal">
+      <p class="section-eyebrow"><span class="pin">Before you read on</span></p>
+      <h2 class="section-title" id="primer-title">Two words you'll see <span class="em">everywhere below</span>.</h2>
+      <p class="section-lede">Both stretch across all four products. Worth a quick read before you dive in.</p>
+    </header>
+
+    <div class="primer-grid reveal">
+      <article class="primer-card" data-kind="connectors">
+        <span class="primer-mark">Connectors</span>
+        <h3 class="primer-title">The bridge to your other tools.</h3>
+        <p>Gmail, Notion, Slack, Asana, GitHub, Google Drive, Dovetail. Connect them once in Settings, and any Claude product can read and write through them. You'll see them referenced as <strong>MCP</strong> (Model Context Protocol) in some docs. Same thing.</p>
+        <p class="primer-note">Examples in this guide: Chat using the Asana connector to build a live task dashboard. Cowork using Gmail to sweep receipts. Code using Jira to pick the next ticket.</p>
+      </article>
+
+      <article class="primer-card" data-kind="plugins">
+        <span class="primer-mark">Plugins</span>
+        <h3 class="primer-title">One-click bundles you install on top of Claude.</h3>
+        <p>A plugin can pack <strong>skills, connectors, slash-commands, and sub-agents</strong> together for a specific job. Anthropic publishes plugins for sales, legal, finance, marketing, support, product, and design. Your team can also publish private plugins for internal workflows that don't belong on the open marketplace.</p>
+        <p class="primer-note">If a skill is one instruction, a plugin is a kit. Think "designer starter pack" instead of "one design tip."</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       03 · Claude Chat
        ===================================================== -->
   <section class="product" id="chat" data-product="chat" aria-labelledby="chat-title">
 
