@@ -361,17 +361,38 @@ header.nav {
   gap: 1.5rem;
 }
 .brand {
-  font-family: var(--serif);
-  font-size: 1.5rem;
-  letter-spacing: -0.02em;
+  font-family: var(--display);
+  font-size: 1.4rem;
+  letter-spacing: 0;
   color: var(--cream);
   display: inline-flex;
-  align-items: baseline;
-  gap: 0.4rem;
+  align-items: center;
+  gap: 0.55rem;
   transition: color var(--t-fast) var(--ease-out);
+  text-decoration: none;
 }
 .brand .ampersand { color: var(--ember); font-style: normal; }
 .brand:hover { color: var(--ember); }
+.brand-g2 {
+  display: inline-grid;
+  place-items: center;
+  background: var(--ember);
+  color: #fff;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  padding: 0.35em 0.55em 0.32em;
+  border-radius: 4px;
+  line-height: 1;
+  box-shadow: 0 2px 6px -2px color-mix(in srgb, var(--ember) 50%, transparent);
+  transition: transform var(--t-fast) var(--ease-out);
+}
+.brand:hover .brand-g2 { transform: rotate(-4deg); }
+.brand-text { font-weight: 500; }
+@media (max-width: 420px) {
+  .brand-text { font-size: 1.1rem; }
+}
 
 .nav-links {
   display: flex;
@@ -879,109 +900,6 @@ html[data-motion="paused"] .hero-scroll-line::after { animation: none; }
 }
 .byline-link:hover { text-decoration: underline; }
 
-/* Floating Slack FAB — bottom right, scrolls with viewport */
-.slack-fab {
-  position: fixed;
-  bottom: clamp(1rem, 3vw, 1.75rem);
-  right: clamp(1rem, 3vw, 1.75rem);
-  z-index: 80;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--s-3);
-  padding: var(--s-2) var(--s-5) var(--s-2) var(--s-2);
-  background: var(--paper);
-  color: var(--cream);
-  border: 1px solid var(--line-strong);
-  border-radius: 999px;
-  box-shadow:
-    0 12px 30px -8px color-mix(in srgb, var(--ember) 30%, transparent),
-    0 4px 12px -4px rgba(0, 0, 0, 0.16);
-  cursor: pointer;
-  font-family: var(--sans);
-  text-decoration: none;
-  transition: transform var(--t-fast) var(--ease-out), box-shadow var(--t-fast) var(--ease-out), border-color var(--t-fast) var(--ease-out);
-}
-.slack-fab:hover, .slack-fab:focus-visible {
-  transform: translateY(-2px);
-  border-color: var(--ember);
-  outline: none;
-  box-shadow:
-    0 18px 36px -8px color-mix(in srgb, var(--ember) 40%, transparent),
-    0 6px 14px -4px rgba(0, 0, 0, 0.20);
-}
-.slack-fab .avatar {
-  border-width: 0;
-  box-shadow: none;
-}
-.slack-fab-text {
-  display: grid;
-  gap: 1px;
-  line-height: 1.15;
-  text-align: left;
-}
-.slack-fab-line1 {
-  font-family: var(--display);
-  font-size: var(--fs-md);
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  color: var(--cream);
-  text-transform: uppercase;
-}
-.slack-fab-line2 {
-  font-size: 0.78rem;
-  color: var(--cream-dim);
-  font-family: var(--mono);
-  letter-spacing: 0.04em;
-}
-.slack-fab-icon {
-  display: inline-grid;
-  place-items: center;
-  width: 1.5rem; height: 1.5rem;
-  color: var(--ember);
-}
-.slack-fab-icon .icon { width: 1.1rem; height: 1.1rem; }
-
-/* Subtle attention pulse the first few times (CSS-only) */
-@keyframes fabPulse {
-  0%, 100% { box-shadow: 0 12px 30px -8px color-mix(in srgb, var(--ember) 30%, transparent), 0 4px 12px -4px rgba(0,0,0,0.16); }
-  50%      { box-shadow: 0 12px 30px -8px color-mix(in srgb, var(--ember) 60%, transparent), 0 0 0 6px color-mix(in srgb, var(--ember) 8%, transparent); }
-}
-.slack-fab.is-attention { animation: fabPulse 2.4s ease-in-out 3; }
-
-/* Compact on small phones — collapse to just the avatar + arrow */
-@media (max-width: 540px) {
-  .slack-fab { padding: 6px 14px 6px 6px; }
-  .slack-fab-text { display: none; }
-  .slack-fab-line1 { display: none; }
-}
-
-/* Toast (clipboard feedback) */
-.toast {
-  position: fixed;
-  bottom: 5rem;
-  right: clamp(1rem, 3vw, 1.75rem);
-  z-index: 90;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--s-2);
-  padding: var(--s-3) var(--s-4);
-  background: var(--paper);
-  color: var(--cream);
-  border: 1px solid color-mix(in srgb, var(--cowork) 50%, var(--line));
-  border-radius: var(--r-md);
-  font-size: var(--fs-sm);
-  box-shadow: 0 10px 24px -8px rgba(0, 0, 0, 0.18);
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity var(--t-med) var(--ease-out), transform var(--t-med) var(--ease-out);
-  pointer-events: none;
-}
-.toast.shown {
-  opacity: 1;
-  transform: translateY(0);
-}
-.toast .icon { color: var(--cowork); width: 1.1rem; height: 1.1rem; flex-shrink: 0; }
-
 /* ───── Scroll progress bar (top of viewport) ───── */
 .scroll-progress {
   position: fixed;
@@ -1296,6 +1214,24 @@ section#sources::before    { content: "08"; }
   text-transform: none;
   letter-spacing: 0;
   font-size: var(--fs-md);
+}
+.section-eyebrow .read-time {
+  margin-left: var(--s-3);
+  padding-left: var(--s-3);
+  color: var(--cream-dim);
+  border-left: 1px solid var(--line);
+  letter-spacing: 0.14em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.section-eyebrow .read-time::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cream-faint);
+  display: inline-block;
 }
 .section-title {
   font-size: var(--fs-4xl);
@@ -1759,6 +1695,17 @@ section#sources::before    { content: "08"; }
   background: var(--pa);
   box-shadow: 0 0 8px var(--pa);
   animation: pulse 1.6s ease-in-out infinite;
+}
+.demo-title::after {
+  content: '▶ Playing';
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  color: var(--pa);
+  letter-spacing: 0.14em;
+  padding-left: var(--s-3);
+  margin-left: var(--s-2);
+  border-left: 1px solid var(--line);
+  font-weight: 500;
 }
 @keyframes pulse { 50% { opacity: 0.4; transform: scale(0.85); } }
 .demo-btn {
@@ -3091,6 +3038,37 @@ footer.foot {
   border-radius: 50%;
 }
 
+/* Made-with-care line — a quiet closing note */
+.foot-care {
+  max-width: var(--max-w);
+  margin: var(--s-6) auto 0;
+  padding: var(--s-4) var(--pad-inner) 0;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cream-faint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+}
+.foot-care::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ember);
+  animation: careHeartbeat 2.4s ease-in-out infinite;
+}
+@keyframes careHeartbeat {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.4); opacity: 0.6; }
+}
+html[data-motion="paused"] .foot-care::before { animation: none; }
+
 /* ------------------------------------------------------------------
    WIZARD.first-visit personalization
    ------------------------------------------------------------------ */
@@ -3447,6 +3425,7 @@ footer.foot {
   border: 1px solid color-mix(in srgb, var(--ember) 30%, var(--line));
   position: relative;
   overflow: hidden;
+  transition: padding var(--t-med) var(--ease-out);
 }
 @media (max-width: 800px) {
   .your-path {
@@ -3455,6 +3434,84 @@ footer.foot {
     padding: var(--s-6);
   }
 }
+
+/* State machine: empty (CTA only) vs filled (full path) */
+.your-path[data-state="empty"]  > :not(.path-empty) { display: none; }
+.your-path[data-state="filled"] > .path-empty        { display: none; }
+.your-path[data-state="empty"]  { padding: var(--s-5) var(--s-6); }
+
+/* Empty-state card */
+.path-empty {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: var(--s-6);
+  align-items: center;
+}
+@media (max-width: 760px) {
+  .path-empty {
+    grid-template-columns: 1fr;
+    gap: var(--s-4);
+    text-align: left;
+  }
+}
+.path-empty-icon {
+  width: 3.4rem; height: 3.4rem;
+  border-radius: 50%;
+  display: inline-grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--ember) 10%, transparent);
+  color: var(--ember);
+  flex-shrink: 0;
+}
+.path-empty-icon .icon { width: 1.5rem; height: 1.5rem; }
+.path-empty-eyebrow {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ember);
+  margin-bottom: var(--s-2);
+}
+.path-empty-title {
+  font-family: var(--display);
+  font-size: var(--fs-2xl);
+  font-weight: 500;
+  color: var(--cream);
+  line-height: 1.1;
+  margin: 0 0 var(--s-2);
+}
+.path-empty-lede {
+  font-size: var(--fs-md);
+  color: var(--cream-mid);
+  line-height: 1.55;
+  max-width: 36rem;
+  margin: 0;
+}
+.path-empty-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  background: var(--ember);
+  color: var(--on-accent);
+  border: 1px solid var(--ember);
+  padding: var(--s-3) var(--s-5);
+  border-radius: var(--r-md);
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--t-fast) var(--ease-out), box-shadow var(--t-fast) var(--ease-out);
+  white-space: nowrap;
+  justify-self: end;
+}
+@media (max-width: 760px) { .path-empty-cta { justify-self: start; } }
+.path-empty-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px -8px color-mix(in srgb, var(--ember) 55%, transparent);
+}
+.path-empty-cta .icon { width: 0.95rem; height: 0.95rem; }
 .your-path::before {
   content: 'YOUR PATH';
   position: absolute;
@@ -4198,7 +4255,10 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
 <header class="nav">
   <div class="nav-inner">
-    <a href="#top" class="brand">The Claude Stack</a>
+    <a href="#top" class="brand">
+      <span class="brand-g2" aria-label="G2">G2</span>
+      <span class="brand-text">The Claude Stack</span>
+    </a>
 
     <nav class="nav-links" aria-label="Primary">
       <a href="#chat"      class="nav-link" data-prod="chat">Chat</a>
@@ -4354,9 +4414,27 @@ section[id], .hero { scroll-margin-top: 5rem; }
   </section>
 
   <!-- =====================================================
-       Your Path.appears after wizard completion
+       Your Path — empty state by default, fills after wizard
        ===================================================== -->
-  <section class="your-path" id="yourPath" aria-labelledby="path-title" hidden>
+  <section class="your-path" id="yourPath" data-state="empty" aria-label="Personalize the guide">
+
+    <!-- EMPTY STATE — small CTA card before any profile is set -->
+    <div class="path-empty">
+      <div class="path-empty-icon" aria-hidden="true">
+        <svg class="icon"><use href="#i-sparkle"/></svg>
+      </div>
+      <div class="path-empty-content">
+        <p class="path-empty-eyebrow">Personalize</p>
+        <h2 class="path-empty-title">Make this guide yours.</h2>
+        <p class="path-empty-lede">Three quick questions and the whole page reshuffles around your role. Different products, prompts, skills, and references depending on who you are.</p>
+      </div>
+      <button type="button" class="path-empty-cta" id="pathEmptyCta">
+        <svg class="icon" aria-hidden="true"><use href="#i-sparkle"/></svg>
+        <span>Personalize this guide</span>
+        <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+      </button>
+    </div>
+
     <header class="path-head">
       <p class="path-eyebrow">Personalized for <span class="path-name" id="pathName">your role</span></p>
       <h2 class="path-title" id="path-title">Your <span class="em">Claude path</span>.</h2>
@@ -4620,7 +4698,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
   <section class="product" id="chat" data-product="chat" aria-labelledby="chat-title">
 
     <header class="section-head reveal">
-      <p class="section-eyebrow">03 <span class="pin">·Claude Chat</span></p>
+      <p class="section-eyebrow">03 <span class="pin">·Claude Chat</span><span class="read-time">3 min read</span></p>
       <h2 class="section-title" id="chat-title">The front door, with <span class="em">live workspaces</span> attached.</h2>
       <p class="section-lede">Conversation is the surface. Artifacts make it more than chat, and Live Artifacts make it re-openable.</p>
     </header>
@@ -4826,7 +4904,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
   <section class="product" id="cowork" data-product="cowork" aria-labelledby="cowork-title">
 
     <header class="section-head reveal">
-      <p class="section-eyebrow">04 <span class="pin">·Claude Cowork</span></p>
+      <p class="section-eyebrow">04 <span class="pin">·Claude Cowork</span><span class="read-time">3 min read</span></p>
       <h2 class="section-title" id="cowork-title">A teammate that <span class="em">opens your folders</span>.</h2>
       <p class="section-lede">Desktop agent for non-developers. Reads, edits, and creates files in folders you explicitly authorize, and runs multi-step work in the background.</p>
     </header>
@@ -5045,7 +5123,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
   <section class="product" id="code" data-product="code" aria-labelledby="code-title">
 
     <header class="section-head reveal">
-      <p class="section-eyebrow">05 <span class="pin">·Claude Code</span></p>
+      <p class="section-eyebrow">05 <span class="pin">·Claude Code</span><span class="read-time">4 min read</span></p>
       <h2 class="section-title" id="code-title">Agentic coding that <span class="em">lives in your terminal</span>.</h2>
       <p class="section-lede">MCP-native, subagent-capable, hook-driven. The CLI is the substrate; the desktop app is a second seat.</p>
     </header>
@@ -5215,7 +5293,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
   <section class="product" id="design" data-product="design" aria-labelledby="design-title">
 
     <header class="section-head reveal">
-      <p class="section-eyebrow">06 <span class="pin">·Claude Design</span></p>
+      <p class="section-eyebrow">06 <span class="pin">·Claude Design</span><span class="read-time">4 min read</span></p>
       <h2 class="section-title" id="design-title">A canvas with <span class="em">real exports</span>.</h2>
       <p class="section-lede">Anthropic Labs · launched 17 April 2026 at claude.ai/design · powered by Opus 4.7 · research preview.</p>
     </header>
@@ -5643,11 +5721,13 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
   <div class="foot-grid">
     <div class="colophon">
-      <span class="set">Lex Sánchez · G2 · Product Builder.2026</span>
+      <span class="set">Lex Sánchez · G2 · Product Builder · 2026</span>
       <span class="set">Set in Oswald, Poppins &amp; Geist Mono</span>
       <span class="set">Last verified <time datetime="2026-05-22">22 May 2026</time></span>
     </div>
   </div>
+
+  <p class="foot-care">Made with care for the G2 team.</p>
 </footer>
 
 <script>
@@ -5917,57 +5997,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
     targets.forEach(t => io.observe(t));
   })();
 
-  // 6. Floating Slack button — copies intro to clipboard + opens Slack DM
-  (function initSlackFab() {
-    const btn = document.getElementById('slackFabBtn');
-    const toast = document.getElementById('slackToast');
-    const toastText = document.getElementById('slackToastText');
-    if (!btn) return;
-
-    // Slack workspace + username. Adjust if Lex's Slack handle differs.
-    const SLACK_URL = 'https://g2.slack.com/messages/@gsancheztorres';
-    const INTRO = "Hey, Lex! I've read your guide and ";
-
-    let toastT;
-    function showToast(message) {
-      if (!toast) return;
-      if (message && toastText) toastText.textContent = message;
-      toast.classList.add('shown');
-      clearTimeout(toastT);
-      toastT = setTimeout(() => toast.classList.remove('shown'), 3200);
-    }
-
-    async function copyIntro() {
-      try {
-        await navigator.clipboard.writeText(INTRO);
-        return true;
-      } catch (err) {
-        // Fallback: textarea + execCommand
-        const ta = document.createElement('textarea');
-        ta.value = INTRO;
-        ta.style.position = 'fixed';
-        ta.style.opacity = '0';
-        document.body.appendChild(ta);
-        ta.select();
-        try { document.execCommand('copy'); } catch (e) {}
-        document.body.removeChild(ta);
-        return true;
-      }
-    }
-
-    btn.addEventListener('click', async function () {
-      btn.classList.remove('is-attention');
-      const ok = await copyIntro();
-      if (ok) {
-        showToast('Opening Slack. Intro copied to your clipboard.');
-      } else {
-        showToast('Opening Slack.');
-      }
-      window.open(SLACK_URL, '_blank', 'noopener');
-    });
-  })();
-
-  // 7. Cursor glow follower — only on hover-capable devices, only when motion allowed
+  // 6. Cursor glow follower — only on hover-capable devices, only when motion allowed
   (function initCursorGlow() {
     const glow = document.querySelector('.cursor-glow');
     if (!glow) return;
@@ -7313,6 +7343,12 @@ section[id], .hero { scroll-margin-top: 5rem; }
       openWizard(existing ? { role: existing.role, a2: existing.a2, a3: existing.a3 } : null);
     });
 
+    // Open from the Your Path empty-state CTA
+    const pathEmptyCta = document.getElementById('pathEmptyCta');
+    if (pathEmptyCta) {
+      pathEmptyCta.addEventListener('click', () => navEditBtn.click());
+    }
+
     // Path-card edit + clear
     const pathEditBtn = document.getElementById('pathEdit');
     const pathClearBtn = document.getElementById('pathClear');
@@ -7351,7 +7387,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
     document.querySelectorAll('.nav-link.is-folded').forEach(el => el.classList.remove('is-folded'));
 
     if (!profile) {
-      yp.hidden = true;
+      yp.dataset.state = 'empty';
       const refs = document.getElementById('pathReferences');
       if (refs) refs.hidden = true;
       // Reset nav button to "Personalize" (sparkle icon)
@@ -7501,8 +7537,8 @@ section[id], .hero { scroll-margin-top: 5rem; }
       });
     });
 
-    // Reveal the card
-    yp.hidden = false;
+    // Reveal the filled state of Your Path
+    yp.dataset.state = 'filled';
 
     // Designer-only Apollo v2 reference block
     const refs = document.getElementById('pathReferences');
@@ -7779,29 +7815,6 @@ section[id], .hero { scroll-margin-top: 5rem; }
 <!-- Live region for assistive tech announcements from demos in later checkpoints -->
 <div id="liveRegion" aria-live="polite" aria-atomic="true"
      style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);"></div>
-
-<!-- ===== Floating Slack button (bottom-right, scrolls with viewport) ===== -->
-<button type="button" class="slack-fab is-attention" id="slackFabBtn"
-        title="Slack me about this guide"
-        aria-label="Slack me — Lex Sánchez">
-  <span class="avatar" aria-hidden="true">
-    <span class="avatar-initials">LS</span>
-    <img src="avatar.jpg" alt="" onerror="this.style.display='none'">
-  </span>
-  <span class="slack-fab-text">
-    <span class="slack-fab-line1">Slack me</span>
-    <span class="slack-fab-line2">tell me what you think</span>
-  </span>
-  <span class="slack-fab-icon" aria-hidden="true">
-    <svg class="icon"><use href="#i-slack"/></svg>
-  </span>
-</button>
-
-<!-- Toast for clipboard / Slack feedback -->
-<div class="toast" id="slackToast" role="status" aria-live="polite">
-  <svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>
-  <span id="slackToastText">Opening Slack. Intro copied to your clipboard.</span>
-</div>
 
 </body>
 </html>
