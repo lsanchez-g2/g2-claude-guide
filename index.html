@@ -690,6 +690,45 @@ html[data-theme="dark"] .theme-icon-moon { display: none; }
 }
 .meta-pill.warn::before { background: var(--chat); }
 
+/* Hero scroll cue — sits below the meta pills, animates a thin G2-red line */
+.hero-scroll {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-top: var(--s-10);
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cream-dim);
+  text-decoration: none;
+  transition: color 220ms var(--ease-out), gap 220ms var(--ease-out);
+}
+.hero-scroll:hover { color: var(--ember); gap: var(--s-4); }
+.hero-scroll-line {
+  width: 2.5rem;
+  height: 1px;
+  background: var(--line-strong);
+  position: relative;
+  overflow: hidden;
+  transition: background-color 220ms var(--ease-out);
+}
+.hero-scroll-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--ember);
+  transform: translateX(-100%);
+  animation: scrollLineSlide 2.6s var(--ease-out) infinite;
+}
+.hero-scroll:hover .hero-scroll-line { background: color-mix(in srgb, var(--ember) 35%, transparent); }
+@keyframes scrollLineSlide {
+  0%   { transform: translateX(-100%); }
+  55%  { transform: translateX(100%); }
+  100% { transform: translateX(100%); }
+}
+html[data-motion="paused"] .hero-scroll-line::after { animation: none; }
+
 /* Hero side card.quick-glance product list */
 .hero-aside {
   border: 1px solid var(--line);
@@ -757,6 +796,41 @@ html[data-theme="dark"] .theme-icon-moon { display: none; }
 .reveal.in-view {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* ───── Scroll progress bar (top of viewport) ───── */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--ember);
+  transform-origin: left center;
+  transform: scaleX(0);
+  z-index: 100;
+  pointer-events: none;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--ember) 50%, transparent);
+}
+html[data-motion="paused"] .scroll-progress { transition: none; }
+
+/* ───── Active nav link (set by scroll spy) ───── */
+.nav-link.is-active {
+  color: var(--cream);
+  background: var(--paper-warm);
+}
+.nav-link.is-active::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 8px;
+  height: 2px;
+  background: var(--ember);
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+.nav-link {
+  position: relative;
 }
 
 /* ───── Cursor glow (subtle ember halo following the mouse) ───── */
@@ -886,6 +960,44 @@ section.product, section.matrix, section.playbooks, section.primer {
   position: relative;
 }
 
+/* ───── Editorial section-number watermarks ───── */
+section.product, section.matrix, section.playbooks, section.sources {
+  position: relative;
+  isolation: isolate;
+}
+section.product::before, section.matrix::before, section.playbooks::before, section.sources::before {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(7rem, 16vw, 14rem);
+  line-height: 0.85;
+  color: color-mix(in srgb, var(--ember) 6%, transparent);
+  position: absolute;
+  top: clamp(2rem, 5vw, 4rem);
+  right: var(--pad-inner);
+  pointer-events: none;
+  z-index: 0;
+  user-select: none;
+  letter-spacing: -0.04em;
+}
+section.product > *, section.matrix > *, section.playbooks > *, section.sources > * {
+  position: relative;
+  z-index: 1;
+}
+section#triage::before     { content: "02"; }
+section#chat::before       { content: "03"; }
+section#cowork::before     { content: "04"; }
+section#code::before       { content: "05"; }
+section#design::before     { content: "06"; }
+section#playbooks::before  { content: "07"; }
+section#sources::before    { content: "08"; }
+@media (max-width: 720px) {
+  section.product::before, section.matrix::before, section.playbooks::before, section.sources::before {
+    font-size: 8rem;
+    top: 1.25rem;
+    color: color-mix(in srgb, var(--ember) 4%, transparent);
+  }
+}
+
 /* Primer (Connectors & plugins) — two-card row */
 .primer-grid {
   display: grid;
@@ -955,15 +1067,27 @@ section.product, section.matrix, section.playbooks, section.primer {
   max-width: 50rem;
 }
 
-/* In-section subheads.consistent rhythm above content blocks */
+/* In-section subheads — consistent rhythm above content blocks, with a G2-red leading mark */
 .subhead {
   font-family: var(--display);
   font-size: var(--fs-2xl);
   font-weight: 500;
   line-height: 1.1;
   letter-spacing: 0;
-  margin: var(--s-12) 0 var(--s-3);
+  margin: var(--s-12) 0 var(--s-4);
   color: var(--cream);
+  position: relative;
+  padding-left: var(--s-4);
+}
+.subhead::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.30em;
+  width: 4px;
+  height: 0.8em;
+  background: var(--ember);
+  border-radius: 2px;
 }
 .section-eyebrow {
   font-family: var(--mono);
@@ -1381,7 +1505,11 @@ section.product, section.matrix, section.playbooks, section.primer {
   position: relative;
   transition: border-color var(--t-fast) var(--ease-out), transform var(--t-fast) var(--ease-out);
 }
-.cap:hover { border-color: color-mix(in srgb, var(--pa) 50%, var(--line)); transform: translateY(-2px); }
+.cap:hover {
+  border-color: color-mix(in srgb, var(--pa) 55%, var(--line));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px -10px color-mix(in srgb, var(--pa) 22%, transparent);
+}
 .cap-mark {
   font-family: var(--mono);
   font-size: var(--fs-xs);
@@ -2707,18 +2835,37 @@ footer.foot {
   .foot-grid { grid-template-columns: 2fr 1fr 1fr; align-items: start; }
 }
 .foot-brand {
-  font-family: var(--serif);
-  font-size: var(--fs-xl);
+  font-family: var(--display);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 600;
   color: var(--cream);
-  letter-spacing: -0.012em;
+  letter-spacing: 0;
+  line-height: 1;
+  margin-bottom: var(--s-2);
 }
-.foot-brand .amp { color: var(--ember); font-style: normal; }
+.foot-brand .amp { color: var(--ember); }
+.foot-signature {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ember);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-bottom: var(--s-3);
+}
+.foot-signature::before {
+  content: '';
+  width: 1.5rem;
+  height: 1px;
+  background: var(--ember);
+}
 .foot-tagline {
-  font-size: var(--fs-sm);
-  color: var(--cream-dim);
-  margin-top: 0.5rem;
-  max-width: 30rem;
-  line-height: 1.55;
+  font-size: var(--fs-md);
+  color: var(--cream-mid);
+  max-width: 32rem;
+  line-height: 1.6;
 }
 .foot-col h4 {
   font-family: var(--mono);
@@ -2871,6 +3018,35 @@ footer.foot {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: none; }
 }
+
+/* Staggered entrance for the role cards inside step 1 */
+.wiz-backdrop.open .wiz-step.active[data-step="1"] .role-card {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: roleCardIn 380ms var(--ease-out) forwards;
+}
+.wiz-backdrop.open .wiz-step.active[data-step="1"] .role-card:nth-child(1) { animation-delay: 60ms; }
+.wiz-backdrop.open .wiz-step.active[data-step="1"] .role-card:nth-child(2) { animation-delay: 110ms; }
+.wiz-backdrop.open .wiz-step.active[data-step="1"] .role-card:nth-child(3) { animation-delay: 160ms; }
+.wiz-backdrop.open .wiz-step.active[data-step="1"] .role-card:nth-child(4) { animation-delay: 210ms; }
+.wiz-backdrop.open .wiz-step.active[data-step="1"] .role-card:nth-child(5) { animation-delay: 260ms; }
+.wiz-backdrop.open .wiz-step.active[data-step="1"] .role-card:nth-child(6) { animation-delay: 310ms; }
+.wiz-backdrop.open .wiz-step.active[data-step="1"] .role-card:nth-child(7) { animation-delay: 360ms; }
+@keyframes roleCardIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Same gentle stagger for option cards in steps 2 and 3 */
+.wiz-backdrop.open .wiz-step.active .opt {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: roleCardIn 320ms var(--ease-out) forwards;
+}
+.wiz-backdrop.open .wiz-step.active .opt:nth-child(1) { animation-delay: 80ms; }
+.wiz-backdrop.open .wiz-step.active .opt:nth-child(2) { animation-delay: 130ms; }
+.wiz-backdrop.open .wiz-step.active .opt:nth-child(3) { animation-delay: 180ms; }
+.wiz-backdrop.open .wiz-step.active .opt:nth-child(4) { animation-delay: 230ms; }
+.wiz-backdrop.open .wiz-step.active .opt:nth-child(5) { animation-delay: 280ms; }
 
 .wiz-eyebrow {
   font-family: var(--mono);
@@ -3403,6 +3579,21 @@ footer.foot {
   background: color-mix(in srgb, var(--cowork) 10%, transparent);
 }
 .skill-card { padding-right: var(--s-12); } /* leave room for the button */
+.skill-card {
+  transition:
+    border-color var(--t-fast) var(--ease-out),
+    transform var(--t-fast) var(--ease-out),
+    box-shadow var(--t-fast) var(--ease-out);
+}
+.skill-card:hover {
+  border-color: color-mix(in srgb, var(--ember) 35%, var(--line));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px -10px color-mix(in srgb, var(--ember) 18%, transparent);
+}
+.skill-card.is-recommended:hover, .skill-card.is-mandatory:hover {
+  border-color: var(--ember);
+  box-shadow: 0 8px 24px -8px color-mix(in srgb, var(--ember) 30%, transparent);
+}
 
 /* Reference links block (designer-only) */
 .path-references {
@@ -3485,7 +3676,8 @@ footer.foot {
 }
 .ref-card:hover {
   border-color: var(--ember);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px -10px color-mix(in srgb, var(--ember) 22%, transparent);
 }
 .ref-card-icon {
   width: 2.2rem; height: 2.2rem;
@@ -3714,6 +3906,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
 </svg>
 
 <a href="#main" class="skip">Skip to content</a>
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 <div class="cursor-glow" aria-hidden="true"></div>
 
 <!-- ===== Wizard modal (first-visit personalization) ===== -->
@@ -3923,6 +4116,11 @@ section[id], .hero { scroll-margin-top: 5rem; }
           <span class="meta-pill">Verified <time datetime="2026-05-22">22 May 2026</time></span>
           <span class="meta-pill warn">Research preview features marked inline</span>
         </div>
+
+        <a class="hero-scroll reveal" href="#triage" aria-label="Scroll to the guide">
+          <span class="hero-scroll-line" aria-hidden="true"></span>
+          <span>Start reading</span>
+        </a>
       </div>
 
       <aside class="hero-aside reveal" aria-label="At a glance">
@@ -5219,8 +5417,9 @@ section[id], .hero { scroll-margin-top: 5rem; }
 <footer class="foot">
   <div class="foot-grid">
     <div>
-      <p class="foot-brand">The Claude Stack</p>
-      <p class="foot-tagline">A field guide to Anthropic's four products. Chat, Cowork, Code, and Design. Written for the people who use them daily, not the people who write the press releases.</p>
+      <p class="foot-signature">G2 · Field guide · 2026</p>
+      <p class="foot-brand">The Claude Stack.</p>
+      <p class="foot-tagline">A field guide to Anthropic's four products: Chat, Cowork, Code, and Design. Written for the people who use them daily, not the people who write the press releases.</p>
     </div>
     <div class="foot-col">
       <h4>Jump</h4>
@@ -5473,7 +5672,55 @@ section[id], .hero { scroll-margin-top: 5rem; }
     }
   });
 
-  // 4. Cursor glow follower.only on hover-capable devices, only when motion allowed
+  // 4. Scroll progress bar (top of viewport) — passive scroll listener
+  (function initScrollProgress() {
+    const bar = document.getElementById('scrollProgress');
+    if (!bar) return;
+    let ticking = false;
+    function update() {
+      const scrolled = window.scrollY;
+      const total = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      const progress = Math.min(scrolled / total, 1);
+      bar.style.transform = 'scaleX(' + progress + ')';
+      ticking = false;
+    }
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
+      }
+    }, { passive: true });
+    update();
+  })();
+
+  // 5. Scroll spy — mark the active nav link based on which section is in view
+  (function initScrollSpy() {
+    const links = document.querySelectorAll('.nav-link[data-prod]');
+    if (!links.length) return;
+    const targets = ['chat', 'cowork', 'code', 'design', 'playbooks']
+      .map(id => document.getElementById(id))
+      .filter(Boolean);
+    if (!('IntersectionObserver' in window) || !targets.length) return;
+    const io = new IntersectionObserver((entries) => {
+      let bestId = null;
+      let bestRatio = 0;
+      entries.forEach(entry => {
+        if (entry.isIntersecting && entry.intersectionRatio > bestRatio) {
+          bestRatio = entry.intersectionRatio;
+          bestId = entry.target.id;
+        }
+      });
+      if (bestId) {
+        links.forEach(l => l.classList.toggle('is-active', l.dataset.prod === bestId));
+      }
+    }, {
+      rootMargin: '-30% 0px -55% 0px',
+      threshold: [0, 0.25, 0.5, 0.75, 1]
+    });
+    targets.forEach(t => io.observe(t));
+  })();
+
+  // 6. Cursor glow follower — only on hover-capable devices, only when motion allowed
   (function initCursorGlow() {
     const glow = document.querySelector('.cursor-glow');
     if (!glow) return;
