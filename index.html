@@ -199,14 +199,30 @@ html:not([data-theme="dark"]) footer.foot {
 .bundle-file { background: rgba(91, 227, 164, 0.05) !important; color: #F2EBDA !important; }
 .term-card { color: #C9C1AE !important; }
 .term-card .pr-meta { color: #635B4D !important; }
-.prompt code, .deep-body code, .flow li code {
+.prompt code, .deep-body code, .flow li code, .prompts-hint code {
   background: #050402 !important;
   color: #F2EBDA !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 [data-theme="light"] .prompt code,
-[data-theme="light"] .flow li code { color: #E9B25E !important; }
+[data-theme="light"] .flow li code,
+[data-theme="light"] .prompts-hint code { color: #E9B25E !important; }
 [data-theme="light"] .deep-body code { color: #D97757 !important; }
+
+/* Pre-prompt hint (e.g., "these are CLI commands"). Sits below Example prompts subhead. */
+.prompts-hint {
+  font-size: var(--fs-sm);
+  color: var(--cream-mid);
+  margin: 0 0 var(--s-5);
+  max-width: 52rem;
+  line-height: 1.55;
+}
+.prompts-hint code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  padding: 0.05em 0.4em;
+  border-radius: 3px;
+}
 
 /* ------------------------------------------------------------------
    Reset + base
@@ -4189,7 +4205,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
     <!-- Step 1.Role -->
     <section class="wiz-step active" data-step="1">
       <p class="wiz-eyebrow">Step one · who you are</p>
-      <h2 class="wiz-title" id="wiz-title-1">Who are <span class="em">you</span> in the room?</h2>
+      <h2 class="wiz-title" id="wiz-title-1">What's your <span class="em">role</span>?</h2>
       <p class="wiz-lede">Pick the role closest to how you spend your week. We'll tailor the guide to your job: different skills, different prompts, different deep dives.</p>
 
       <div class="role-grid" role="radiogroup" aria-label="Choose your role">
@@ -4378,8 +4394,8 @@ section[id], .hero { scroll-margin-top: 5rem; }
 
 
         <h1 class="hero-title reveal" id="hero-title">
-          <span class="num">Four</span> Claudes,<br>
-          one <span class="underline">cognitive stack</span>.
+          <span class="num">Four</span> Claudes.<br>
+          <span class="underline">Pick the right one</span>.
         </h1>
 
         <p class="hero-lede reveal">
@@ -4613,7 +4629,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
         </li>
         <li class="job" data-target="chat" tabindex="0" id="job-2">
           <span class="job-num">02</span>
-          <span class="job-text">Build a live dashboard from connector data</span>
+          <span class="job-text">Build a live dashboard from my tools</span>
           <span class="job-pick">Chat</span>
         </li>
         <li class="job" data-target="cowork" tabindex="0" id="job-3">
@@ -4628,12 +4644,12 @@ section[id], .hero { scroll-margin-top: 5rem; }
         </li>
         <li class="job" data-target="code" tabindex="0" id="job-5">
           <span class="job-num">05</span>
-          <span class="job-text">Ship a PR in a real repository</span>
+          <span class="job-text">Ship a code change in a real codebase</span>
           <span class="job-pick">Code</span>
         </li>
         <li class="job" data-target="code" tabindex="0" id="job-6">
           <span class="job-num">06</span>
-          <span class="job-text">Wire MCP servers and run multi-agent tasks</span>
+          <span class="job-text">Automate work across many tools at once</span>
           <span class="job-pick">Code</span>
         </li>
         <li class="job" data-target="design" tabindex="0" id="job-7">
@@ -4925,7 +4941,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
     <header class="section-head reveal">
       <p class="section-eyebrow">04 <span class="pin">·Claude Cowork</span><span class="read-time">3 min read</span></p>
       <h2 class="section-title" id="cowork-title">A teammate that <span class="em">opens your folders</span>.</h2>
-      <p class="section-lede">Desktop agent for non-developers. Reads, edits, and creates files in folders you explicitly authorize, and runs multi-step work in the background.</p>
+      <p class="section-lede">Your desktop teammate. Reads, edits, and creates files in folders you authorize. Runs multi-step work in the background.</p>
     </header>
 
     <div class="tldr reveal" data-show-for="everyone leader">
@@ -5059,7 +5075,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
     <div class="prompts reveal">
       <div class="prompt">Look in my Downloads folder. Make a <code>Receipts/2026/</code> tree by month and move every PDF receipt into it. Rename to <code>YYYY-MM-DD_vendor.pdf</code>.<em>One pass to classify, rename, and file. Cowork asks before destructive moves the first time.</em></div>
       <div class="prompt">Read my Q1 meeting notes folder and generate a quarterly summary doc. Save it next to the source folder as <code>Q1-2026-summary.docx</code>.<em>Reads, summarizes, then writes a Word doc straight to disk.</em></div>
-      <div class="prompt">Each morning at 8:00, pull yesterday's screenshots, OCR them, and append any text containing <code>TODO</code> into <code>todos.md</code>.<em>Runs on a schedule. Notifies you when fresh TODOs land in the file.</em></div>
+      <div class="prompt">Each morning at 8:00, pull yesterday's screenshots, extract any text from them, and append every line containing <code>TODO</code> into <code>todos.md</code>.<em>Runs on a schedule. Notifies you when fresh TODOs land in the file.</em></div>
     </div>
 
     <h3 class="subhead reveal">Workflows</h3>
@@ -5144,7 +5160,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
     <header class="section-head reveal">
       <p class="section-eyebrow">05 <span class="pin">·Claude Code</span><span class="read-time">4 min read</span></p>
       <h2 class="section-title" id="code-title">Agentic coding that <span class="em">lives in your terminal</span>.</h2>
-      <p class="section-lede">MCP-native, subagent-capable, hook-driven. The CLI is the substrate; the desktop app is a second seat.</p>
+      <p class="section-lede">Agentic coding in your terminal. Reads your repo, runs your tools, ships PRs. A desktop app too, since April.</p>
     </header>
 
     <div class="tldr reveal" data-show-for="everyone leader">
@@ -5225,6 +5241,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
     </div>
 
     <h3 class="subhead reveal">Example prompts</h3>
+    <p class="prompts-hint reveal">Each line below is a terminal command. <code>claude</code> is the Claude Code CLI you install once via <code>npm i -g @anthropic-ai/claude-code</code>.</p>
     <div class="prompts reveal">
       <div class="prompt"><code>claude "Map this repo and tell me which modules I shouldn't touch in a refactor."</code><em>Returns a risk map of every module so you know where the dragons are.</em></div>
       <div class="prompt"><code>claude --mcp jira "Pick the next ticket in my queue, open a branch, draft the PR."</code><em>Reads Jira, opens the branch, scaffolds the PR with linked commits.</em></div>
@@ -5314,7 +5331,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
     <header class="section-head reveal">
       <p class="section-eyebrow">06 <span class="pin">·Claude Design</span><span class="read-time">4 min read</span></p>
       <h2 class="section-title" id="design-title">A canvas with <span class="em">real exports</span>.</h2>
-      <p class="section-lede">Anthropic Labs · launched 17 April 2026 at claude.ai/design · powered by Opus 4.7 · research preview.</p>
+      <p class="section-lede">A visual canvas for designs, prototypes, and decks. Pulls your codebase and design files in. Ships real exports out.</p>
     </header>
 
     <div class="tldr reveal" data-show-for="everyone leader">
@@ -5534,7 +5551,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
       <header class="section-head reveal">
         <p class="section-eyebrow">07 <span class="pin">·Playbooks</span></p>
         <h2 class="section-title" id="playbooks-title">Three workflows that <span class="em">stitch the stack</span>.</h2>
-        <p class="section-lede">The four Claudes are designed to compose. These are the routes worth memorising. Each one passes work between products you'd otherwise mash together by hand.</p>
+        <p class="section-lede">Three named routes that move work between products. Each one stitches together a flow you'd otherwise hand-roll.</p>
       </header>
 
       <article class="playbook" data-playbook="spec-to-ship">
@@ -5746,7 +5763,7 @@ section[id], .hero { scroll-margin-top: 5rem; }
     </div>
   </div>
 
-  <p class="foot-care">Made with care for the G2 team.</p>
+  <p class="foot-care">Made for the G2 team.</p>
 </footer>
 
 <script>
